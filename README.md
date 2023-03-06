@@ -1,4 +1,4 @@
-# survwrap
+# survwrap (codename)
 Convenient wrapper of various (deep) survival model
 
 Main objective
@@ -6,7 +6,7 @@ Create a wrapper of the most common state-of-the-art deep survival models that l
 So the plan is:
 - wrap each model in a scikit-learn/scikit-survival compatible class
 - uniformate the survival outcome data representation
-- 
+- simple and well documented
 - add support for hyperparameter optimization (optuna)? maybe at least a parameter grid of reasonable values for each module
 
 For the paper:
