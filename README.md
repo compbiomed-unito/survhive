@@ -20,9 +20,11 @@ We also want to publich this module. In the paper we could:
 - add simulated dataset for in depth testing about linear/non-linear, different survival models, competing risks...
 
 ## Model to be included:
-- pycox models (last version 14/01/2022 also on pypi)
-- autonlab models (still active development, not on pypi)
-- survtrace?
+- pycox models (https://github.com/havakv/pycox, last version 14/01/2022 also on pypi)
+- autonlab models (https://github.com/autonlab/auton-survival, still active development, not on pypi)
+- survtrace (https://github.com/RyanWangZf/SurvTRACE)?
+- soden (https://github.com/jiaqima/SODEN)?
+- xgboost survival
 - others?
 
 ## Resources:
