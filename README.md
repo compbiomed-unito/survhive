@@ -27,6 +27,12 @@ We also want to publich this module. In the paper we could:
 - xgboost survival
 - others?
 
+## Install
+
+Here I create a virtual environment inside a conda environment that has pytorch
+- python -m venv --system-site-packages venv
+- pip install -r requirements.txt
+
 ## Resources:
 - implementing scikit-learn compatible models: https://scikit-learn.org/stable/developers/develop.html
 - in the repo there is a ALS Benchmarks notebook that wraps some models from pycox and autonlab-survival
