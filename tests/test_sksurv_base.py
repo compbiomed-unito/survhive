@@ -23,22 +23,22 @@ def load_toy_data():
     )
     return X, y
 
+test_X, test_y = load_toy_data()
 
-def test_sksurv_data_is_loading():
-    X, y = load_toy_data()
+def test_sksurv_data_is_loading(X=test_X):
     assert X.shape == (198, 84)
 
 
-### ------------
 
-# # Fit penalized Cox model (from scikit-survival)
+# Fit penalized Cox model (from scikit-survival)
+# def stub() :
+def test_sksurv_coxnet(X=test_X, y=test_y) :
+    from sksurv.linear_model import CoxnetSurvivalAnalysis
+    from sksurv.metrics import concordance_index_censored
 
-# from sksurv.linear_model import CoxnetSurvivalAnalysis
-# from sksurv.metrics import concordance_index_censored
-
-# model = CoxnetSurvivalAnalysis()
-# model.fit(X, y)
-# pred = model.predict(X)
+    model = CoxnetSurvivalAnalysis()
+    model.fit(X, y)
+    pred = model.predict(X)
 
 
 # # Standard functions from scikit-learn can be used with scikit-survival models
@@ -54,6 +54,7 @@ def test_sksurv_data_is_loading():
 
 # cross_val_score(CoxnetSurvivalAnalysis(), X, y)
 
+### ------------
 
 # ## Scikit-learn compatibility
 # Scikit-learn has a checker for estimators to see if they conform to their specification.
