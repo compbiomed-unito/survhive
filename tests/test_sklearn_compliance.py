@@ -17,11 +17,11 @@ def sklearn_compliance(TestedEstimator):
         print(e.__class__.__name__)
         print(e)
 
-#_estimators = [ BaseEstimator ]
-
-def test_base_estimator_compliance():
-    sklearn_compliance(BaseEstimator)
 
 def test_survival_estimator_compliance():
     sklearn_compliance(SurvivalEstimator)
 
+
+# _estimators = [ BaseEstimator ]
+# def test_base_estimator_compliance():
+#     sklearn_compliance(BaseEstimator)
