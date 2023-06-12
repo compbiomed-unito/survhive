@@ -50,6 +50,25 @@ def test_sksurv_coxnet(X=test_X, y=test_y):
         cv_score, [0.617, 0.532, 0.589, 0.605, 0.752], decimal=3
     )
 
+def test_wrapped_coxnet(X=test_X, y=test_y):
+    # Fit penalized Cox model (from scikit-survival)
+    import survwrap as sw
+
+    from sksurv.metrics import concordance_index_censored
+    from sklearn.model_selection import cross_val_score
+
+    model = sw.CoxNet(verbose=True)
+    model.fit(X, y)
+    pred = model.predict(X)
+
+    # Standard functions from scikit-learn can be used with scikit-survival models
+
+    #cv_score = cross_val_score(CoxnetSurvivalAnalysis(), X, y)
+    # testing assertion: arrays uguali alla 3 decimale
+
+    # np.testing.assert_array_almost_equal(
+    #     cv_score, [0.617, 0.532, 0.589, 0.605, 0.752], decimal=3
+    # )
 
 ### ------------
 
