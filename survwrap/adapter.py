@@ -14,16 +14,16 @@ class SurvivalEstimator(BaseEstimator):
         on the input data.
     """
 
-    param1: int = (1,)
+    package = None
+    model = None
 
     def fit(self, X, y):
         X, y = check_X_y(X, y)
-        self._validate_data(X, y)
         return self
 
     def predict(self, X):
         X = check_array(X)
-        return np.full(shape=X.shape[0], fill_value=self.param1)
+        return np.full(shape=X.shape[0], fill_value=(1,))
 
 
 @dataclass
@@ -31,6 +31,7 @@ class CoxNet(SurvivalEstimator):
     """
     Adapter for the CoxNet method from scikit-survival
     """
+
     from sksurv.linear_model import CoxnetSurvivalAnalysis
 
     package = "scikit-survival"
@@ -40,16 +41,14 @@ class CoxNet(SurvivalEstimator):
     l1_ratio: float = 0.5
     verbose: bool = False
     fit_baseline_model: bool = False
-    score: float = 0.0
 
     def fit(self, X, y):
-
         X, y = check_X_y(X, y)
         self.model_.set_params(
             l1_ratio=self.l1_ratio,
             verbose=self.verbose,
-            fit_baseline_model=self.fit_baseline_model
-            )
+            fit_baseline_model=self.fit_baseline_model,
+        )
         self.model_ = self.model_.fit(X, y)
         return self
 
@@ -58,8 +57,5 @@ class CoxNet(SurvivalEstimator):
         return self.model_.predict(X)
 
     def score(self, X, y):
-        X = check_array(X)
+        X, y = check_X_y(X, y)
         return self.model_.score(X, y)
-
-
-
