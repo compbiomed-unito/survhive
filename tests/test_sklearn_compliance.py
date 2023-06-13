@@ -17,11 +17,13 @@ def sklearn_compliance(TestedEstimator):
         print(e.__class__.__name__)
         print(e)
 
+# Base dataclass
 
 def test_survival_estimator_compliance():
     sklearn_compliance(SurvivalEstimator)
 
+# CoxNet
 
-# _estimators = [ BaseEstimator ]
-# def test_base_estimator_compliance():
-#     sklearn_compliance(BaseEstimator)
+def test_wrapped_coxnet_compliance():
+    sklearn_compliance(CoxNet)
+
