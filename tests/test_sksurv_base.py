@@ -1,30 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import numpy as np
-
 # ## Mini example for scikit-survival estimators
 
+import numpy as np
+from survwrap import load_test_data
 
-def load_toy_data():
-    "Load standard dataset for testing"
-    import sksurv.datasets
-    from sklearn.preprocessing import OneHotEncoder
-
-    X, y = sksurv.datasets.load_breast_cancer()
-    X = np.concatenate(
-        [
-            X.select_dtypes("float"),
-            OneHotEncoder(sparse_output=False).fit_transform(
-                X.select_dtypes("category")
-            ),
-        ],
-        axis=1,
-    )
-    return X, y
-
-
-test_X, test_y = load_toy_data()
+test_X, test_y = load_test_data()
 
 
 def test_sksurv_data_is_loading(X=test_X):
