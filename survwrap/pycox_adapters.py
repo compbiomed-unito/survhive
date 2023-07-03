@@ -4,8 +4,10 @@ from sklearn.base import BaseEstimator
 from sklearn.utils import check_X_y, check_array
 
 import pycox.models as Pycox
+import numpy
 
 from .adapter import SurvivalEstimator
+from .util import get_time, get_indicator
 
 @dataclass
 class DeepHitSingle(SurvivalEstimator):
@@ -14,8 +16,8 @@ class DeepHitSingle(SurvivalEstimator):
     """
 
     package = "pycox"
-    model_ = None
-    verbose=True 
+    model_ = SurvivalEstimator()
+    verbose = True 
 
     # init
     num_durations: int = 10
@@ -26,13 +28,10 @@ class DeepHitSingle(SurvivalEstimator):
     learning_rate: float = 0.001
     device: str = 'cpu'
 
-    def get_indicator(y):
-        return y[y.dtype.names[0]]
-
-    def get_time(y):
-        return y[y.dtype.names[1]]
 
     def fit(self, X, y):
+        "fit a Pycox DeepHit model for single events"
+
         # from pycox.models import DeepHitSingle
         import torchtuples as tt
         X, y = check_X_y(X, y)
@@ -41,7 +40,7 @@ class DeepHitSingle(SurvivalEstimator):
             #decoupled_weight_decay=,
             #cycle_eta_multiplier=,
         )
-        self.labtrans_ = model_.label_transform(self.num_durations)
+        self.labtrans_ = Pycox.DeepHitSingle.label_transform(self.num_durations)
         y_discrete = self.labtrans_.fit_transform(get_time(y), get_indicator(y))
         net = tt.practical.MLPVanilla(
             in_features=X.shape[1], 
@@ -56,7 +55,7 @@ class DeepHitSingle(SurvivalEstimator):
         )
 
         self.median_time_ = numpy.median(get_time(y))
-        self.model_.fit(
+        self.model_ = self.model_.fit(
             X.astype('float32'), y_discrete, 
             num_workers=0 if True else n_jobs, 
             verbose=self.verbose,
@@ -66,12 +65,29 @@ class DeepHitSingle(SurvivalEstimator):
         return self
 
     def predict(self, X, eval_times=None):
+        "predict (1-S) with a Pycox DeepHit model for single events"
         X = check_array(X)
         if eval_times is None:
             eval_times = [self.median_time_]
         preds = 1 - self.model_.predict_surv(X.astype('float32'))
         #print('predict', eval_times.shape, self.labtrans_.cuts.shape, preds.shape)
         return numpy.array([numpy.interp(eval_times, self.labtrans_.cuts, p, left=0, right=1) for p in preds])
+
+    def concordance_index_censored(y_true, y_pred, *args, **kwargs):
+        "return Harrel's C-index for a prediction"
+        # print(y_true)
+        from sksurv.metrics import concordance_index_censored
+        return concordance_index_censored(
+            event_indicator = get_indicator(y_true),
+            event_time = get_time(y_true),
+            estimate = y_pred,
+            *args, **kwargs,
+        )
+
+    def score(self, X, y):
+        "return the Harrel's c-index as a sklearn score"
+        y_pred = self.model_predict(X)
+        return model_.concordance_index_censored(y, y_pred)
 
 #     def fit(self, X, y):
 #         X, y = check_X_y(X, y)
