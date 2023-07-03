@@ -17,7 +17,7 @@ class DeepHitSingle(SurvivalEstimator):
 
     package = "pycox"
     model_ = SurvivalEstimator()
-    verbose = True 
+    verbose = False 
 
     # init
     num_durations: int = 10
@@ -55,7 +55,9 @@ class DeepHitSingle(SurvivalEstimator):
         )
 
         self.median_time_ = numpy.median(get_time(y))
-        self.model_ = self.model_.fit(
+        # BIG FAT WARNING: fit returns a TrainingLogger, not a fitted model. 
+        # there are side effects on model_ itself
+        self.model_.fit(
             X.astype('float32'), y_discrete, 
             num_workers=0 if True else n_jobs, 
             verbose=self.verbose,
@@ -86,7 +88,7 @@ class DeepHitSingle(SurvivalEstimator):
 
     def score(self, X, y):
         "return the Harrel's c-index as a sklearn score"
-        y_pred = self.model_predict(X)
+        y_pred = self.model_.predict(X)
         return model_.concordance_index_censored(y, y_pred)
 
 #     def fit(self, X, y):
