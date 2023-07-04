@@ -73,7 +73,7 @@ class DeepHitSingle(SurvivalEstimator):
             eval_times = [self.median_time_]
         preds = 1 - self.model_.predict_surv(X.astype('float32'))
         #print('predict', eval_times.shape, self.labtrans_.cuts.shape, preds.shape)
-        return numpy.array([numpy.interp(eval_times, self.labtrans_.cuts, p, left=0, right=1) for p in preds])
+        return numpy.array([numpy.interp(eval_times, self.labtrans_.cuts, p, left=0, right=1) for p in preds]).flatten()
 
     def concordance_index_censored(y_true, y_pred, *args, **kwargs):
         "return Harrel's C-index for a prediction"
@@ -89,7 +89,7 @@ class DeepHitSingle(SurvivalEstimator):
     def score(self, X, y):
         "return the Harrel's c-index as a sklearn score"
         y_pred = self.model_.predict(X)
-        return model_.concordance_index_censored(y, y_pred)
+        return model_.concordance_index_censored(y, y_pred)[0]
 
 #     def fit(self, X, y):
 #         X, y = check_X_y(X, y)
