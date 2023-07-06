@@ -16,16 +16,22 @@ class SurvivalEstimator(BaseEstimator):
 
     package = None
     model = None
+    rng_seed: int = -1
+
+    def _seed_rngs(self):
+        "Seed the random number generators involved in the model fit"
+        pass
 
     def fit(self, X, y):
+        "fit the model"
         X, y = check_X_y(X, y)
         return self
 
     def predict(self, X):
+        "do a prediction using a fit model"
         X = check_array(X)
         return np.full(shape=X.shape[0], fill_value=(1,))
 
     def score(self, X):
+        "score a prediction in a sklearn-compatible way"
         return 0.0
-
-

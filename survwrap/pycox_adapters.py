@@ -6,6 +6,7 @@ from sksurv.metrics import concordance_index_censored
 
 import pycox.models as Pycox
 import numpy
+import torch
 
 from .adapter import SurvivalEstimator
 from .util import get_time, get_indicator
@@ -30,12 +31,22 @@ class DeepHitSingle(SurvivalEstimator):
     learning_rate: float = 0.001
     device: str = "cpu"
 
+    def _seed_rngs(self):
+        "seed the random number generators involved in the model fit"
+        if self.rng_seed > 0:
+            numpy.random.seed(self.rng_seed)
+            _ = torch.manual_seed(self.rng_seed)
+            return True
+        else:
+            return False
+
     def fit(self, X, y):
         "fit a Pycox DeepHit model for single events"
 
         # from pycox.models import DeepHitSingle
         import torchtuples as tt
 
+        self._seed_rngs()
         X, y = check_X_y(X, y)
         optimizer = tt.optim.AdamWR(
             lr=self.learning_rate,
@@ -60,7 +71,7 @@ class DeepHitSingle(SurvivalEstimator):
         self.median_time_ = numpy.median(get_time(y))
         # BIG FAT WARNING: fit returns a TrainingLogger, not a fitted model.
         # there are side effects on model_ itself
-        self.model_.fit(
+        self.training_log_ = self.model_.fit(
             X.astype("float32"),
             y_discrete,
             num_workers=0 if True else n_jobs,
@@ -98,24 +109,4 @@ class DeepHitSingle(SurvivalEstimator):
     def score(self, X, y):
         "return the Harrell's c-index as a sklearn score"
         X, y = check_X_y(X, y)
-        _pred = self.predict(X)
-        return self.harrell_score(y, _pred)[0]
-
-
-#     def fit(self, X, y):
-#         X, y = check_X_y(X, y)
-#         self.model_.set_params(
-#             l1_ratio=self.l1_ratio,
-#             verbose=self.verbose,
-#             fit_baseline_model=self.fit_baseline_model,
-#         )
-#         self.model_ = self.model_.fit(X, y)
-#         return self
-
-#     def predict(self, X):
-#         X = check_array(X)
-#         return self.model_.predict(X)
-
-#     def score(self, X, y):
-#         X, y = check_X_y(X, y)
-#         return self.model_.score(X, y)
+        return self.harrell_score(y, self.predict(X))[0]
