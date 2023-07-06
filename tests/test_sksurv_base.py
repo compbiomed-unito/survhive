@@ -35,12 +35,12 @@ def test_sksurv_coxnet(X=test_X, y=test_y):
 
 def test_wrapped_coxnet(X=test_X, y=test_y):
     # Fit penalized Cox model (from scikit-survival)
-    import survwrap as sw
+    import survwrap as tosa
 
     # from sksurv.metrics import concordance_index_censored
     from sklearn.model_selection import cross_val_score
 
-    model = sw.CoxNet(verbose=True)
+    model = tosa.CoxNet(verbose=True)
     model.fit(X, y)
     pred = model.predict(X)
     fit_score = model.score(X, y)
