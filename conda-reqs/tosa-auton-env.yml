@@ -1,0 +1,30 @@
+name: tosa-auton
+channels:
+  - sebp
+  - conda-forge
+  - defaults
+dependencies:
+  - black
+  - blas=*=mkl
+  - git
+  - jupyter
+  - jupyterlab
+  - libmamba
+  - mkl
+  - mkl_random=1.2.2
+  - pandas
+  - pandoc
+  - pycox=0.2.3
+  - pytest
+  - python=3.10.9
+  - pytorch=1.12.1
+  - scikit-learn=1.2.1
+  - scikit-survival=0.21.0
+  - tk
+# auton-survival specific part
+  - tqdm
+  - torchvision
+  - lifelines
+  - pip
+  - pip:
+    - "auton-survival @ git+https://github.com/IvanUniTO/auton-survival.git@v1.0.1-tosa"
