@@ -27,4 +27,4 @@ dependencies:
   - lifelines
   - pip
   - pip:
-    - "auton-survival @ git+https://github.com/IvanUniTO/auton-survival.git@v1.0.1-tosa"
+    - "auton-survival @ git+https://github.com/IvanUniTO/auton-survival.git@v1.0.1+tosa"
