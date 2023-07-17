@@ -5,13 +5,14 @@ channels:
   - defaults
 dependencies:
   - black
-  - blas=*=mkl
+    #- blas=*=mkl
+  - blas=*=openblas
   - git
   - jupyter
   - jupyterlab
   - libmamba
-  - mkl
-  - mkl_random=1.2.2
+    #- mkl
+    #- mkl_random=1.2.2
   - pandas
   - pandoc
   - pycox=0.2.3

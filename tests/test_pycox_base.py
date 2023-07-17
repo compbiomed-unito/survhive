@@ -34,7 +34,7 @@ def test_wrapped_DHSingle(X=test_X, y=test_y):
     # assert on 3-fold cross-validation score
     cv_score = cross_val_score(model, X, y, cv=3)
     # testing assertion: arrays uguali alla 3° decimale
-    np.testing.assert_array_almost_equal(cv_score, [0.533, 0.526, 0.698], decimal=3)
+    np.testing.assert_array_almost_equal(cv_score, [0.512, 0.475, 0.692], decimal=3)
 
 
 ### ------------
