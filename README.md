@@ -29,9 +29,7 @@ We also want to publich this module. In the paper we could:
 
 ## Install
 
-Here I create a virtual environment inside a conda environment that has pytorch
-- python -m venv --system-site-packages venv
-- pip install -r requirements.txt
+See [here](INSTALL.md) for instruction.
 
 ## Resources:
 - implementing scikit-learn compatible models: https://scikit-learn.org/stable/developers/develop.html
