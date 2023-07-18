@@ -8,6 +8,7 @@ L'installazione dell' env richiede conda >= 23.1.0.
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 bash Miniconda3-latest-Linux-x86_64.sh -p path_di_installazione
 source path_di_installazione/bin/activate
+conda config --set solver libmamba 
 ```
 
 ## creazione environment
