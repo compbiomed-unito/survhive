@@ -35,3 +35,10 @@ def test_wrapped_coxnet_compliance():
 
 def test_wrapped_deephitsingle_compliance():
     sklearn_compliance(DeepHitSingle)
+
+# DeepSurvivalMachines from auton-survival
+
+
+def test_wrapped_DSM_compliance():
+    sklearn_compliance(DeepSurvivalMachines)
+
