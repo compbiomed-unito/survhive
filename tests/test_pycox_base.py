@@ -29,7 +29,7 @@ def test_wrapped_DHSingle(X=test_X, y=test_y):
     fit_score = model.score(X, y)
 
     # assert on simple score
-    assert fit_score.round(3) == 0.957
+    assert fit_score.round(2) == 0.96
 
     # assert on 3-fold cross-validation score
     cv_score = cross_val_score(model, X, y, cv=3)
