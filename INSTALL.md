@@ -13,7 +13,19 @@ conda config --set solver libmamba
 
 ## creazione environment
 
+Conda accetta requirements tramite il comando
+
 ```
 conda env create -n my_env_name -f environment.yml
 ```
+
+Ci sono diversi esempi (parziali) sotto conda-reqs/
+
+Per installare i requisiti per l'ultima versione stabile dalla branch main, usare:
+
+```
+conda env create -f conda-reqs/tosa-env.yml
+```
+
+che andrà a creare un environment chiamato "tosa" con tutto quello che serve
 
