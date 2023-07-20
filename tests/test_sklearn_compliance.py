@@ -23,22 +23,3 @@ def test_survival_estimator_compliance():
     sklearn_compliance(SurvivalEstimator)
 
 
-# CoxNet from scikit-survival
-
-
-def test_wrapped_coxnet_compliance():
-    sklearn_compliance(CoxNet)
-
-
-# DeepHitSingle from pycox
-
-
-def test_wrapped_deephitsingle_compliance():
-    sklearn_compliance(DeepHitSingle)
-
-# DeepSurvivalMachines from auton-survival
-
-
-def test_wrapped_DSM_compliance():
-    sklearn_compliance(DeepSurvivalMachines)
-

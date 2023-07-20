@@ -8,7 +8,7 @@ from sksurv.metrics import concordance_index_censored
 # from auton_survival.models.dsm import DeepSurvivalMachines
 from .adapter import SurvivalEstimator
 from .util import get_time, get_indicator
-import auton_survival 
+import auton_survival
 
 
 @dataclass
