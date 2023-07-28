@@ -21,5 +21,3 @@ def sklearn_compliance(TestedEstimator):
 
 def test_survival_estimator_compliance():
     sklearn_compliance(SurvivalEstimator)
-
-

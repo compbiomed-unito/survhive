@@ -45,7 +45,7 @@ _available_datasets = (
 )
 
 
-def list_available():
+def list_available_datasets():
     "list the available benchmark datasets"
     return _available_datasets
 
