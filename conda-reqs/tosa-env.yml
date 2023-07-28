@@ -5,6 +5,7 @@ channels:
   - defaults
 dependencies:
   - black
+  - flake8-black
   - blas=*=openblas
   - git
   - jupyter

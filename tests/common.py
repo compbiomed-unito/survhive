@@ -1,8 +1,7 @@
-import pytest
 import survwrap as tosa
 import numpy as np
 from sklearn.model_selection import cross_val_score
-from dataclasses import dataclass, field
+from dataclasses import field
 from sklearn.utils.estimator_checks import check_estimator
 
 test_X, test_y = tosa.load_test_data()

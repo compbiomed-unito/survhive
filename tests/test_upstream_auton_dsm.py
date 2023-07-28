@@ -3,7 +3,6 @@ test the accuracy of Deep Survival Machines
 models on certain standard datasets.
 """
 
-import auton_survival
 import unittest
 
 from auton_survival.models.dsm import DeepSurvivalMachines

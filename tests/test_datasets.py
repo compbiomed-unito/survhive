@@ -3,17 +3,15 @@
 import survwrap as tosa
 import pytest
 import os
+from sksurv.util import check_array_survival
 
-
-def get_shape(a_dataset):
-    "return the known shape of sthe full dataset _dataframe_"
-    _shapes = {
-        "flchain": (6524, 10),
-        "gbsg2": (3668, 10),
-        "metabric": (1903, 11),
-        "support": (9105, 57),
-    }
-    return _shapes[a_dataset]
+_preloaded = {_name: tosa.get_data(_name) for _name in tosa.list_available_datasets()}
+_shapes = {
+    "flchain": (6524, 10),
+    "gbsg2": (3668, 10),
+    "metabric": (1903, 11),
+    "support": (9105, 57),
+}
 
 
 def test_available_datasets():
@@ -26,9 +24,15 @@ def test_available_datasets():
 @pytest.mark.parametrize("a_dataset", tosa.list_available_datasets())
 def test_no_nan_in_dataset(a_dataset):
     "test for no NaNs in dataset"
-    assert not tosa.get_data(a_dataset).dataframe.isna().all().all()
+    assert not _preloaded[a_dataset].dataframe.isna().all().all()
 
 
 @pytest.mark.parametrize("a_dataset", tosa.list_available_datasets())
 def test_dataset_size(a_dataset):
-    assert tosa.get_data(a_dataset).dataframe.to_numpy().shape == get_shape(a_dataset)
+    assert _preloaded[a_dataset].dataframe.to_numpy().shape == _shapes[a_dataset]
+
+
+@pytest.mark.parametrize("a_dataset", tosa.list_available_datasets())
+def test_get_X_y(a_dataset):
+    Xt, yt = _preloaded[a_dataset].get_X_y()
+    assert check_array_survival(Xt, yt)
