@@ -12,5 +12,5 @@ black:
 	black survwrap/*.py tests/*.py
 
 lint:
-	flake8 --ignore E501 survwrap/*.py tests/*.py
+	ruff survwrap/*.py tests/*.py
 

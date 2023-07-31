@@ -4,8 +4,9 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+  - flit
   - black
-  - flake8-black
+  - ruff
   - blas=*=openblas
   - git
   - jupyter

@@ -11,9 +11,9 @@ class basic_test:
     """Basic test for model:
     Given a parameterized model, its test data, and the expected results
     1. fits the modelaccording to the hyperparameter specs;
-    2. calculates the score (Harrel C-index) of the fit and compares to the expected values;
+    2. calculates the score of the fit and compares to the expected values;
     3. performs a 3-fold cross validation of the fit model;
-    4. calculates mean and std for the CV scores and compares them to their expected values.
+    4. calculates mean and std for the CV and compares them to their expected values.
     """
 
     model: field(default_factory=tosa.SurvivalEstimator)
