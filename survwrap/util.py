@@ -9,7 +9,8 @@ def load_test_data():
     import sksurv.datasets
     from sklearn.preprocessing import OneHotEncoder
 
-    X, y = sksurv.datasets.load_breast_cancer()
+    #X, y = sksurv.datasets.load_breast_cancer()
+    X, y = getattr(sksurv.datasets, 'load_' + dataset)()
     X = numpy.concatenate(
         [
             X.select_dtypes("float"),
@@ -19,6 +20,8 @@ def load_test_data():
         ],
         axis=1,
     )
+    X = SimpleImputer(strategy='median').fit_transform(X)
+
     return X, y
 
 
