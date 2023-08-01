@@ -2,9 +2,10 @@ import numpy
 import pandas as pd
 from sksurv.datasets import get_x_y
 from dataclasses import dataclass, field
+from sklearn.impute import SimpleImputer
 
 
-def load_test_data():
+def load_test_data(dataset='breast_cancer'):
     "Load standard breast-cancer dataset for testing"
     import sksurv.datasets
     from sklearn.preprocessing import OneHotEncoder
