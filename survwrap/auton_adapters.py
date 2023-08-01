@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import numpy
 import torch
 from dataclasses import dataclass, field
@@ -18,10 +20,10 @@ class DeepSurvivalMachines(SurvivalEstimator):
     "Adapter for the DeepSurvivalMachines method from auton-survival"
     n_distr: int = 2
     distr_kind: str = "Weibull"
-    batch_size: int = 10
+    batch_size: int = 32
     layer_sizes: Sequence[int] = field(
         default_factory=lambda: [10, 10]
-    )  # haskellismo da farsi spiegare
+    )
     learning_rate: float = 0.001
     validation_size: float = 0.1
     max_epochs: int = 10
@@ -91,3 +93,16 @@ class DeepSurvivalMachines(SurvivalEstimator):
         "return the Harrell's c-index as a sklearn score"
         X, y = check_X_y(X, y)
         return self.harrell_score(y, self.predict(X))[0]
+
+    @staticmethod
+    def get_parameter_grid():
+        return dict(
+            n_distr=[2],
+            distr_kind=["Weibull"],
+            batch_size=[16],
+            layer_sizes=[[10]],
+            learning_rate=[0.001],
+            validation_size=[0.1],
+            max_epochs=[10],
+            elbo=[False],
+        )
