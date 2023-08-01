@@ -1,6 +1,5 @@
 from dataclasses import dataclass, field
 from collections.abc import Sequence
-from sklearn.base import BaseEstimator
 from sklearn.utils import check_X_y, check_array
 from sksurv.metrics import concordance_index_censored
 
@@ -24,7 +23,8 @@ class DeepHitSingle(SurvivalEstimator):
 
     # init
     num_durations: int = 10
-    # qui mettiamo i parametri per la forma della rete, cercherei di fare qualcosa che rispetti il paper originale
+    # qui mettiamo i parametri per la forma della rete,
+    # cercherei di fare qualcosa che rispetti il paper originale
     layer_sizes: Sequence[int] = field(default_factory=lambda: [10, 10])
     epochs: int = 10  # maybe implement also early stopping
     batch_size: int = 16
@@ -74,7 +74,7 @@ class DeepHitSingle(SurvivalEstimator):
         self.training_log_ = self.model_.fit(
             X.astype("float32"),
             y_discrete,
-            num_workers=0 if True else n_jobs,
+            # num_workers=0 if True else n_jobs,
             verbose=self.verbose,
             epochs=self.epochs,
             batch_size=self.batch_size,

@@ -10,6 +10,8 @@ from .adapter import SurvivalEstimator
 from .util import get_time, get_indicator
 import auton_survival
 
+# __all__ = ['DeepSurvivalMachines']
+
 
 @dataclass
 class DeepSurvivalMachines(SurvivalEstimator):
@@ -40,7 +42,8 @@ class DeepSurvivalMachines(SurvivalEstimator):
         # inits and checks
         self._seed_rngs()
         X, y = check_X_y(X, y)
-        # calculate median time-of-event for the training set. Used for default prediction
+        # calculate median time-of-event for the training set.
+        # Used in default prediction
         self.median_time_ = numpy.median(X)
 
         # fit
@@ -61,7 +64,7 @@ class DeepSurvivalMachines(SurvivalEstimator):
         return self
 
     def predict(self, X, eval_times=None):
-        """predict probabilites of event up to given times for each event using auton-survival DeepSurvivalMachines"""
+        """predict probabilites of event at given times using DeepSurvivalMachines"""
         X = check_array(X)
         # set default time of prediction at training median
         if eval_times is None:

@@ -11,7 +11,7 @@ class SurvivalEstimator(BaseEstimator):
 
     Dataclasses can be useful to avoid long init functions and it appears to work.
     - BaseEstimator include the get/set_params methods that are required.
-    - check_X_y and check_array implement checks (required by the check_estimator function)
+    - check_X_y and check_array implement checks (required by check_estimator function)
         on the input data.
     """
 

@@ -1,4 +1,7 @@
 import numpy
+import pandas as pd
+from sksurv.datasets import get_x_y
+from dataclasses import dataclass, field
 
 
 def load_test_data():
@@ -30,10 +33,6 @@ def get_time(y):
 
 
 ## datasets
-
-import pandas as pd
-from sksurv.datasets import get_x_y
-from dataclasses import dataclass, field
 
 
 _dataset_path = "Datasets/"

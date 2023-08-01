@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from sklearn.base import BaseEstimator
 from sklearn.utils import check_X_y, check_array
 from .adapter import SurvivalEstimator
 
