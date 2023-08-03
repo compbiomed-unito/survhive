@@ -21,9 +21,7 @@ class DeepSurvivalMachines(SurvivalEstimator):
     n_distr: int = 2
     distr_kind: str = "Weibull"
     batch_size: int = 32
-    layer_sizes: Sequence[int] = field(
-        default_factory=lambda: [10, 10]
-    )
+    layer_sizes: Sequence[int] = field(default_factory=lambda: [10, 10])
     learning_rate: float = 0.001
     validation_size: float = 0.1
     max_epochs: int = 10

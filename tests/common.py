@@ -41,8 +41,12 @@ class basic_test:
 
     def test_fit_score(self):
         "assert on prediction score"
-        fit_score = self.model.fit(self.X, self.y).score(self.X, self.y)
-        assert fit_score.round(self.rounding) == self.exp_score
+        fit_score = (
+            self.model.fit(self.X, self.y).score(self.X, self.y).round(self.rounding)
+        )
+        assert (
+            fit_score == self.exp_score
+        ), f"calculated {fit_score}, expected {self.exp_score}"
 
     def test_cv(self):
         "assert on 3-fold average CV score and its std. deviation"

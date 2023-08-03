@@ -40,5 +40,5 @@ class CoxNet(SurvivalEstimator):
     @staticmethod
     def get_parameter_grid():
         return dict(
-            l1_ratio = [0.01, 0.1, 0.2, 0.5, 0.8, 0.9, 0.99],
+            l1_ratio=[0.01, 0.1, 0.2, 0.5, 0.8, 0.9, 0.99],
         )

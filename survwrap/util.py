@@ -5,13 +5,13 @@ from dataclasses import dataclass, field
 from sklearn.impute import SimpleImputer
 
 
-def load_test_data(dataset='breast_cancer'):
+def load_test_data(dataset="breast_cancer"):
     "Load standard breast-cancer dataset for testing"
     import sksurv.datasets
     from sklearn.preprocessing import OneHotEncoder
 
-    #X, y = sksurv.datasets.load_breast_cancer()
-    X, y = getattr(sksurv.datasets, 'load_' + dataset)()
+    # X, y = sksurv.datasets.load_breast_cancer()
+    X, y = getattr(sksurv.datasets, "load_" + dataset)()
     X = numpy.concatenate(
         [
             X.select_dtypes("float"),
@@ -21,7 +21,7 @@ def load_test_data(dataset='breast_cancer'):
         ],
         axis=1,
     )
-    X = SimpleImputer(strategy='median').fit_transform(X)
+    X = SimpleImputer(strategy="median").fit_transform(X)
 
     return X, y
 
