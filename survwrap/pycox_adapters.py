@@ -112,3 +112,9 @@ class DeepHitSingle(SurvivalEstimator):
         "return the Harrell's c-index as a sklearn score"
         X, y = check_X_y(X, y)
         return self.harrell_score(y, self.predict(X))[0]
+
+    @staticmethod
+    def get_parameter_grid():
+        return dict(
+            num_durations=[10], layer_sizes=[[10, 10]], epochs=[10], batch_size=[16]
+        )
