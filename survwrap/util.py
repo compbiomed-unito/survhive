@@ -1,8 +1,10 @@
 import numpy
 import pandas as pd
-from sksurv.datasets import get_x_y
 from dataclasses import dataclass, field
+from sksurv.datasets import get_x_y
+from sklearn.utils import check_X_y
 from sklearn.impute import SimpleImputer
+from sklearn.model_selection import train_test_split
 
 
 def load_test_data(dataset="breast_cancer"):
@@ -34,6 +36,22 @@ def get_indicator(y):
 def get_time(y):
     "Get the time of the event"
     return y[y.dtype.names[1]]
+
+
+## stratified partitioning
+
+
+def survival_train_test_split(X, y, test_size=0.25, rng_seed=None, shuffle=True):
+    "Split survival data into train and test set using event-label stratification"
+    X, y = check_X_y(X, y)
+    return train_test_split(
+        X,
+        y,
+        stratify=get_indicator(y),
+        test_size=test_size,
+        random_state=rng_seed,
+        shuffle=shuffle,
+    )
 
 
 ## datasets

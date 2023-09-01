@@ -30,6 +30,7 @@ class DeepHitSingle(SurvivalEstimator):
     layer_sizes: Sequence[int] = field(default_factory=lambda: [10, 10])
     epochs: int = 10  # maybe implement also early stopping
     batch_size: int = 16
+    validation_size: float = 0.1
     learning_rate: float = 0.001
     device: str = "cpu"
 
