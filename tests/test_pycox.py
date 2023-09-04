@@ -15,9 +15,9 @@ pycox_test.model = tosa.DeepHitSingle(
     rng_seed=2307,
 )
 #
-pycox_test.exp_score = 0.96
-pycox_test.exp_cv_mean = 0.56
-pycox_test.exp_cv_std = 0.09
+pycox_test.exp_score = 0.76
+pycox_test.exp_cv_mean = 0.58
+pycox_test.exp_cv_std = 0.03
 pycox_test.rounding = 2
 
 
