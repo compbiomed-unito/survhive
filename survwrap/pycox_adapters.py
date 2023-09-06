@@ -33,6 +33,7 @@ class DeepHitSingle(SurvivalEstimator):
     batch_size: int = 16
     validation_size: float = 0.1
     learning_rate: float = 0.001
+    dropout: float = 0.1
     device: str = "cpu"
 
     def _seed_rngs(self):
@@ -71,7 +72,8 @@ class DeepHitSingle(SurvivalEstimator):
             in_features=X.shape[1],
             out_features=self.labtrans_.out_features,
             num_nodes=self.layer_sizes,
-            # batch_norm, dropout,
+            #batch_norm=True, 
+            dropout=self.dropout,
             # **self.model_params['indepnet'], **self.model_params['net']
         )
         self.model_ = Pycox.DeepHitSingle(
