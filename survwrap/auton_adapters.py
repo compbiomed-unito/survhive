@@ -44,7 +44,8 @@ class DeepSurvivalMachines(SurvivalEstimator):
         X, y = check_X_y(X, y)
         # calculate median time-of-event for the training set.
         # Used in default prediction
-        self.median_time_ = numpy.median(X)
+        #self.median_time_ = numpy.median(X)
+        self.median_time_ = numpy.median(get_time(y))
 
         # fit
         self.model_ = auton_survival.DeepSurvivalMachines(
@@ -80,7 +81,8 @@ class DeepSurvivalMachines(SurvivalEstimator):
         "return Harrell's C-index for a prediction"
 
         return concordance_index_censored(
-            event_indicator=y_true[y_true.dtype.names[0]],
+            #event_indicator=y_true[y_true.dtype.names[0]],
+            event_indicator=get_indicator(y_true),
             event_time=get_time(y_true),
             estimate=y_pred,
             *args,
