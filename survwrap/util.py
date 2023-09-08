@@ -61,6 +61,26 @@ def survival_crossval_splitter(X, y, n_splits=5, n_repeats=2, rng_seed=None):
     ).split(X, get_indicator(y))
 
 
+## Grid generation
+
+
+def generate_topology_grid(max_width, max_layers=3):
+    "return a list of net topologies to be used in hyperparameter optimization"
+    from math import log
+
+    start = 3
+    base = 1.3
+    topologies = []
+    mono = [
+        round(start * base ** (_))
+        for _ in range(max_width)
+        if _ < int((log(max_width) - log(start)) / log(base)) + 1
+    ]
+    for n_layers in range(1, max_layers + 1):
+        topologies.extend([[_] * n_layers for _ in mono])
+    return topologies
+
+
 ## datasets
 
 
