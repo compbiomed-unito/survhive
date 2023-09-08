@@ -8,14 +8,14 @@ pycox_test.X, pycox_test.y = tosa.load_test_data()
 #
 pycox_test.model = tosa.DeepHitSingle(
     epochs=100,
-    #      layer_sizes=[10, 10],
-    learning_rate=0.05,
-    batch_size=len(pycox_test.y) // 2,
+    layer_sizes=[7, 7],
+    learning_rate=0.005,
+    batch_size=16,
     device="cpu",
     rng_seed=2307,
 )
 #
-pycox_test.exp_score = 0.76
+pycox_test.exp_score = 0.89
 pycox_test.exp_cv_mean = 0.58
 pycox_test.exp_cv_std = 0.03
 pycox_test.rounding = 2

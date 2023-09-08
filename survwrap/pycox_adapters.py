@@ -72,7 +72,7 @@ class DeepHitSingle(SurvivalEstimator):
             in_features=X.shape[1],
             out_features=self.labtrans_.out_features,
             num_nodes=self.layer_sizes,
-            #batch_norm=True, 
+            # batch_norm=True,
             dropout=self.dropout,
             # **self.model_params['indepnet'], **self.model_params['net']
         )

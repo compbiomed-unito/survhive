@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from sksurv.datasets import get_x_y
 from sklearn.utils import check_X_y
 from sklearn.impute import SimpleImputer
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, RepeatedStratifiedKFold
 
 
 def load_test_data(dataset="breast_cancer"):
@@ -52,6 +52,13 @@ def survival_train_test_split(X, y, test_size=0.25, rng_seed=None, shuffle=True)
         random_state=rng_seed,
         shuffle=shuffle,
     )
+
+
+def survival_crossval_splitter(X, y, n_splits=5, n_repeats=2, rng_seed=None):
+    "a RepeatedStratifiedKFold CV splitter stratified according to survival events"
+    return RepeatedStratifiedKFold(
+        n_splits=n_splits, n_repeats=n_repeats, random_state=rng_seed
+    ).split(X, get_indicator(y))
 
 
 ## datasets

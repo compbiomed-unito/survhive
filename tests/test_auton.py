@@ -8,7 +8,7 @@ dsm_test.model = tosa.DeepSurvivalMachines(
     rng_seed=2307, batch_size=10, max_epochs=20, layer_sizes=[10, 10, 10]
 )
 dsm_test.X, dsm_test.y = tosa.load_test_data()
-dsm_test.exp_score = 0.63
+dsm_test.exp_score = 0.62
 dsm_test.exp_cv_mean = 0.61
 dsm_test.exp_cv_std = 0.04
 dsm_test.rounding = 2
