@@ -11,7 +11,12 @@ import torch
 import torchtuples as tt
 
 from .adapter import SurvivalEstimator
-from .util import get_time, get_indicator, survival_train_test_split
+from .util import (
+    get_time,
+    get_indicator,
+    survival_train_test_split,
+    generate_topology_grid,
+)
 
 
 @dataclass
@@ -130,7 +135,12 @@ class DeepHitSingle(SurvivalEstimator):
         return self.harrell_score(y, self.predict(X))[0]
 
     @staticmethod
-    def get_parameter_grid():
+    def get_parameter_grid(max_width=7):
         return dict(
-            num_durations=[10], layer_sizes=[[10, 10]], epochs=[100], batch_size=[16]
+            num_durations=[10],
+            layer_sizes=generate_topology_grid(max_width),
+            epochs=[100],
+            batch_size=[16, 32],
+            dropout=[0.1, 0.2, 0.3],
+            validation_size=[0.1],
         )

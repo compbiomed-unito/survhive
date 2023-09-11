@@ -38,7 +38,11 @@ class CoxNet(SurvivalEstimator):
         return self.model_.score(X, y)
 
     @staticmethod
-    def get_parameter_grid():
+    def get_parameter_grid(max_width=None):
+        """Generate default parameter grid for optimization
+        Here max_width does nothing, it is pesent to keep the API uniform
+        with the deep-learning-based methods.
+        """
         return dict(
             l1_ratio=[0.01, 0.1, 0.25, 0.5, 0.75, 0.9, 0.99],
         )

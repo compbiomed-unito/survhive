@@ -9,7 +9,7 @@ from sksurv.metrics import concordance_index_censored
 
 # from auton_survival.models.dsm import DeepSurvivalMachines
 from .adapter import SurvivalEstimator
-from .util import get_time, get_indicator
+from .util import get_time, get_indicator, generate_topology_grid
 import auton_survival
 
 # __all__ = ['DeepSurvivalMachines']
@@ -24,7 +24,7 @@ class DeepSurvivalMachines(SurvivalEstimator):
     layer_sizes: Sequence[int] = field(default_factory=lambda: [10, 10])
     learning_rate: float = 0.001
     validation_size: float = 0.1
-    max_epochs: int = 10
+    max_epochs: int = 100
     elbo: bool = False  # what is this?
 
     def _seed_rngs(self):
@@ -95,14 +95,14 @@ class DeepSurvivalMachines(SurvivalEstimator):
         return self.harrell_score(y, self.predict(X))[0]
 
     @staticmethod
-    def get_parameter_grid():
+    def get_parameter_grid(max_width):
         return dict(
-            n_distr=[2],
+            n_distr=[1, 2, 3],
             distr_kind=["Weibull"],
-            batch_size=[16],
-            layer_sizes=[[10]],
-            learning_rate=[0.001],
+            batch_size=[16, 32],
+            layer_sizes=generate_topology_grid(max_width),
+            learning_rate=[0.005, 0.001],
             validation_size=[0.1],
-            max_epochs=[10],
+            max_epochs=[100],
             elbo=[False],
         )
