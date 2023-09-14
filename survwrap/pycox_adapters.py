@@ -77,8 +77,8 @@ class DeepHitSingle(SurvivalEstimator):
             in_features=X.shape[1],
             out_features=self.labtrans_.out_features,
             num_nodes=self.layer_sizes,
-            # batch_norm=True,
-            dropout=self.dropout,
+            batch_norm=True,
+            # dropout=self.dropout,
             # **self.model_params['indepnet'], **self.model_params['net']
         )
         self.model_ = Pycox.DeepHitSingle(
@@ -135,12 +135,12 @@ class DeepHitSingle(SurvivalEstimator):
         return self.harrell_score(y, self.predict(X))[0]
 
     @staticmethod
-    def get_parameter_grid(max_width=7):
+    def get_parameter_grid(max_width):
         return dict(
             num_durations=[10],
             layer_sizes=generate_topology_grid(max_width),
             epochs=[100],
             batch_size=[16, 32],
-            dropout=[0.1, 0.2, 0.3],
+            # dropout=[0.1, 0.2, 0.3],
             validation_size=[0.1],
         )
