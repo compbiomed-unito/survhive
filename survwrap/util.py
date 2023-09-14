@@ -7,8 +7,6 @@ from sklearn.impute import SimpleImputer
 from sklearn.model_selection import (
     train_test_split,
     RepeatedStratifiedKFold,
-    GridSearchCV,
-    # RandomizedSearchCV,
 )
 
 
@@ -64,55 +62,6 @@ def survival_crossval_splitter(X, y, n_splits=5, n_repeats=2, rng_seed=None):
     return RepeatedStratifiedKFold(
         n_splits=n_splits, n_repeats=n_repeats, random_state=rng_seed
     ).split(X, get_indicator(y))
-
-
-## hyperparameter optimization
-
-
-def generate_topology_grid(max_width, max_layers=3):
-    "return a list of net topologies to be used in hyperparameter optimization"
-    from math import log
-
-    start = 3
-    base = 1.3
-    topologies = []
-    mono = [
-        round(start * base ** (_))
-        for _ in range(max_width)
-        if _ < int((log(max_width) - log(start)) / log(base)) + 1
-    ]
-    for n_layers in range(1, max_layers + 1):
-        topologies.extend([[_] * n_layers for _ in mono])
-    return topologies
-
-
-def optimize(estimator, X, y, mode="sklearn-grid", user_grid=[], cv=None, n_jobs=1):
-    "hyperparameter optimization of estimator"
-    if not cv:
-        cv = survival_crossval_splitter(X, y, rng_seed=estimator.rng_seed)
-    if mode == "sklearn-grid":
-        if not user_grid:
-            user_grid = estimator.get_parameter_grid(max_width=X.shape[1])
-        gs = GridSearchCV(estimator, user_grid, refit=True, cv=cv, n_jobs=n_jobs)
-        gs.fit(X, y)
-        return gs.best_estimator_, gs.best_params_, gs
-    raise ValueError(f'unknown mode parameter: "{mode}"')
-
-
-def get_top_models(search_results, top=10):
-    """evaluate the top best scoring result from an hyperparameter optimization.
-    Returns a tuple containing (rank, avg_cv_score, std_cv_score, params)
-    """
-
-    _cv_rez = search_results.cv_results_
-    return sorted(
-        zip(
-            _cv_rez["rank_test_score"],
-            _cv_rez["mean_test_score"],
-            _cv_rez["std_test_score"],
-            _cv_rez["params"],
-        )
-    )[:top]
 
 
 ## datasets

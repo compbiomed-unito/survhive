@@ -15,8 +15,8 @@ from .util import (
     get_time,
     get_indicator,
     survival_train_test_split,
-    generate_topology_grid,
 )
+from .optimization import generate_topology_grid
 
 
 @dataclass
@@ -27,7 +27,6 @@ class DeepHitSingle(SurvivalEstimator):
 
     package = "pycox"
     model_ = SurvivalEstimator()
-    verbose = False
 
     # init
     num_durations: int = 10
@@ -40,6 +39,7 @@ class DeepHitSingle(SurvivalEstimator):
     learning_rate: float = 0.001
     dropout: float = 0.1
     device: str = "cpu"
+    verbose = bool = False
 
     def _seed_rngs(self):
         "seed the random number generators involved in the model fit"

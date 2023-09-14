@@ -9,7 +9,8 @@ from sksurv.metrics import concordance_index_censored
 
 # from auton_survival.models.dsm import DeepSurvivalMachines
 from .adapter import SurvivalEstimator
-from .util import get_time, get_indicator, generate_topology_grid
+from .util import get_time, get_indicator
+from .optimization import generate_topology_grid
 import auton_survival
 
 # __all__ = ['DeepSurvivalMachines']
