@@ -12,6 +12,7 @@ dependencies:
   - jupyter
   - jupyterlab
   - libmamba
+  - openssl=3.1.2
   - pandas
   - pandoc
   - pycox=0.2.3
