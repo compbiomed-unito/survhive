@@ -23,3 +23,33 @@ def test_guess_tries():
         tosa.DeepSurvivalMachines.get_parameter_grid(max_width=X.shape[1]),
     )
     assert dsm == 24
+
+
+def test_grid_opt_coxnet():
+    "test grid optimization on CoxNet"
+
+    estimator = tosa.CoxNet(rng_seed=2309)
+
+    grid_coxnet, grid_coxnet_params, grid_coxnet_search = tosa.optimize(
+        estimator,
+        X,
+        y,
+        mode="sklearn-grid",
+        cv=tosa.survival_crossval_splitter(X, y, n_splits=3, n_repeats=1),
+    )
+    assert grid_coxnet.score(X, y).round(3) == 0.931
+
+
+def test_grid_opt_coxnet():
+    "test random-search optimization on CoxNet"
+
+    estimator = tosa.CoxNet(rng_seed=2309)
+    rs_coxnet, rs_coxnet_params, rs_coxnet_search = tosa.optimize(
+        estimator,
+        X,
+        y,
+        mode="sklearn-random",
+        tries=4,
+        cv=tosa.survival_crossval_splitter(X, y, n_splits=3, n_repeats=1),
+    )
+    assert rs_coxnet.score(X, y).round(3) == 0.946
