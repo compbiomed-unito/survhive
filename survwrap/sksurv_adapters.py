@@ -83,7 +83,6 @@ class RSF(SkSurvEstimator):
 
     def fit(self, X, y):
         X, y = check_X_y(X, y)
-        self.n_features_ = X.shape[1]
         self.model_.set_params(
             n_estimators=self.n_estimators,
             max_depth=self.max_depth,
@@ -101,7 +100,7 @@ class RSF(SkSurvEstimator):
         with the deep-learning-based methods.
         """
         return dict(
-            n_estimators=[self.n_features_, 2 * self.n_features_, 4 * self.n_features_],
+            n_estimators=[ 50, 100, 200],
             max_depth=[self.max_depth],
             min_samples_split=[self.min_samples_split],
             min_samples_leaf=[self.min_samples_leaf],
