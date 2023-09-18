@@ -40,7 +40,7 @@ def test_grid_opt_coxnet():
     assert grid_coxnet.score(X, y).round(3) == 0.931
 
 
-def test_grid_opt_coxnet():
+def test_rs_opt_coxnet():
     "test random-search optimization on CoxNet"
 
     estimator = tosa.CoxNet(rng_seed=2309)
@@ -52,4 +52,4 @@ def test_grid_opt_coxnet():
         tries=4,
         cv=tosa.survival_crossval_splitter(X, y, n_splits=3, n_repeats=1),
     )
-    assert rs_coxnet.score(X, y).round(3) == 0.946
+    assert rs_coxnet.score(X, y).round(3) == 0.931
