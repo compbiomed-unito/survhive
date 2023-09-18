@@ -1,22 +1,46 @@
 from dataclasses import dataclass
 from sklearn.utils import check_X_y, check_array
 from .adapter import SurvivalEstimator
+from sksurv.linear_model import CoxnetSurvivalAnalysis
+
+
+class SkSurvEstimator(SurvivalEstimator):
+    """
+    Adapter for the scikit-survival methods
+    """
+
+    package = "scikit-survival"
+    model_ = None
+
+    # init
+    verbose: bool = False
+
+    def fit(self, X, y):
+        pass
+
+    def predict(self, X):
+        X = check_array(X)
+        return self.model_.predict(X)
+
+    def score(self, X, y):
+        X, y = check_X_y(X, y)
+        return self.model_.score(X, y)
+
+    @staticmethod
+    def get_parameter_grid(max_width=None):
+        pass
 
 
 @dataclass
-class CoxNet(SurvivalEstimator):
+class CoxNet(SkSurvEstimator):
     """
     Adapter for the CoxNet method from scikit-survival
     """
 
-    from sksurv.linear_model import CoxnetSurvivalAnalysis
-
-    package = "scikit-survival"
     model_ = CoxnetSurvivalAnalysis()
 
     # init
     l1_ratio: float = 0.5
-    verbose: bool = False
     fit_baseline_model: bool = False
 
     def fit(self, X, y):
@@ -28,14 +52,6 @@ class CoxNet(SurvivalEstimator):
         )
         self.model_ = self.model_.fit(X, y)
         return self
-
-    def predict(self, X):
-        X = check_array(X)
-        return self.model_.predict(X)
-
-    def score(self, X, y):
-        X, y = check_X_y(X, y)
-        return self.model_.score(X, y)
 
     @staticmethod
     def get_parameter_grid(max_width=None):
