@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from sklearn.utils import check_X_y, check_array
 from .adapter import SurvivalEstimator
 from sksurv.linear_model import CoxnetSurvivalAnalysis
+from sksurv.ensemble import RandomSurvivalForest
 
 
 class SkSurvEstimator(SurvivalEstimator):
@@ -61,4 +62,47 @@ class CoxNet(SkSurvEstimator):
         """
         return dict(
             l1_ratio=[0.01, 0.1, 0.25, 0.5, 0.75, 0.9, 0.99],
+        )
+
+
+@dataclass
+class RSF(SkSurvEstimator):
+    """
+    Adapter for the RandomSurvivalForest method from scikit-survival
+    """
+
+    model_ = RandomSurvivalForest()
+
+    # init
+    # l1_ratio: float = 0.5
+    # fit_baseline_model: bool = False
+    n_estimators: int = 100
+    max_depth: int = None
+    min_samples_split: float = 0.1
+    min_samples_leaf: float = 0.05
+
+    def fit(self, X, y):
+        X, y = check_X_y(X, y)
+        self.n_features_ = X.shape[1]
+        self.model_.set_params(
+            n_estimators=self.n_estimators,
+            max_depth=self.max_depth,
+            min_samples_split=self.min_samples_split,
+            min_samples_leaf=self.min_samples_leaf,
+            verbose=self.verbose,
+            random_state=self.rng_seed,
+        )
+        self.model_ = self.model_.fit(X, y)
+        return self
+
+    def get_parameter_grid(self, max_width=None):
+        """Generate default parameter grid for optimization
+        Here max_width does nothing, it is pesent to keep the API uniform
+        with the deep-learning-based methods.
+        """
+        return dict(
+            n_estimators=[self.n_features_, 2 * self.n_features_, 4 * self.n_features_],
+            max_depth=[self.max_depth],
+            min_samples_split=[self.min_samples_split],
+            min_samples_leaf=[self.min_samples_leaf],
         )
