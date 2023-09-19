@@ -23,13 +23,14 @@ rsf_test.rounding = 2
 def test_sksurv_data_is_loading(X=coxnet_test.X):
     assert X.shape == (198, 84)
 
+
 # coxnet_test.run
 @pytest.mark.parametrize("testmethod", coxnet_test.get_tests())
-def test_evaluation(testmethod):
+def test_evaluation_coxnet(testmethod):
     testmethod()
+
 
 # rsf_test.run
 @pytest.mark.parametrize("testmethod", rsf_test.get_tests())
-def test_evaluation(testmethod):
+def test_evaluation_rsf(testmethod):
     testmethod()
-

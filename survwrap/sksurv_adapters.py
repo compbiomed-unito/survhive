@@ -100,7 +100,7 @@ class RSF(SkSurvEstimator):
         with the deep-learning-based methods.
         """
         return dict(
-            n_estimators=[ 50, 100, 200],
+            n_estimators=[50, 100, 200],
             max_depth=[self.max_depth],
             min_samples_split=[self.min_samples_split],
             min_samples_leaf=[self.min_samples_leaf],

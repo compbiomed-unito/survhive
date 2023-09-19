@@ -74,5 +74,6 @@ def get_top_models(search_results, top=10):
             _cv_rez["mean_test_score"],
             _cv_rez["std_test_score"],
             _cv_rez["params"],
-        )
+        ),
+        key=lambda x: x[0],
     )[:top]
