@@ -6,3 +6,5 @@ from .pycox_adapters import *
 from .auton_adapters import *
 from .util import *
 from .optimization import *
+
+__version__ = "0.4.0"
