@@ -3,7 +3,6 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from collections.abc import Sequence
 from sklearn.utils import check_X_y, check_array
-from sksurv.metrics import concordance_index_censored
 
 import pycox.models as Pycox
 import numpy
@@ -117,22 +116,6 @@ class DeepHitSingle(SurvivalEstimator):
                 for p in preds
             ]
         ).flatten()
-
-    def harrell_score(self, y_true, y_pred, *args, **kwargs):
-        "return Harrell's C-index for a prediction"
-
-        return concordance_index_censored(
-            event_indicator=y_true[y_true.dtype.names[0]],
-            event_time=get_time(y_true),
-            estimate=y_pred,
-            *args,
-            **kwargs,
-        )
-
-    def score(self, X, y):
-        "return the Harrell's c-index as a sklearn score"
-        X, y = check_X_y(X, y)
-        return self.harrell_score(y, self.predict(X))[0]
 
     @staticmethod
     def get_parameter_grid(max_width):

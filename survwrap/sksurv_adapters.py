@@ -41,6 +41,7 @@ class CoxNet(SkSurvEstimator):
     model_ = CoxnetSurvivalAnalysis()
 
     # init
+    alpha: float = None
     l1_ratio: float = 0.5
     fit_baseline_model: bool = False
 
@@ -54,13 +55,34 @@ class CoxNet(SkSurvEstimator):
         self.model_ = self.model_.fit(X, y)
         return self
 
+    def predict(self, X):
+        X = check_array(X)
+        return self.model_.predict(X, alpha=self.alpha)
+
     @staticmethod
     def get_parameter_grid(max_width=None):
         """Generate default parameter grid for optimization
         Here max_width does nothing, it is pesent to keep the API uniform
         with the deep-learning-based methods.
         """
+
         return dict(
+            alpha=[
+                0.001,
+                0.003,
+                0.005,
+                0.008,
+                0.01,
+                0.02,
+                0.03,
+                0.04,
+                0.05,
+                0.06,
+                0.07,
+                0.08,
+                0.09,
+                0.1,
+            ],
             l1_ratio=[0.01, 0.1, 0.25, 0.5, 0.75, 0.9, 0.99],
         )
 

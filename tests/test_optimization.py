@@ -30,14 +30,18 @@ def test_grid_opt_coxnet():
 
     estimator = tosa.CoxNet(rng_seed=2309)
 
+    test_grid = estimator.get_parameter_grid()
+    del test_grid["l1_ratio"]
     grid_coxnet, grid_coxnet_params, grid_coxnet_search = tosa.optimize(
         estimator,
         X,
         y,
         mode="sklearn-grid",
+        user_grid=test_grid,
         cv=tosa.survival_crossval_splitter(X, y, n_splits=3, n_repeats=1),
+        n_jobs=2,
     )
-    assert grid_coxnet.score(X, y).round(3) == 0.931
+    assert grid_coxnet.score(X, y).round(3) == 0.946
 
 
 def test_rs_opt_coxnet():
@@ -49,7 +53,8 @@ def test_rs_opt_coxnet():
         X,
         y,
         mode="sklearn-random",
-        tries=4,
+        tries=10,
         cv=tosa.survival_crossval_splitter(X, y, n_splits=3, n_repeats=1),
+        n_jobs=2,
     )
     assert rs_coxnet.score(X, y).round(3) == 0.931

@@ -5,9 +5,7 @@ import torch
 from dataclasses import dataclass, field
 from collections.abc import Sequence  # abc: Abstract Base Class
 from sklearn.utils import check_X_y, check_array
-from sksurv.metrics import concordance_index_censored
 
-# from auton_survival.models.dsm import DeepSurvivalMachines
 from .adapter import SurvivalEstimator
 from .util import get_time, get_indicator
 from .optimization import generate_topology_grid
@@ -77,23 +75,6 @@ class DeepSurvivalMachines(SurvivalEstimator):
             [self.model_.predict_risk(X, t)[:, 0] for t in eval_times], 0, 1
         )
         return _preds.flatten() if self.single_event else _preds
-
-    def harrell_score(self, y_true, y_pred, *args, **kwargs):
-        "return Harrell's C-index for a prediction"
-
-        return concordance_index_censored(
-            # event_indicator=y_true[y_true.dtype.names[0]],
-            event_indicator=get_indicator(y_true),
-            event_time=get_time(y_true),
-            estimate=y_pred,
-            *args,
-            **kwargs,
-        )
-
-    def score(self, X, y):
-        "return the Harrell's c-index as a sklearn score"
-        X, y = check_X_y(X, y)
-        return self.harrell_score(y, self.predict(X))[0]
 
     @staticmethod
     def get_parameter_grid(max_width):
