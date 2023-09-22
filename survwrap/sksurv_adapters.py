@@ -23,10 +23,6 @@ class SkSurvEstimator(SurvivalEstimator):
         X = check_array(X)
         return self.model_.predict(X)
 
-    def score(self, X, y):
-        X, y = check_X_y(X, y)
-        return self.model_.score(X, y)
-
     @staticmethod
     def get_parameter_grid(max_width=None):
         pass
