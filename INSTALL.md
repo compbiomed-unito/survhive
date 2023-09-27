@@ -24,17 +24,22 @@ Ci sono diversi esempi (parziali) sotto conda-reqs/
 Per installare i requisiti per l'ultima versione stabile dalla branch main, usare:
 
 ```
-conda env create -f conda-reqs/tosa-env.yml
+conda env create -f conda-reqs/hive-env.yml
 ```
 
-che andrà a creare un environment chiamato "tosa" con tutto quello che serve
+che andrà a creare un environment chiamato "hive" con tutto quello che serve
 
 ## installazione con pip 
 
 Ovviamente è molto meglio fare l'installazione all interno di un [virtual environment](https://docs.python.org/3/library/venv.html)
 
-1. E' necessario avere python > 3.10. Se manca considerare l'installazione di [pyenv](https://github.com/pyenv/pyenv)
-2. Clonare il repository git
-3. installazione 
-   * per utilizzo standard: pip install (path-del-repo)/.
-   * per sviluppo: pip install (path-del-repo)/.[dev]
+1.  E' necessario avere python > 3.8. Se manca considerare l'installazione di [pyenv](https://github.com/pyenv/pyenv)
+2.  Clonare il repository git
+3.  installazione 
+    * per utilizzo standard: pip install (path-del-repo)/.
+    * per sviluppo: pip install (path-del-repo)/.[dev]
+    a.  installazione direttamente dal repo
+
+        ~~~ {.bash}
+        python -m pip install "survwrap @ git+ssh://git@github.com/compbiomed-unito/survwrap.git"
+        ~~~

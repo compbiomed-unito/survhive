@@ -1,0 +1,32 @@
+name: hive
+channels:
+  - sebp
+  - conda-forge
+  - defaults
+dependencies:
+  - flit
+  - black
+  - ruff
+  - blas=*=openblas
+  - git
+  - jupyter
+  - jupyterlab
+  - libmamba
+  - openssl=3.1.2
+  - pandas
+  - pandoc
+  - pycox=0.2.3
+  - pytest
+  - python=3.8.*
+  - pytorch=1.12.1
+  - scikit-learn=1.2.1
+  - scikit-survival=0.21.0
+  - tk
+# auton-survival-specific part
+  - tqdm
+  - torchvision
+  - lifelines
+  - pip
+  - pip:
+    # - "auton-survival @ git+https://github.com/IvanUniTO/auton-survival.git@v1.0.1+tosa"
+    - "survwrap @ git+ssh://git@github.com/compbiomed-unito/survwrap.git"

@@ -41,20 +41,20 @@ def optimize(
     if not user_grid:
         user_grid = estimator.get_parameter_grid(max_width=X.shape[1])
     if mode == "sklearn-grid":
-            gs = GridSearchCV(estimator, user_grid, refit=True, cv=cv, n_jobs=n_jobs)
+        gs = GridSearchCV(estimator, user_grid, refit=True, cv=cv, n_jobs=n_jobs)
     elif mode == "sklearn-random":
-            if not tries:
-                tries = _guess_tries(user_grid)
-            print("Random search tries:", tries)
-            gs = RandomizedSearchCV(
-                estimator,
-                user_grid,
-                random_state=estimator.rng_seed,
-                refit=True,
-                cv=cv,
-                n_iter=tries,
-                n_jobs=n_jobs,
-            )
+        if not tries:
+            tries = _guess_tries(user_grid)
+        print("Random search tries:", tries)
+        gs = RandomizedSearchCV(
+            estimator,
+            user_grid,
+            random_state=estimator.rng_seed,
+            refit=True,
+            cv=cv,
+            n_iter=tries,
+            n_jobs=n_jobs,
+        )
     else:
         raise ValueError(f'unknown mode parameter: "{mode}"')
     gs.fit(X, y)
