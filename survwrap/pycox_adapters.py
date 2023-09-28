@@ -103,19 +103,25 @@ class DeepHitSingle(SurvivalEstimator):
         )
         return self
 
-    def predict(self, X, eval_times=None):
-        "predict (1-S) with a Pycox DeepHit model for single events"
-        X = check_array(X)
-        if eval_times is None:
-            eval_times = [self.median_time_]
-        preds = 1 - self.model_.predict_surv(X.astype("float32"))
-        # print('predict', eval_times.shape, self.labtrans_.cuts.shape, preds.shape)
-        return numpy.array(
-            [
-                numpy.interp(eval_times, self.labtrans_.cuts, p, left=0, right=1)
-                for p in preds
-            ]
-        ).flatten()
+    def _interpolate_prediction(self, method_name, X, time, left, right):
+        X = check_array(X).astype("float32")
+        try:
+            n_times = len(time)
+        except TypeError:
+            n_times = 0
+        pred = getattr(self.model_, method_name)(X)
+        r = numpy.array([
+                numpy.interp(time, self.labtrans_.cuts, p, left=left, right=right)
+                for p in pred # iterate on individual prediction
+        ])
+        assert r.shape == ((len(X), n_times) if n_times else (len(X),))
+        return r
+
+    def predict_survival(self, X, time):
+        return self._interpolate_prediction('predict_surv', X, time, left=1.0, right=0.0)
+
+    def predict(self, X):
+        return 1.0 - self.predict_survival(X, self.median_time_)
 
     @staticmethod
     def get_parameter_grid(max_width):

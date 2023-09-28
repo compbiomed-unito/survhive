@@ -1,3 +1,4 @@
+import numpy
 from dataclasses import dataclass
 from sklearn.utils import check_X_y, check_array
 from .adapter import SurvivalEstimator
@@ -19,6 +20,9 @@ class SkSurvEstimator(SurvivalEstimator):
     def fit(self, X, y):
         pass
 
+#    def predict_survival(self, X, time):
+
+
     def predict(self, X):
         X = check_array(X)
         return self.model_.predict(X)
@@ -39,14 +43,13 @@ class CoxNet(SkSurvEstimator):
     # init
     alpha: float = None
     l1_ratio: float = 0.5
-    fit_baseline_model: bool = False
 
     def fit(self, X, y):
         X, y = check_X_y(X, y)
         self.model_.set_params(
             l1_ratio=self.l1_ratio,
             verbose=self.verbose,
-            fit_baseline_model=self.fit_baseline_model,
+            fit_baseline_model=True,
         )
         self.model_ = self.model_.fit(X, y)
         return self
@@ -54,6 +57,13 @@ class CoxNet(SkSurvEstimator):
     def predict(self, X):
         X = check_array(X)
         return self.model_.predict(X, alpha=self.alpha)
+
+    def predict_survival(self, X, time):
+        X = check_array(X)
+        return numpy.array([
+            numpy.interp(time, sf.x, sf.y, left=1, right=0)
+            for sf in self.model_.predict_survival_function(X)
+        ])
 
     @staticmethod
     def get_parameter_grid(max_width=None):
