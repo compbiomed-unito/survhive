@@ -3,7 +3,7 @@
 help:
 	@echo arguments: $(.PHONY)
 
-all: black lint test
+all: black ctags lint test
 
 test:
 	python3 -m pytest
@@ -11,6 +11,8 @@ test:
 black:
 	black survwrap/*.py tests/*.py
 
-lint:
+lint: black ctags
 	ruff survwrap/*.py tests/*.py
 
+ctags: black
+	ctags-universal -R survwrap/ tests/

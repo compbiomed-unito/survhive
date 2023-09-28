@@ -15,7 +15,8 @@ dependencies = [
   "scikit-learn == 1.2.1",
   "scikit-survival == 0.21.0",
   "pycox == 0.2.3",
-  "auton-survival @ git+https://github.com/IvanUniTO/auton-survival.git@v1.0.1+tosa"
+  "auton-survival @ git+https://github.com/IvanUniTO/auton-survival.git@v1.0.1+tosa",
+  "survtrace @ git+https://github.com/IvanUniTO/survTRACE.git@1.0.1+hive",
 ]
 
 [project.optional-dependencies]
