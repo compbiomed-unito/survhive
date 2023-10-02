@@ -16,8 +16,9 @@ _shapes = {
 
 def test_available_datasets():
     "check that that no available CSV is skipped"
-    dataset_path = "Datasets"
-    dataset_csvs = tuple([_.split(".")[0] for _ in sorted(os.listdir(dataset_path))])
+    dataset_csvs = tuple(
+        [_.split(".")[0] for _ in sorted(os.listdir(tosa.datasets._dataset_path)) if _.endswith("csv")]
+    )
     assert tosa.list_available_datasets() == dataset_csvs
 
 
