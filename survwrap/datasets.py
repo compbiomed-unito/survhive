@@ -2,14 +2,13 @@
 
 
 import pandas as pd
-import pkgutil
-from dataclasses import dataclass, field
-from sksurv.datasets import get_x_y
 from os import path
 from sys import modules
+from dataclasses import dataclass, field
+from sksurv.datasets import get_x_y
 
 
-_dataset_path = path.dirname(modules[__name__].__file__) + '/datasets/'
+_dataset_path = path.dirname(modules[__name__].__file__) + "/datasets/"
 _available_datasets = (
     "flchain",
     "gbsg2",
@@ -30,8 +29,7 @@ def get_data(set_name):
 
     return dataset(
         name=set_name,
-        dataframe=pd.read_csv( _dataset_path + set_name + ".csv",
-            index_col=0),
+        dataframe=pd.read_csv(_dataset_path + set_name + ".csv", index_col=0),
     )
 
 
