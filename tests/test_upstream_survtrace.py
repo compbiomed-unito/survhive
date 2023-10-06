@@ -16,6 +16,7 @@ test_rounding = 2
 # define the setup parameters
 STConfig["data"] = "metabric"
 # STConfig['seed'] = 2309
+STConfig["checkpoint"] = "/tmp/survtrace.pt"
 
 set_random_seed(STConfig["seed"])
 

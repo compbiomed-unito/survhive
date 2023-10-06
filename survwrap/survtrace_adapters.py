@@ -4,19 +4,14 @@ from dataclasses import dataclass, field
 from collections.abc import Sequence
 from sklearn.utils import check_X_y, check_array
 
-import survtrace
 import numpy
-import torch
 import pandas
-import torchtuples as tt
 
 from .adapter import SurvivalEstimator
 from .util import (
     get_time,
     get_indicator,
-    survival_train_test_split,
 )
-from .optimization import generate_topology_grid
 
 
 @dataclass
@@ -148,7 +143,8 @@ class SurvTraceSingle(SurvivalEstimator):
 
 #     @staticmethod
 #     def trial2model_params(trial):
-#         # Got the error: "The hidden size (16) is not a multiple of the number of attention heads (6)"
+#         # Got the error: "The hidden size (16) is not a 
+          # multiple of the number of attention heads (6)"
 #         # So the hidden size is now a multiple of the attention head number
 #         num_attention_heads = trial.suggest_int("num_attention_heads", 2, 6)
 #         return dict(
@@ -169,7 +165,7 @@ class SurvTraceSingle(SurvivalEstimator):
 #                 ),
 #                 epochs=2 ** trial.suggest_int("epochs_log2", 2, 6),
 #                 batch_size=2 ** trial.suggest_int("batch_size_log2", 3, 8),
-#                 weight_decay=trial.suggest_float("weight_decay", 1e-4, 1e-2, log=True),
+#                 weight_decay=trial.suggest_float("weight_decay", 1e-4, 1e-2,log=True),
 #             ),
 #         )
 
