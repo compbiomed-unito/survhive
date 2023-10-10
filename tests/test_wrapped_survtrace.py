@@ -10,9 +10,9 @@ trace_test.model = tosa.SurvTraceSingle(
     hidden_size=32,
 )
 trace_test.X, trace_test.y = tosa.load_test_data()
-trace_test.exp_score = 0.92
+trace_test.exp_score = 0.67
 trace_test.exp_cv_mean = 0.65
-trace_test.exp_cv_std = 0.01
+trace_test.exp_cv_std = 0.03
 trace_test.rounding = 2
 
 

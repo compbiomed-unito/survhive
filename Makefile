@@ -8,10 +8,10 @@ all: black ctags lint test
 test:
 	python3 -m pytest
 
-black:
+black: lint
 	black survwrap/*.py tests/*.py
 
-lint: black ctags
+lint: ctags
 	ruff survwrap/*.py tests/*.py
 
 ctags: black

@@ -6,11 +6,13 @@ from sklearn.utils import check_X_y, check_array
 
 import numpy
 import pandas
+import torch
 
 from .adapter import SurvivalEstimator
 from .util import (
     get_time,
     get_indicator,
+    survival_train_test_split,
 )
 
 
@@ -29,12 +31,12 @@ class SurvTraceSingle(SurvivalEstimator):
     #  'seed': 1234,
     # qui mettiamo i parametri per la forma della rete,
     # cercherei di fare qualcosa che rispetti il paper originale
-    # layer_sizes: Sequence[int] = field(default_factory=lambda: [10, 10])
     # vocab_size: int = 8
     hidden_size: int = 16
     intermediate_size: int = 64
     num_hidden_layers: int = 3
     num_attention_heads: int = 2
+    validation_size: float = 0.1
     rng_seed: int = None
     # hidden_dropout_prob: float = 0.0
     #  'num_event': 1,
@@ -51,48 +53,86 @@ class SurvTraceSingle(SurvivalEstimator):
     #  'pruned_heads': {}
 
     # def fit(self, X, times, events):
-    def fit(self, X, y_):
+
+    def _seed_rngs(self):
+        "seed the random number generators involved in the model fit"
+        if self.rng_seed > 0:
+            numpy.random.seed(self.rng_seed)
+            _ = torch.manual_seed(self.rng_seed)
+            return True
+        else:
+            return False
+
+    def fit(self, X, y):
         from survtrace.utils import LabelTransform
         from survtrace import STConfig, Trainer
         from survtrace.model import SurvTraceSingle
 
-        X, y_ = check_X_y(X, y_)
-        times = get_time(y_)
-        events = get_indicator(y_)
-        self.median_time_ = numpy.median(times)
+        X, y = check_X_y(X, y)
+        self._seed_rngs()
 
-        #
-        assert len(events.shape) == 1
-        num_risks = numpy.max(events.astype(float))
+        # detect competing risks
+        num_risks = numpy.max(get_indicator(y).astype(float))
         assert num_risks == int(num_risks)
         num_risks = int(num_risks)
+
+        # generate early-stopping train and validation set
+        _X = {}
+        _y = {}
+        times = {}
+        events = {}
+        preprocessed_y = {}
+        set_labels = ["train", "val"]
+        _X["train"], _X["val"], _y["train"], _y["val"] = survival_train_test_split(
+            X, y, test_size=self.validation_size, rng_seed=self.rng_seed
+        )
+
+        #
+        for _ in set_labels:
+            times[_] = get_time(_y[_])
+            events[_] = get_indicator(_y[_])
+            assert len(events[_].shape) == 1
+        self.median_time_ = numpy.median(times["train"])
 
         # data preprocessing
         self.labtrans_ = LabelTransform(
             cuts=numpy.array(
-                [times.min()]
-                + numpy.quantile(times[events == 1], STConfig["horizons"]).tolist()
-                + [times.max()]
+                [times["train"].min()]
+                + numpy.quantile(
+                    times["train"][events["train"] == 1], STConfig["horizons"]
+                ).tolist()
+                + [times["train"].max()]
             )
         )
-        self.labtrans_.fit(times, events)
-        y = self.labtrans_.transform(times, events)
+        self.labtrans_.fit(times["train"], events["train"])
 
-        if num_risks == 1:
-            ydf = pandas.DataFrame(
-                {"duration": y[0], "event": y[1], "proportion": y[2]}
-            )
-        else:
-            print("num_risks:", num_risks)
-            ydf = pandas.DataFrame({"duration": y[0], "proportion": y[2]})
-            for evt in range(num_risks):
-                ydf["event_" + str(evt)] = (events == (evt + 1)).astype(float)
-            print(
-                pandas.concat(
-                    [ydf, pandas.DataFrame({"events": events, "y[1]": y[1]})], axis=1
-                ).head(20)
-            )
+        for _ in set_labels:
+            preprocessed_y[_] = self.labtrans_.transform(times[_], events[_])
 
+        preprocessed_y_df = {}
+        for _ in set_labels:
+            if num_risks == 1:
+                preprocessed_y_df[_] = pandas.DataFrame(
+                    {
+                        "duration": preprocessed_y[_][0],
+                        "event": preprocessed_y[_][1],
+                        "proportion": preprocessed_y[_][2],
+                    }
+                )
+            else:
+                print("num_risks:", num_risks)
+                preprocessed_y_df[_] = pandas.DataFrame(
+                    {
+                        "duration": preprocessed_y[_][0],
+                        "proportion": preprocessed_y[_][2],
+                    }
+                )
+                for evt in range(num_risks):
+                    preprocessed_y_df[_]["event_" + str(evt)] = (
+                        preprocessed_y[_][events[_] == (evt + 1)]
+                    ).astype(float)
+
+        # model setup
         # free parameters
         STConfig["num_durations"] = self.num_durations
         STConfig["horizons"] = self.horizons
@@ -112,13 +152,18 @@ class SurvTraceSingle(SurvivalEstimator):
         STConfig["duration_index"] = self.labtrans_.cuts
         STConfig["out_feature"] = int(self.labtrans_.out_features)
         STConfig["num_event"] = num_risks
+        # STConfig["early_stop_patience"] = 10
 
         self.model_ = SurvTraceSingle(STConfig)
 
         # initialize a trainer
         trainer = Trainer(self.model_)
         train_loss, val_loss = trainer.fit(
-            (pandas.DataFrame(X.astype("float32")), ydf),
+            (
+                pandas.DataFrame(_X["train"].astype("float32")),
+                preprocessed_y_df["train"],
+            ),
+            (pandas.DataFrame(_X["val"].astype("float32")), preprocessed_y_df["val"]),
         )
         return self
 
@@ -137,9 +182,8 @@ class SurvTraceSingle(SurvivalEstimator):
     @staticmethod
     def get_parameter_grid(max_width=None):
         return dict(
-            hidden_size= [8,16],
-            intermediate_size= [32,64],
-            num_hidden_layers= [2,3,4],
-            num_attention_heads= [1,2,4],
+            hidden_size=[8, 16],
+            intermediate_size=[32, 64],
+            num_hidden_layers=[2, 3, 4],
+            num_attention_heads=[1, 2, 4],
         )
-
