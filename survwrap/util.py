@@ -1,7 +1,4 @@
 import numpy
-import pandas as pd
-from dataclasses import dataclass, field
-from sksurv.datasets import get_x_y
 from sklearn.utils import check_X_y
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import (
@@ -62,41 +59,3 @@ def survival_crossval_splitter(X, y, n_splits=5, n_repeats=2, rng_seed=None):
     return RepeatedStratifiedKFold(
         n_splits=n_splits, n_repeats=n_repeats, random_state=rng_seed
     ).split(X, get_indicator(y))
-
-
-## datasets
-
-
-_dataset_path = "Datasets/"
-_available_datasets = (
-    "flchain",
-    "gbsg2",
-    "metabric",
-    "support",
-)
-
-
-def list_available_datasets():
-    "list the available benchmark datasets"
-    return _available_datasets
-
-
-def get_data(set_name):
-    "Load one of the available benchmark datasets as a dataset object"
-    if set_name not in _available_datasets:
-        raise NameError("Dataset not available.")
-    return dataset(
-        name=set_name,
-        dataframe=pd.read_csv(_dataset_path + set_name + ".csv", index_col=0),
-    )
-
-
-@dataclass
-class dataset:
-    "a dataset container"
-    name: str
-    dataframe: field(default_factory=pd.DataFrame)
-
-    def get_X_y(self):
-        "return dataset in scikit-survival format"
-        return get_x_y(self.dataframe, attr_labels=["event", "time"], pos_label=1)

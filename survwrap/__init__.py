@@ -7,5 +7,6 @@ from .auton_adapters import *
 from .survtrace_adapters import *
 from .util import *
 from .optimization import *
+from .datasets import *
 
-__version__ = "0.4.1"
+__version__ = "0.4.2"
