@@ -32,5 +32,6 @@ dependencies:
 # Pip deps
   - pip
   - pip:
-    # - "auton-survival @ git+https://github.com/IvanUniTO/auton-survival.git@v1.0.1+tosa"
-    - "survwrap @ git+ssh://git@github.com/compbiomed-unito/survwrap.git"
+    - "auton-survival @ git+https://github.com/IvanUniTO/auton-survival.git@v1.0.1+tosa"
+    - "survtrace @ git+https://github.com/IvanUniTO/survTRACE.git@1.0.1+hive"
+    # - "survwrap @ git+ssh://git@github.com/compbiomed-unito/survwrap.git"
