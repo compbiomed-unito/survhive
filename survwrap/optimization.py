@@ -33,28 +33,35 @@ def _guess_tries(grid, fraction=0.05):
 
 
 def optimize(
-    estimator, X, y, mode="sklearn-grid", user_grid=[], cv=None, tries=None, n_jobs=1
+    estimator, X, y, mode="sklearn-grid", user_grid=[], cv=None, scoring=None,
+    tries=None, n_jobs=1, refit=True,
 ):
     "hyperparameter optimization of estimator"
-    if not cv:
+
+    if cv is None:
         cv = survival_crossval_splitter(X, y, rng_seed=estimator.rng_seed)
     if not user_grid:
         user_grid = estimator.get_parameter_grid(max_width=X.shape[1])
+    
+    sk_common_params = dict(
+        estimator=estimator, 
+        refit=refit, cv=cv, scoring=scoring, n_jobs=n_jobs
+    )
     if mode == "sklearn-grid":
-        gs = GridSearchCV(estimator, user_grid, refit=True, cv=cv, n_jobs=n_jobs)
+            gs = GridSearchCV(
+                param_grid=user_grid,
+                **sk_common_params,
+                )
     elif mode == "sklearn-random":
-        if not tries:
-            tries = _guess_tries(user_grid)
-        print("Random search tries:", tries)
-        gs = RandomizedSearchCV(
-            estimator,
-            user_grid,
-            random_state=estimator.rng_seed,
-            refit=True,
-            cv=cv,
-            n_iter=tries,
-            n_jobs=n_jobs,
-        )
+            if not tries:
+                tries = _guess_tries(user_grid)
+            print("Random search tries:", tries)
+            gs = RandomizedSearchCV(
+                param_distributions=user_grid,
+                random_state=estimator.rng_seed,
+                n_iter=tries,
+                **sk_common_params,
+            )
     else:
         raise ValueError(f'unknown mode parameter: "{mode}"')
     gs.fit(X, y)
