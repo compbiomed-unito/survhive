@@ -2,8 +2,9 @@ import numpy as np
 from dataclasses import dataclass
 from sklearn.base import BaseEstimator
 from sklearn.utils import check_X_y, check_array
-from sksurv.metrics import concordance_index_censored
-from .util import get_time, get_indicator
+
+# from sksurv.metrics import concordance_index_censored
+from .metrics import concordance_index_score
 
 
 @dataclass
@@ -35,18 +36,18 @@ class SurvivalEstimator(BaseEstimator):
         X = check_array(X)
         return np.full(shape=X.shape[0], fill_value=(1,))
 
-    def harrell_score(self, y_true, y_pred, *args, **kwargs):
-        "return Harrell's C-index for a prediction"
+    # def harrell_score(self, y_true, y_pred, *args, **kwargs):
+    #     "return Harrell's C-index for a prediction"
 
-        return concordance_index_censored(
-            event_indicator=get_indicator(y_true),
-            event_time=get_time(y_true),
-            estimate=y_pred,
-            *args,
-            **kwargs,
-        )
+    #     return concordance_index_censored(
+    #         event_indicator=get_indicator(y_true),
+    #         event_time=get_time(y_true),
+    #         estimate=y_pred,
+    #         *args,
+    #         **kwargs,
+    #     )
 
     def score(self, X, y):
         "return the Harrell's c-index as a sklearn score"
         X, y = check_X_y(X, y)
-        return self.harrell_score(y, self.predict(X))[0]
+        return concordance_index_score(y, self.predict(X))

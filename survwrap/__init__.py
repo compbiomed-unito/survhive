@@ -1,5 +1,6 @@
 # ruff: noqa: F403
 
+from .metrics import *
 from .adapter import *
 from .sksurv_adapters import *
 from .pycox_adapters import *
@@ -9,4 +10,4 @@ from .util import *
 from .optimization import *
 from .datasets import *
 
-__version__ = "0.5.0"
+__version__ = "0.5.1"

@@ -20,8 +20,7 @@ class SkSurvEstimator(SurvivalEstimator):
     def fit(self, X, y):
         pass
 
-#    def predict_survival(self, X, time):
-
+    #    def predict_survival(self, X, time):
 
     def predict(self, X):
         X = check_array(X)
@@ -60,10 +59,12 @@ class CoxNet(SkSurvEstimator):
 
     def predict_survival(self, X, time):
         X = check_array(X)
-        return numpy.array([
-            numpy.interp(time, sf.x, sf.y, left=1, right=0)
-            for sf in self.model_.predict_survival_function(X)
-        ])
+        return numpy.array(
+            [
+                numpy.interp(time, sf.x, sf.y, left=1, right=0)
+                for sf in self.model_.predict_survival_function(X)
+            ]
+        )
 
     @staticmethod
     def get_parameter_grid(max_width=None):

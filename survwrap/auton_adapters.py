@@ -67,9 +67,10 @@ class DeepSurvivalMachines(SurvivalEstimator):
         X = check_array(X)
         try:
             n_times = len(time)
-            # for some reason only a list is treated properly as multiple times, an array yield a prediction of shape (len(X), 1)
+            # for some reason only a list is treated properly as multiple times,
+            # an array yield a prediction of shape (len(X), 1)
             if not isinstance(time, list):
-                time = time.tolist() # for some
+                time = time.tolist()  # for some
         except TypeError:
             n_times = 0
         r = self.model_.predict_survival(X, time)

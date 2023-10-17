@@ -110,15 +110,19 @@ class DeepHitSingle(SurvivalEstimator):
         except TypeError:
             n_times = 0
         pred = getattr(self.model_, method_name)(X)
-        r = numpy.array([
+        r = numpy.array(
+            [
                 numpy.interp(time, self.labtrans_.cuts, p, left=left, right=right)
-                for p in pred # iterate on individual prediction
-        ])
+                for p in pred  # iterate on individual prediction
+            ]
+        )
         assert r.shape == ((len(X), n_times) if n_times else (len(X),))
         return r
 
     def predict_survival(self, X, time):
-        return self._interpolate_prediction('predict_surv', X, time, left=1.0, right=0.0)
+        return self._interpolate_prediction(
+            "predict_surv", X, time, left=1.0, right=0.0
+        )
 
     def predict(self, X):
         return 1.0 - self.predict_survival(X, self.median_time_)
