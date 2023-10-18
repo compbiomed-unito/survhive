@@ -36,6 +36,10 @@ class SurvivalEstimator(BaseEstimator):
         X = check_array(X)
         return np.full(shape=X.shape[0], fill_value=(1,))
 
+    def predict_survival(self, X, times):
+        X = check_array(X)
+        return np.full(shape=(X.shape[0], len(times)), fill_value=(1,))
+
     # def harrell_score(self, y_true, y_pred, *args, **kwargs):
     #     "return Harrell's C-index for a prediction"
 

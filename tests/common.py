@@ -1,10 +1,10 @@
-import survwrap as tosa
+import survwrap
 import numpy as np
 from sklearn.model_selection import cross_val_score
 from dataclasses import field
 from sklearn.utils.estimator_checks import check_estimator
 
-test_X, test_y = tosa.load_test_data()
+test_X, test_y = survwrap.load_test_data()
 
 
 class basic_test:
@@ -16,7 +16,7 @@ class basic_test:
     4. calculates mean and std for the CV and compares them to their expected values.
     """
 
-    model: field(default_factory=tosa.SurvivalEstimator)
+    model: field(default_factory=survwrap.SurvivalEstimator)
     X: field(default_factory=test_X)
     y: field(default_factory=test_y)
     exp_score: float
@@ -56,10 +56,19 @@ class basic_test:
             cv_avg_score, [self.exp_cv_mean, self.exp_cv_std], decimal=self.rounding
         )
 
+    def test_predict_survival(self):
+        "assert on survival score"
+        a_survival_score = (
+            self.model.fit(self.X, self.y)
+            .predict_survival(self.X[4:5], survwrap.event_quantiles(self.y))
+            .round(self.rounding)
+        )
+        np.testing.assert_array_almost_equal(a_survival_score, self.exp_survival)
+
 
 # # init test data example
 # dsm_test = basic_test()
-# dsm_test.model = tosa.DeepSurvivalMachines(
+# dsm_test.model = survwrap.DeepSurvivalMachines(
 #     rng_seed=2307, max_epochs=20, layer_sizes=[10, 10, 10]
 # )
 # dsm_test.X = test_X
