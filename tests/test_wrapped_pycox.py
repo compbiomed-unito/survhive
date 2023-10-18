@@ -1,12 +1,12 @@
 import pytest
-import survwrap as tosa
+import survwrap
 from common import basic_test
 
 # init test data
 pycox_test = basic_test()
-pycox_test.X, pycox_test.y = tosa.load_test_data()
+pycox_test.X, pycox_test.y = survwrap.load_test_data()
 #
-pycox_test.model = tosa.DeepHitSingle(
+pycox_test.model = survwrap.DeepHitSingle(
     epochs=100,
     layer_sizes=[7, 7],
     learning_rate=0.005,
@@ -18,6 +18,7 @@ pycox_test.model = tosa.DeepHitSingle(
 pycox_test.exp_score = 0.56
 pycox_test.exp_cv_mean = 0.58
 pycox_test.exp_cv_std = 0.08
+pycox_test.exp_survival = [[0.84, 0.78, 0.61]]
 pycox_test.rounding = 2
 
 
