@@ -38,6 +38,11 @@ def get_time(y):
     return y[y.dtype.names[1]]
 
 
+def event_quantiles(y, quantiles=[0.25, 0.5, 0.75]):
+    "get the times corresponding to the specified quantile fractions of events"
+    return numpy.quantile(get_time(y)[get_indicator(y)], quantiles)
+
+
 ## stratified partitioning
 
 

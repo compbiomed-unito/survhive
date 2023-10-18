@@ -14,5 +14,5 @@ black:
 lint: ctags
 	ruff survwrap/*.py tests/*.py
 
-ctags: black
+ctags: 
 	ctags-universal -R survwrap/ tests/
