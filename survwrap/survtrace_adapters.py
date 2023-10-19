@@ -179,6 +179,27 @@ class SurvTraceSingle(SurvivalEstimator):
             ]
         ).flatten()
 
+    def _interpolate_prediction(self, method_name, X, time, left, right):
+        X = check_array(X).astype("float32")
+        try:
+            n_times = len(time)
+        except TypeError:
+            n_times = 0
+        pred = getattr(self.model_, method_name)(pandas.DataFrame(X.astype("float32")))
+        r = numpy.array(
+            [
+                numpy.interp(time, self.labtrans_.cuts, p, left=left, right=right)
+                for p in pred  # iterate on individual prediction
+            ]
+        )
+        assert r.shape == ((len(X), n_times) if n_times else (len(X),))
+        return r
+
+    def predict_survival(self, X, time):
+        return self._interpolate_prediction(
+            "predict_surv", X, time, left=1.0, right=0.0
+        )
+
     @staticmethod
     def get_parameter_grid(max_width=None):
         return dict(
