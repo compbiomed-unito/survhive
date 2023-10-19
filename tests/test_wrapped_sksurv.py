@@ -10,6 +10,8 @@ coxnet_test.exp_score = 0.95
 coxnet_test.exp_cv_mean = 0.63
 coxnet_test.exp_cv_std = 0.04
 coxnet_test.exp_survival = [[0.99, 0.86, 0.52]]
+coxnet_test.exp_td_harrel_score = 0.95
+coxnet_test.exp_td_brier_score = 0.02
 coxnet_test.rounding = 2
 
 rsf_test = basic_test()
@@ -19,6 +21,8 @@ rsf_test.exp_score = 0.93
 rsf_test.exp_cv_mean = 0.63
 rsf_test.exp_cv_std = 0.04
 rsf_test.exp_survival = [[0.9, 0.79, 0.67]]
+rsf_test.exp_td_harrel_score = 0.98
+rsf_test.exp_td_brier_score = 0.07
 rsf_test.rounding = 2
 
 

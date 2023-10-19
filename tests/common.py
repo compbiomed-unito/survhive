@@ -20,6 +20,8 @@ class basic_test:
     X: field(default_factory=test_X)
     y: field(default_factory=test_y)
     exp_score: float
+    exp_td_harrel_score: float
+    exp_td_brier_score: float
     exp_cv_mean: float
     exp_cv_std: float
     rounding: int
@@ -56,17 +58,38 @@ class basic_test:
             cv_avg_score, [self.exp_cv_mean, self.exp_cv_std], decimal=self.rounding
         )
 
+    def test_td_harrel_score(self):
+        "assert on time-dependent Harrel score"
+        td_harrel_score = survwrap.metrics.concordance_index_td_scorer(
+            self.model.fit(self.X, self.y), self.X, self.y
+        ).round(self.rounding)
+        assert (
+            td_harrel_score == self.exp_td_harrel_score
+        ), f"calculated {td_harrel_score}, expected {self.exp_td_harrel_score}"
+
     def test_predict_survival(self):
         "assert on survival score"
-        a_survival_score = (
-            self.model.fit(self.X, self.y)
-            .predict_survival(self.X[4:5], survwrap.event_quantiles(self.y))
-            .round(self.rounding)
-        )
+        a_survival_score = self.model.predict_survival(
+            self.X[4:5], survwrap.event_quantiles(self.y)
+        ).round(self.rounding)
         np.testing.assert_array_almost_equal(a_survival_score, self.exp_survival)
 
+    def test_td_brier_score(self):
+        "assert on time-dependent brier score"
+        scorer = survwrap.metrics.make_time_dependent_scorer(
+            survwrap.metrics.brier_score,
+            time_mode="quantiles",
+            time_values=[0.1, 0.25, 0.4, 0.5, 0.6, 0.75],
+        )
+        td_brier_score = scorer(self.model.fit(self.X, self.y), self.X, self.y).round(
+            self.rounding
+        )
+        assert (
+            td_brier_score == self.exp_td_brier_score
+        ), f"calculated {td_brier_score}, expected {self.exp_td_brier_score}"
 
-# # init test data example
+
+#  init test data example
 # dsm_test = basic_test()
 # dsm_test.model = survwrap.DeepSurvivalMachines(
 #     rng_seed=2307, max_epochs=20, layer_sizes=[10, 10, 10]
