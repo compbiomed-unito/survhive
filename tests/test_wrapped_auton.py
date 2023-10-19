@@ -12,6 +12,8 @@ dsm_test.exp_score = 0.62
 dsm_test.exp_cv_mean = 0.61
 dsm_test.exp_cv_std = 0.04
 dsm_test.exp_survival = [[0.93, 0.91, 0.84]]
+dsm_test.exp_td_harrel_score = 0.62
+dsm_test.exp_td_brier_score = 0.10
 dsm_test.rounding = 2
 
 
