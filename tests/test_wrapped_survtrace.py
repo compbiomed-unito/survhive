@@ -16,6 +16,7 @@ trace_test.exp_cv_std = 0.03
 trace_test.exp_survival = [[0.56, 0.49, 0.28]]
 trace_test.exp_td_harrel_score = 0.65
 trace_test.exp_td_brier_score = 0.26
+trace_test.exp_td_roc_auc_score = 0.78
 trace_test.rounding = 2
 
 

@@ -6,7 +6,7 @@ help:
 all: black ctags lint test
 
 test:
-	python3 -m pytest
+	python3 -m pytest tests/*.py
 
 black: 
 	black survwrap/*.py tests/*.py

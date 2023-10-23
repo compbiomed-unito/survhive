@@ -2,6 +2,7 @@
 
 import numpy
 import sksurv
+from sklearn.metrics import roc_auc_score
 from .util import get_indicator, get_time
 
 
@@ -107,6 +108,10 @@ def make_time_dependent_classification_score(score_func, aggregate="mean"):
         Classification metric function with signature
         ``score_func(y_true, y_pred, **kwargs)
 
+
+    Return
+    ------
+    scorer: callable with signature (y_true, y_pred, times, **kwargs)
     """
 
     def td_score(y_true, y_pred, times, **kwargs):
@@ -179,3 +184,9 @@ def make_time_dependent_scorer(
         return score_func(y, y_pred, pred_times, **kwargs)
 
     return scorer
+
+
+def roc_auc_td_score(y_true, y_pred, times):
+    "returns the ROC AUC score at times"
+    _auc_td_score = make_time_dependent_classification_score(roc_auc_score)
+    return _auc_td_score(y_true, y_pred, times)

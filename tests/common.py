@@ -22,6 +22,7 @@ class basic_test:
     exp_score: float
     exp_td_harrel_score: float
     exp_td_brier_score: float
+    exp_td_roc_auc_score: float
     exp_cv_mean: float
     exp_cv_std: float
     rounding: int
@@ -87,6 +88,23 @@ class basic_test:
         assert (
             td_brier_score == self.exp_td_brier_score
         ), f"calculated {td_brier_score}, expected {self.exp_td_brier_score}"
+
+    def test_td_roc_auc_score(self):
+        "assert on time-dependent ROC AUC score"
+        td_auc_score = survwrap.metrics.make_time_dependent_classification_score(
+            survwrap.metrics.roc_auc_score, aggregate="mean"
+        )
+        scorer = survwrap.metrics.make_time_dependent_scorer(
+            td_auc_score,
+            time_mode="quantiles",
+            time_values=[0.1, 0.25, 0.4, 0.5, 0.6, 0.75],
+        )
+        td_roc_auc_score = scorer(self.model.fit(self.X, self.y), self.X, self.y).round(
+            self.rounding
+        )
+        assert (
+            td_roc_auc_score == self.exp_td_roc_auc_score
+        ), f"calculated {td_roc_auc_score}, expected {self.exp_td_roc_auc_score}"
 
 
 #  init test data example
