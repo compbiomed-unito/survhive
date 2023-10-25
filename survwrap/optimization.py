@@ -1,4 +1,5 @@
 from math import prod
+from pandas import DataFrame
 from sklearn.model_selection import (
     GridSearchCV,
     RandomizedSearchCV,
@@ -33,8 +34,16 @@ def _guess_tries(grid, fraction=0.05):
 
 
 def optimize(
-    estimator, X, y, mode="sklearn-grid", user_grid=[], cv=None, scoring=None,
-    tries=None, n_jobs=1, refit=True,
+    estimator,
+    X,
+    y,
+    mode="sklearn-grid",
+    user_grid=[],
+    cv=None,
+    scoring=None,
+    tries=None,
+    n_jobs=1,
+    refit=True,
 ):
     "hyperparameter optimization of estimator"
 
@@ -42,44 +51,44 @@ def optimize(
         cv = survival_crossval_splitter(X, y, rng_seed=estimator.rng_seed)
     if not user_grid:
         user_grid = estimator.get_parameter_grid(max_width=X.shape[1])
-    
+
     sk_common_params = dict(
-        estimator=estimator, 
-        refit=refit, cv=cv, scoring=scoring, n_jobs=n_jobs
+        estimator=estimator, refit=refit, cv=cv, scoring=scoring, n_jobs=n_jobs
     )
     if mode == "sklearn-grid":
-            gs = GridSearchCV(
-                param_grid=user_grid,
-                **sk_common_params,
-                )
+        gs = GridSearchCV(
+            param_grid=user_grid,
+            **sk_common_params,
+        )
     elif mode == "sklearn-random":
-            if not tries:
-                tries = _guess_tries(user_grid)
-            print("Random search tries:", tries)
-            gs = RandomizedSearchCV(
-                param_distributions=user_grid,
-                random_state=estimator.rng_seed,
-                n_iter=tries,
-                **sk_common_params,
-            )
+        if not tries:
+            tries = _guess_tries(user_grid)
+        print("Random search tries:", tries)
+        gs = RandomizedSearchCV(
+            param_distributions=user_grid,
+            random_state=estimator.rng_seed,
+            n_iter=tries,
+            **sk_common_params,
+        )
     else:
         raise ValueError(f'unknown mode parameter: "{mode}"')
     gs.fit(X, y)
     return gs.best_estimator_, gs.best_params_, gs
 
 
-def get_top_models(search_results, top=10):
-    """evaluate the top best scoring result from an hyperparameter optimization.
-    Returns a tuple containing (rank, avg_cv_score, std_cv_score, params)
+def get_model_scores_df(search):
     """
+    Returns a pandas dataframe containing rank, avg_cv_score, std_cv_score,
+    params for each score specified in an optimization search result.
+    """
+    zcorez = search.scoring.keys()
 
-    _cv_rez = search_results.cv_results_
-    return sorted(
-        zip(
-            _cv_rez["rank_test_score"],
-            _cv_rez["mean_test_score"],
-            _cv_rez["std_test_score"],
-            _cv_rez["params"],
-        ),
-        key=lambda x: x[0],
-    )[:top]
+    zcored_by = search.refit
+
+    labelz = [
+        "_test_".join([_f, _z]) for _z in zcorez for _f in ["rank", "mean", "std"]
+    ] + ["params"]
+
+    return DataFrame(
+        [search.cv_results_[_] for _ in labelz], index=labelz
+    ).T.sort_values("_".join(["mean_test", zcored_by]))
