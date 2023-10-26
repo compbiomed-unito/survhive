@@ -27,10 +27,16 @@ def generate_topology_grid(max_width, max_layers=3):
     return topologies
 
 
+def get_grid_size(grid):
+    "calculate the number of points in a grid"
+
+    return prod([len(_) for _ in grid.values()])
+
+
 def _guess_tries(grid, fraction=0.05):
     "calculate the number of points in a grid and return fraction*points"
 
-    return 1 + int(fraction * prod([len(_) for _ in grid.values()]))
+    return 1 + int(fraction * get_grid_size(grid))
 
 
 def optimize(
