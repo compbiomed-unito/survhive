@@ -76,7 +76,10 @@ def concordance_index_td_scorer(estimator, X, y, return_all=False):
 
 
 def brier_score(y_true, y_pred, times):
-    # Time-dependent brier score
+    # Time-dependent brier score, returned as a _negative_ values
+    # for compatibility with sklearn optimizers, that search for a
+    # maximal score
+    #
     # y_true: shape n_samples
     # y_pred: probability of event at time, shape n_samples x n_times
     # times: prediction times, shape n_times
@@ -90,7 +93,7 @@ def brier_score(y_true, y_pred, times):
     informative = (y_time > times) | y_ind
     positive = (y_time <= times) & y_ind
     err = y_pred[informative] - positive[informative]
-    return numpy.square(err).mean()
+    return -numpy.square(err).mean()
 
 
 def make_time_dependent_classification_score(score_func, aggregate="mean"):
