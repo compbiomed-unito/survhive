@@ -75,7 +75,7 @@ def concordance_index_td_scorer(estimator, X, y, return_all=False):
     return r if return_all else r[0]
 
 
-def brier_score(y_true, y_pred, times):
+def neg_brier_score(y_true, y_pred, times):
     # Time-dependent brier score, returned as a _negative_ values
     # for compatibility with sklearn optimizers, that search for a
     # maximal score

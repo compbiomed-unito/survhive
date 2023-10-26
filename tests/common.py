@@ -75,10 +75,10 @@ class basic_test:
         ).round(self.rounding)
         np.testing.assert_array_almost_equal(a_survival_score, self.exp_survival)
 
-    def test_td_brier_score(self):
+    def test_td_neg_brier_score(self):
         "assert on time-dependent brier score"
         scorer = survwrap.metrics.make_time_dependent_scorer(
-            survwrap.metrics.brier_score,
+            survwrap.metrics.neg_brier_score,
             time_mode="quantiles",
             time_values=[0.1, 0.25, 0.4, 0.5, 0.6, 0.75],
         )

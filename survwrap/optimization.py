@@ -93,7 +93,7 @@ def get_model_scores_df(search):
 
     labelz = [
         "_test_".join([_f, _z]) for _z in zcorez for _f in ["rank", "mean", "std"]
-    ] + ["params"]
+    ] + ["params", "mean_fit_time", "std_fit_time"]
 
     return (
         DataFrame([search.cv_results_[_] for _ in labelz], index=labelz)
