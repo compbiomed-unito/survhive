@@ -5,6 +5,9 @@ import pytest
 import os
 from sksurv.util import check_array_survival
 
+# from numpy import ndarray
+import numpy
+
 _preloaded = {_name: tosa.get_data(_name) for _name in tosa.list_available_datasets()}
 _shapes = {
     "flchain": (6524, 10),
@@ -41,3 +44,4 @@ def test_dataset_size(a_dataset):
 def test_get_X_y(a_dataset):
     Xt, yt = _preloaded[a_dataset].get_X_y()
     assert check_array_survival(Xt, yt)
+    assert type(Xt) == numpy.ndarray

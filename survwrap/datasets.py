@@ -1,6 +1,7 @@
 "Some frequently used benchmark datasets for survival analysis"
 
 
+from numpy import ndarray
 import pandas as pd
 from os import path
 from sys import modules
@@ -40,5 +41,8 @@ class dataset:
     dataframe: field(default_factory=pd.DataFrame)
 
     def get_X_y(self):
-        "return dataset in scikit-survival format"
-        return get_x_y(self.dataframe, attr_labels=["event", "time"], pos_label=1)
+        # "return dataset in scikit-survival format"
+        "return dataset as two numpy ndarrays"
+
+        _X, _y = get_x_y(self.dataframe, attr_labels=["event", "time"], pos_label=1)
+        return _X.to_numpy(dtype=ndarray), _y
