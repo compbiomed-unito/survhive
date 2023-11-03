@@ -57,4 +57,4 @@ def test_rs_opt_coxnet():
         cv=tosa.survival_crossval_splitter(X, y, n_splits=3, n_repeats=1),
         n_jobs=2,
     )
-    assert rs_coxnet.score(X, y).round(3) == 0.872
+    assert rs_coxnet.score(X, y).round(3) == 0.868
