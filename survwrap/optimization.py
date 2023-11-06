@@ -97,6 +97,6 @@ def get_model_scores_df(search):
 
     return (
         DataFrame([search.cv_results_[_] for _ in labelz], index=labelz)
-        .T.set_index("_".join(["rank_test", zcored_by]))
-        .sort_index()
+        .T.sort_values("_".join(["rank_test", zcored_by]))
+        #.sort_index()
     )
