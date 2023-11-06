@@ -11,6 +11,7 @@ dependencies:
   - git
   - jupyter
   - jupyterlab
+  - papermill
   - libmamba
   - openssl=3.1.2
   - pandas

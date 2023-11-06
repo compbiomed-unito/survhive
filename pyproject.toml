@@ -28,6 +28,7 @@ dev = [
   "ruff",
   "black",
   "jupyterlab",
+  "papermill",
 ]
 
 [project.urls]
