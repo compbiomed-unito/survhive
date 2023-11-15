@@ -10,4 +10,4 @@ from .util import *
 from .optimization import *
 from .datasets import *
 
-__version__ = "0.6.5"
+__version__ = "0.6.6"

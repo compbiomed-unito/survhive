@@ -24,7 +24,13 @@ class DeepSurvivalMachines(SurvivalEstimator):
     learning_rate: float = 0.001
     validation_size: float = 0.1
     max_epochs: int = 100
+    torch_threads: int = 0
     elbo: bool = False  # what is this?
+
+    def _limit_torch_threads(self):
+        "limit the maximum number of Torch CPU threads"
+        if self.torch_threads > 0:
+            torch.set_num_threads(self.torch_threads)
 
     def _seed_rngs(self):
         "seed the random number generators involved in the model fit"
@@ -41,6 +47,8 @@ class DeepSurvivalMachines(SurvivalEstimator):
         # inits and checks
         self._seed_rngs()
         X, y = check_X_y(X, y)
+        self._limit_torch_threads()
+
         # calculate median time-of-event for the training set.
         # Used in default prediction
         # self.median_time_ = numpy.median(X)

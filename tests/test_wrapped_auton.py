@@ -5,7 +5,11 @@ from common import basic_test
 # init test data
 dsm_test = basic_test()
 dsm_test.model = survwrap.DeepSurvivalMachines(
-    rng_seed=2307, batch_size=10, max_epochs=20, layer_sizes=[10, 10, 10]
+    rng_seed=2307,
+    torch_threads=2,
+    batch_size=10,
+    max_epochs=20,
+    layer_sizes=[10, 10, 10],
 )
 dsm_test.X, dsm_test.y = survwrap.load_test_data()
 dsm_test.exp_score = 0.62

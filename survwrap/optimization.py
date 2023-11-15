@@ -96,7 +96,8 @@ def get_model_scores_df(search):
     ] + ["params", "mean_fit_time", "std_fit_time"]
 
     return (
-        DataFrame([search.cv_results_[_] for _ in labelz], index=labelz)
-        .T.sort_values("_".join(["rank_test", zcored_by]))
-        #.sort_index()
+        DataFrame([search.cv_results_[_] for _ in labelz], index=labelz).T.sort_values(
+            "_".join(["rank_test", zcored_by])
+        )
+        # .sort_index()
     )
