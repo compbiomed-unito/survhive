@@ -7,6 +7,8 @@ from sklearn.utils import check_X_y, check_array
 import numpy
 import pandas
 import torch
+from os import getpid
+from time import time
 
 from .adapter import SurvivalEstimator
 from .util import (
@@ -56,7 +58,7 @@ class SurvTraceSingle(SurvivalEstimator):
 
     def _seed_rngs(self):
         "seed the random number generators involved in the model fit"
-        if self.rng_seed > 0:
+        if self.rng_seed and self.rng_seed > 0:
             numpy.random.seed(self.rng_seed)
             _ = torch.manual_seed(self.rng_seed)
             return True
@@ -143,6 +145,7 @@ class SurvTraceSingle(SurvivalEstimator):
 
         # constrained parameters
         STConfig["seed"] = self.rng_seed
+        STConfig["checkpoint"] = "./survtrace_checkpoints/"+"_".join(["survtrace", str(time()), str(getpid())])
 
         STConfig["labtrans"] = self.labtrans_
         STConfig["num_numerical_feature"] = X.shape[1]
@@ -171,7 +174,7 @@ class SurvTraceSingle(SurvivalEstimator):
         X = check_array(X)
         if eval_times is None:
             eval_times = [self.median_time_]
-        return 1 - self.predict_survival(X, eval_times)
+        return 1 - self.predict_survival(X, eval_times).flatten()
 
     def _interpolate_prediction(self, method_name, X, time, left, right):
         X = check_array(X).astype("float32")
@@ -179,7 +182,9 @@ class SurvTraceSingle(SurvivalEstimator):
             n_times = len(time)
         except TypeError:
             n_times = 0
-        pred = getattr(self.model_, method_name)(pandas.DataFrame(X.astype("float32"))).cpu()
+        pred = getattr(self.model_, method_name)(
+            pandas.DataFrame(X.astype("float32"))
+        ).cpu()
         r = numpy.array(
             [
                 numpy.interp(time, self.labtrans_.cuts, p, left=left, right=right)

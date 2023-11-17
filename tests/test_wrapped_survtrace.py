@@ -10,13 +10,13 @@ trace_test.model = tosa.SurvTraceSingle(
     hidden_size=32,
 )
 trace_test.X, trace_test.y = tosa.load_test_data()
-trace_test.exp_score = 0.67
-trace_test.exp_cv_mean = 0.65
-trace_test.exp_cv_std = 0.03
-trace_test.exp_survival = [[0.56, 0.49, 0.28]]
-trace_test.exp_td_harrel_score = 0.65
-trace_test.exp_td_brier_score = -0.26
-trace_test.exp_td_roc_auc_score = 0.78
+trace_test.exp_score = 0.68
+trace_test.exp_cv_mean = 0.60
+trace_test.exp_cv_std = 0.1
+trace_test.exp_survival = [[0.60, 0.56, 0.34]]
+trace_test.exp_td_harrel_score = 0.66
+trace_test.exp_td_brier_score = -0.21
+trace_test.exp_td_roc_auc_score = 0.79
 trace_test.rounding = 2
 
 

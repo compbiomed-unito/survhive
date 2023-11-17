@@ -34,7 +34,7 @@ class DeepSurvivalMachines(SurvivalEstimator):
 
     def _seed_rngs(self):
         "seed the random number generators involved in the model fit"
-        if self.rng_seed > 0:
+        if self.rng_seed and self.rng_seed > 0:
             numpy.random.seed(self.rng_seed)
             _ = torch.manual_seed(self.rng_seed)
             return True
