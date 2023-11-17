@@ -171,13 +171,7 @@ class SurvTraceSingle(SurvivalEstimator):
         X = check_array(X)
         if eval_times is None:
             eval_times = [self.median_time_]
-        preds = 1 - self.model_.predict_surv(pandas.DataFrame(X.astype("float32")))
-        return numpy.array(
-            [
-                numpy.interp(eval_times, self.labtrans_.cuts, p, left=0, right=1)
-                for p in preds.cpu()
-            ]
-        ).flatten()
+        return 1 - self.predict_survival(X, eval_times)
 
     def _interpolate_prediction(self, method_name, X, time, left, right):
         X = check_array(X).astype("float32")
@@ -185,7 +179,7 @@ class SurvTraceSingle(SurvivalEstimator):
             n_times = len(time)
         except TypeError:
             n_times = 0
-        pred = getattr(self.model_, method_name)(pandas.DataFrame(X.astype("float32")))
+        pred = getattr(self.model_, method_name)(pandas.DataFrame(X.astype("float32"))).cpu()
         r = numpy.array(
             [
                 numpy.interp(time, self.labtrans_.cuts, p, left=left, right=right)
