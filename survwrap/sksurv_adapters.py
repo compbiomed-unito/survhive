@@ -155,3 +155,57 @@ class RSF(SkSurvEstimator):
             min_samples_split=[self.min_samples_split],
             min_samples_leaf=[self.min_samples_leaf],
         )
+
+
+@dataclass
+class CoxPH(CoxNet):
+    """
+    Adapter for a simulated Cox Proportional Hazard (CoxPH) method from scikit-survival
+    It actually uses Coxnet, that implements baseline models fitting.
+    Use it only for baseline calculations where alpha = 0.0, otherwise use CoxNet.
+    """
+
+    model_ = CoxnetSurvivalAnalysis()
+
+    # init
+    alpha: float = 0.0
+
+    def fit(self, X, y):
+        X, y = check_X_y(X, y)
+        self.model_.set_params(
+            n_alphas=1,
+            alphas=[self.alpha],
+            l1_ratio=0.0001,
+            verbose=self.verbose,
+            fit_baseline_model=True,
+        )
+        self.model_ = self.model_.fit(X, y)
+        return self
+
+    @staticmethod
+    def get_parameter_grid(max_width=None):
+        """Generate default parameter grid for optimization.
+        Here max_width does nothing, it is present to keep the API uniform
+        with the deep-learning-based methods.
+        """
+
+        return dict(
+            alpha=[
+                0.01,
+                0.02,
+                0.03,
+                0.04,
+                0.05,
+                0.06,
+                0.07,
+                0.08,
+                0.09,
+                0.1,
+                0.15,
+                0.2,
+                0.25,
+                0.3,
+                0.4,
+                0.5,
+            ],
+        )

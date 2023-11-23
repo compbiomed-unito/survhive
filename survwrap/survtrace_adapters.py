@@ -145,7 +145,9 @@ class SurvTraceSingle(SurvivalEstimator):
 
         # constrained parameters
         STConfig["seed"] = self.rng_seed
-        STConfig["checkpoint"] = "./survtrace_checkpoints/"+"_".join(["survtrace", str(time()), str(getpid())])
+        STConfig["checkpoint"] = "./survtrace_checkpoints/" + "_".join(
+            ["survtrace", str(time()), str(getpid())]
+        )
 
         STConfig["labtrans"] = self.labtrans_
         STConfig["num_numerical_feature"] = X.shape[1]

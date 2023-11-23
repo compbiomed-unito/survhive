@@ -27,6 +27,18 @@ rsf_test.exp_td_brier_score = -0.07
 rsf_test.exp_td_roc_auc_score = 0.99
 rsf_test.rounding = 2
 
+coxph_test = basic_test()
+coxph_test.model = survwrap.CoxPH(rng_seed=2311, alpha=0.15)
+coxph_test.X, coxph_test.y = survwrap.load_test_data()
+coxph_test.exp_score = 0.88
+coxph_test.exp_cv_mean = 0.67
+coxph_test.exp_cv_std = 0.02
+coxph_test.exp_survival = [[0.78, 0.57, 0.39]]
+coxph_test.exp_td_harrel_score = 0.88
+coxph_test.exp_td_brier_score = -0.06
+coxph_test.exp_td_roc_auc_score = 0.91
+coxph_test.rounding = 2
+
 
 def test_sksurv_data_is_loading(X=coxnet_test.X):
     assert X.shape == (198, 84)
@@ -41,4 +53,10 @@ def test_evaluation_coxnet(testmethod):
 # rsf_test.run
 @pytest.mark.parametrize("testmethod", rsf_test.get_tests())
 def test_evaluation_rsf(testmethod):
+    testmethod()
+
+
+# coxph_test.run
+@pytest.mark.parametrize("testmethod", coxph_test.get_tests())
+def test_evaluation_coxph(testmethod):
     testmethod()
