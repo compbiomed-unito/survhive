@@ -20,7 +20,7 @@ class SurvivalEstimator(BaseEstimator):
 
     package = None
     model = None
-    rng_seed: int = -1
+    rng_seed: int = None
 
     def _seed_rngs(self):
         "Seed the random number generators involved in the model fit"

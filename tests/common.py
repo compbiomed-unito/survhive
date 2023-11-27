@@ -3,8 +3,10 @@ import numpy as np
 from sklearn.model_selection import cross_val_score
 from dataclasses import field
 from sklearn.utils.estimator_checks import check_estimator
+from sklearn.preprocessing import StandardScaler
 
 test_X, test_y = survwrap.load_test_data()
+test_X = StandardScaler().fit_transform(test_X)
 
 
 class basic_test:
@@ -17,8 +19,8 @@ class basic_test:
     """
 
     model: field(default_factory=survwrap.SurvivalEstimator)
-    X: field(default_factory=test_X)
-    y: field(default_factory=test_y)
+    X: field(default_factory=test_X) = test_X
+    y: field(default_factory=test_y) = test_y
     exp_score: float
     exp_td_harrel_score: float
     exp_td_brier_score: float

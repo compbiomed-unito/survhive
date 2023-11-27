@@ -1,5 +1,6 @@
 import pytest
 import survwrap
+from sklearn.preprocessing import StandardScaler
 from common import basic_test
 
 # init test data
@@ -28,15 +29,16 @@ rsf_test.exp_td_roc_auc_score = 0.99
 rsf_test.rounding = 2
 
 coxph_test = basic_test()
-coxph_test.model = survwrap.CoxPH(rng_seed=2311, alpha=0.15)
-coxph_test.X, coxph_test.y = survwrap.load_test_data()
-coxph_test.exp_score = 0.88
-coxph_test.exp_cv_mean = 0.67
-coxph_test.exp_cv_std = 0.02
-coxph_test.exp_survival = [[0.78, 0.57, 0.39]]
-coxph_test.exp_td_harrel_score = 0.88
-coxph_test.exp_td_brier_score = -0.06
-coxph_test.exp_td_roc_auc_score = 0.91
+coxph_test.model = survwrap.CoxPH(rng_seed=2311, alpha=0.1)
+# coxph_test.X, coxph_test.y = survwrap.load_test_data()
+coxph_test.X = coxph_test.X
+coxph_test.exp_score = 0.94
+coxph_test.exp_cv_mean = 0.63
+coxph_test.exp_cv_std = 0.04
+coxph_test.exp_survival = [[0.98, 0.82, 0.49]]
+coxph_test.exp_td_harrel_score = 0.94
+coxph_test.exp_td_brier_score = -0.02
+coxph_test.exp_td_roc_auc_score = 0.98
 coxph_test.rounding = 2
 
 

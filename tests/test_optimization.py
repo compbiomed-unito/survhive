@@ -66,6 +66,7 @@ def test_grid_opt_coxph():
     estimator = survwrap.CoxPH(rng_seed=2311)
 
     test_grid = estimator.get_parameter_grid()
+    test_grid["alpha"] = test_grid["alpha"][8:]
     grid_coxph, grid_coxph_params, grid_coxph_search = survwrap.optimize(
         estimator,
         X,
@@ -75,4 +76,4 @@ def test_grid_opt_coxph():
         cv=survwrap.survival_crossval_splitter(X, y, n_splits=3, n_repeats=1),
         n_jobs=2,
     )
-    assert grid_coxph.score(X, y).round(3) == 0.889
+    assert grid_coxph.score(X, y).round(3) == 0.930

@@ -2,7 +2,7 @@ import numpy
 from dataclasses import dataclass
 from sklearn.utils import check_X_y, check_array
 from .adapter import SurvivalEstimator
-from sksurv.linear_model import CoxnetSurvivalAnalysis
+from sksurv.linear_model import CoxnetSurvivalAnalysis, CoxPHSurvivalAnalysis
 from sksurv.ensemble import RandomSurvivalForest
 
 
@@ -158,29 +158,41 @@ class RSF(SkSurvEstimator):
 
 
 @dataclass
-class CoxPH(CoxNet):
+class CoxPH(SkSurvEstimator):
     """
     Adapter for a simulated Cox Proportional Hazard (CoxPH) method from scikit-survival
-    It actually uses Coxnet, that implements baseline models fitting.
-    Use it only for baseline calculations where alpha = 0.0, otherwise use CoxNet.
+    Use it only for baseline calculations, otherwise use CoxNet.
     """
 
-    model_ = CoxnetSurvivalAnalysis()
+    model_ = CoxPHSurvivalAnalysis()
 
     # init
     alpha: float = 0.0
+    ties: str = "efron"
+    verbose: bool = False
 
     def fit(self, X, y):
         X, y = check_X_y(X, y)
         self.model_.set_params(
-            n_alphas=1,
-            alphas=[self.alpha],
-            l1_ratio=0.0001,
+            alpha=self.alpha,
+            ties=self.ties,
             verbose=self.verbose,
-            fit_baseline_model=True,
         )
         self.model_ = self.model_.fit(X, y)
         return self
+
+    def predict_survival(self, X, time):
+        X = check_array(X)
+        _utimes = self.model_.unique_times_
+        # print ("utimes: ", _utimes.min(), _utimes.max(), _utimes[0],_utimes[-1])
+
+        # return interpolated survival
+        return numpy.array(
+            [
+                numpy.interp(time, _utimes, sf, left=1, right=0)
+                for sf in self.model_.predict_survival_function(X, return_array=True)
+            ]
+        )
 
     @staticmethod
     def get_parameter_grid(max_width=None):
@@ -191,6 +203,10 @@ class CoxPH(CoxNet):
 
         return dict(
             alpha=[
+                0.001,
+                0.003,
+                0.005,
+                0.008,
                 0.01,
                 0.02,
                 0.03,
