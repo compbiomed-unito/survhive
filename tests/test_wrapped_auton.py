@@ -11,14 +11,13 @@ dsm_test.model = survwrap.DeepSurvivalMachines(
     max_epochs=20,
     layer_sizes=[10, 10, 10],
 )
-dsm_test.X, dsm_test.y = survwrap.load_test_data()
-dsm_test.exp_score = 0.62
-dsm_test.exp_cv_mean = 0.61
-dsm_test.exp_cv_std = 0.04
-dsm_test.exp_survival = [[0.93, 0.91, 0.84]]
-dsm_test.exp_td_harrel_score = 0.62
-dsm_test.exp_td_brier_score = -0.10
-dsm_test.exp_td_roc_auc_score = 0.60
+dsm_test.exp_score = 0.91
+dsm_test.exp_cv_mean = 0.64
+dsm_test.exp_cv_std = 0.10
+dsm_test.exp_survival = [[0.91, 0.87, 0.79]]
+dsm_test.exp_td_harrel_score = 0.91
+dsm_test.exp_td_brier_score = -0.08
+dsm_test.exp_td_roc_auc_score = 0.94
 dsm_test.rounding = 2
 
 
