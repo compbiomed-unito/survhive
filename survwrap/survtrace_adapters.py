@@ -31,10 +31,13 @@ class SurvTraceSingle(SurvivalEstimator):
     num_durations: int = 5
     horizons: Sequence[float] = field(default_factory=lambda: [0.25, 0.5, 0.75])
     #  'seed': 1234,
-    # qui mettiamo i parametri per la forma della rete,
-    # cercherei di fare qualcosa che rispetti il paper originale
     # vocab_size: int = 8
-    hidden_size: int = 16
+    # the method 'hidden_size' parameter must be a multiple of num_attention_heads.
+    # in order to enforce it during optimizations it is not exposed by the adapter
+    # and internally computed as :
+    # hidden_size = hidden_factor * num_attention_heads
+    hidden_factor: int = 4
+    # hidden_size: int = 16
     intermediate_size: int = 64
     num_hidden_layers: int = 3
     num_attention_heads: int = 2
@@ -53,8 +56,6 @@ class SurvTraceSingle(SurvivalEstimator):
     #  'output_hidden_states': False,
     #  'tie_word_embeddings': True,
     #  'pruned_heads': {}
-
-    # def fit(self, X, times, events):
 
     def _seed_rngs(self):
         "seed the random number generators involved in the model fit"
@@ -138,7 +139,7 @@ class SurvTraceSingle(SurvivalEstimator):
         # free parameters
         STConfig["num_durations"] = self.num_durations
         STConfig["horizons"] = self.horizons
-        STConfig["hidden_size"] = self.hidden_size
+        STConfig["hidden_size"] = self.hidden_factor * self.num_attention_heads
         STConfig["intermediate_size"] = self.intermediate_size
         STConfig["num_hidden_layers"] = self.num_hidden_layers
         STConfig["num_attention_heads"] = self.num_attention_heads
@@ -204,7 +205,7 @@ class SurvTraceSingle(SurvivalEstimator):
     @staticmethod
     def get_parameter_grid(max_width=None):
         return dict(
-            hidden_size=[8, 16],
+            hidden_factor=[4, 8],
             intermediate_size=[32, 64],
             num_hidden_layers=[2, 3, 4],
             num_attention_heads=[1, 2, 4],
