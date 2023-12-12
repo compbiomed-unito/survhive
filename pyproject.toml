@@ -18,6 +18,7 @@ dependencies = [
   "auton-survival @ git+https://github.com/IvanUniTO/auton-survival.git@v1.0.1+tosa",
   "survtrace @ git+https://github.com/IvanUniTO/survTRACE.git@1.0.2+hive",
   "openssl == 3.1.2",
+  "lassonet == 0.0.14,
   "pandas",
   "tabulate",
 ]
