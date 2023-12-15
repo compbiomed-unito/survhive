@@ -77,7 +77,7 @@ class DeepHitSingle(SurvivalEstimator):
             out_features=self.labtrans_.out_features,
             num_nodes=self.layer_sizes,
             batch_norm=True,
-            # dropout=self.dropout,
+            dropout=self.dropout,
             # **self.model_params['indepnet'], **self.model_params['net']
         )
         self.model_ = Pycox.DeepHitSingle(
@@ -134,6 +134,6 @@ class DeepHitSingle(SurvivalEstimator):
             layer_sizes=generate_topology_grid(max_width),
             epochs=[100],
             batch_size=[16, 32],
-            # dropout=[0.1, 0.2, 0.3],
+            dropout=[0.1, 0.2, 0.3],
             validation_size=[0.1],
         )

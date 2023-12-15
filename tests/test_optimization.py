@@ -18,7 +18,7 @@ def test_guess_tries():
     dhs_guess = survwrap.optimization._guess_tries(
         survwrap.DeepHitSingle.get_parameter_grid(max_width=X.shape[1]), fraction=0.2
     )
-    assert dhs_guess == 16
+    assert dhs_guess == 47
     dsm = survwrap.optimization._guess_tries(
         survwrap.DeepSurvivalMachines.get_parameter_grid(max_width=X.shape[1]),
     )
