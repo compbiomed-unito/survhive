@@ -12,8 +12,8 @@ classifiers = ["License :: OSI Approved :: MIT License"]
 dynamic = ["version"]
 requires-python = ">=3.8.10"
 dependencies = [
-  "scikit-learn == 1.2.1",
-  "scikit-survival == 0.21.0",
+  "scikit-learn >= 1.2.1",
+  "scikit-survival >= 0.21.0",
   "pycox == 0.2.3",
   "auton-survival @ git+https://github.com/IvanUniTO/auton-survival.git@v1.0.1+tosa",
   "survtrace @ git+https://github.com/IvanUniTO/survTRACE.git@1.0.1+hive",
