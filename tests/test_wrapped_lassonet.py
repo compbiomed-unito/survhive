@@ -1,0 +1,25 @@
+import pytest
+import survwrap
+from common import basic_test
+
+# init test data
+fastcph_test = basic_test()
+fastcph_test.model = survwrap.FastCPH(
+    rng_seed=2312,
+    device='cpu',
+)
+fastcph_test.exp_score = 0.93
+fastcph_test.exp_cv_mean = 0.65
+fastcph_test.exp_cv_std = 0.05
+fastcph_test.exp_survival = [[0.85, 0.78, 0.64]]
+# fastcph_test.exp_survival = [[0.95, 0.94, 0.87]]
+fastcph_test.exp_td_harrel_score = 0.91
+fastcph_test.exp_td_brier_score = -0.05
+fastcph_test.exp_td_roc_auc_score = 0.96
+fastcph_test.rounding = 2
+
+
+# fastcph_test.run
+@pytest.mark.parametrize("testmethod", fastcph_test.get_tests())
+def test_evaluation(testmethod):
+    testmethod()
