@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from collections.abc import Sequence
 from sklearn.utils import check_X_y, check_array
+from sksurv.linear_models.coxph import BreslowEstimator
 
 import numpy
 import pandas
