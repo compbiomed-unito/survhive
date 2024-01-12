@@ -3,7 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from collections.abc import Sequence
 from sklearn.utils import check_X_y, check_array
-from sksurv.linear_models.coxph import BreslowEstimator
+from sksurv.linear_model.coxph import BreslowEstimator
+from lassonet import LassoNetCoxRegressor
 
 import numpy
 import pandas
@@ -20,6 +21,7 @@ from .util import (
 
 _default_lambda_seq = [0.001 * 1.025**_ for _ in range(200)]
 
+
 @dataclass
 class FastCPH(SurvivalEstimator):
     """
@@ -34,14 +36,14 @@ class FastCPH(SurvivalEstimator):
     # init
     layer_sizes: Sequence[int] = field(default_factory=lambda: [10, 10])
     tie_approximation: str = "breslow"
-    lambda_seq:  Sequence[float] = field( default_factory=lambda: _default_lambda_seq )
-    lambda_start = (0.001,)
-    path_multiplier = (1.025,)
-    backtrack = (False,)
+    lambda_seq: Sequence[float] = field(default_factory=lambda: _default_lambda_seq)
+    lambda_start: float = 0.001
+    path_multiplier: float = 1.025
+    backtrack: bool = False
     device: str = None
     rng_seed: int = None
-    verbose = bool = False
-    fit_lambda_ = float
+    verbose: int = 1
+    fit_lambda_ :  float = None
 
     def _seed_rngs(self):
         "seed the random number generators involved in the model fit"
@@ -53,7 +55,6 @@ class FastCPH(SurvivalEstimator):
             return False
 
     def fit(self, X, y):
-        from lassonet import LassoNetCoxRegressor
 
         # init
         X, y = check_X_y(X, y)
@@ -83,8 +84,10 @@ class FastCPH(SurvivalEstimator):
             self.model_.set_params(verbose=0)
 
         # fitting
+        _y_times = get_time(y)
+        _y_events = get_indicator(y)
         _y_lasso = numpy.column_stack(
-            (get_time(y).astype("float32"), get_indicator(y).astype("float32"))
+            (_y_times.astype("float32"), _y_events.astype("float32"))
         )
         fastcph = self.model_.fit(X, _y_lasso)
         self.fit_lambda_ = min(fastcph.path_, key=(lambda x: x.objective)).lambda_
@@ -92,40 +95,31 @@ class FastCPH(SurvivalEstimator):
         self.model_.set_params(lambda_seq=[self.fit_lambda_])
         _refit = self.model_.fit(X, _y_lasso)
         assert self.model_ == _refit
+
+        # fit breslow estimator too, to be used for time dependent predictions
+        self.breslow_estimator_ = BreslowEstimator().fit(self.predict(X), _y_events, _y_times)
+
         return self
 
     def predict(self, X):
         X = check_array(X)
         return self.model_.predict(X).flatten()
 
-    # def predict(self, X, eval_times=None):
-    #     X = check_array(X)
-    #     if eval_times is None:
-    #         eval_times = [self.median_time_]
-    #     return 1 - self.predict_survival(X, eval_times).flatten()
-
-    def _interpolate_prediction(self, method_name, X, time, left, right):
-        X = check_array(X).astype("float32")
+    def predict_survival(self, X, time ):
+        X = check_array(X)
         try:
             n_times = len(time)
         except TypeError:
             n_times = 0
-        pred = getattr(self.model_, method_name)(
-            pandas.DataFrame(X.astype("float32"))
-        ).cpu()
+        pred = self.breslow_estimator_.get_survival_function(self.predict(X))
         r = numpy.array(
             [
-                numpy.interp(time, self.labtrans_.cuts, p, left=left, right=right)
+                numpy.interp(time, p.x, p.y, left=1.0 )
                 for p in pred  # iterate on individual prediction
             ]
         )
         assert r.shape == ((len(X), n_times) if n_times else (len(X),))
         return r
-
-    def predict_survival(self, X, time):
-        return self._interpolate_prediction(
-            "predict_surv", X, time, left=1.0, right=0.0
-        )
 
     @staticmethod
     def get_parameter_grid(max_width=None):
