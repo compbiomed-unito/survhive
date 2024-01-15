@@ -7,16 +7,12 @@ from sksurv.linear_model.coxph import BreslowEstimator
 from lassonet import LassoNetCoxRegressor
 
 import numpy
-import pandas
 import torch
-from os import getpid
-from time import time
 
 from .adapter import SurvivalEstimator
 from .util import (
     get_time,
     get_indicator,
-    survival_train_test_split,
 )
 
 _default_lambda_seq = [0.001 * 1.025**_ for _ in range(200)]
@@ -27,7 +23,8 @@ class FastCPH(SurvivalEstimator):
     """
     Adapter for the FastCPH method from lassonet
 
-    NB: setting the parameter lambda_seq overrides the effects of both lambda_start and path_multiplier
+    NB: setting the parameter lambda_seq overrides the effects of
+        BOTH lambda_start and path_multiplier
     """
 
     package = "lassonet"
@@ -35,7 +32,7 @@ class FastCPH(SurvivalEstimator):
 
     # init
     layer_sizes: Sequence[int] = field(default_factory=lambda: [10, 10])
-    tie_approximation: str = "breslow"
+    tie_approximation: str = "efron"
     lambda_seq: Sequence[float] = field(default_factory=lambda: _default_lambda_seq)
     lambda_start: float = 0.001
     path_multiplier: float = 1.025
@@ -43,7 +40,7 @@ class FastCPH(SurvivalEstimator):
     device: str = None
     rng_seed: int = None
     verbose: int = 1
-    fit_lambda_ :  float = None
+    fit_lambda_: float = None
 
     def _seed_rngs(self):
         "seed the random number generators involved in the model fit"
@@ -55,7 +52,6 @@ class FastCPH(SurvivalEstimator):
             return False
 
     def fit(self, X, y):
-
         # init
         X, y = check_X_y(X, y)
 
@@ -97,7 +93,9 @@ class FastCPH(SurvivalEstimator):
         assert self.model_ == _refit
 
         # fit breslow estimator too, to be used for time dependent predictions
-        self.breslow_estimator_ = BreslowEstimator().fit(self.predict(X), _y_events, _y_times)
+        self.breslow_estimator_ = BreslowEstimator().fit(
+            self.predict(X), _y_events, _y_times
+        )
 
         return self
 
@@ -105,7 +103,7 @@ class FastCPH(SurvivalEstimator):
         X = check_array(X)
         return self.model_.predict(X).flatten()
 
-    def predict_survival(self, X, time ):
+    def predict_survival(self, X, time):
         X = check_array(X)
         try:
             n_times = len(time)
@@ -114,7 +112,7 @@ class FastCPH(SurvivalEstimator):
         pred = self.breslow_estimator_.get_survival_function(self.predict(X))
         r = numpy.array(
             [
-                numpy.interp(time, p.x, p.y, left=1.0 )
+                numpy.interp(time, p.x, p.y, left=1.0)
                 for p in pred  # iterate on individual prediction
             ]
         )
@@ -123,9 +121,10 @@ class FastCPH(SurvivalEstimator):
 
     @staticmethod
     def get_parameter_grid(max_width=None):
+        if not max_width:
+            _mw=max_width
+        else:
+            _mw = 8
         return dict(
-            hidden_factor=[4, 8],
-            intermediate_size=[32, 64],
-            num_hidden_layers=[2, 3, 4],
-            num_attention_heads=[1, 2, 4],
+            layer_sizes=[[_mw], [_mw] * 2, [_mw] * 3, [_mw] * 4],
         )
