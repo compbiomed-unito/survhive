@@ -77,3 +77,9 @@ def test_grid_opt_coxph():
         n_jobs=2,
     )
     assert grid_coxph.score(X, y).round(3) == 0.930
+    # also check that get_model_scores_df works for simple scoring
+    assert survwrap.get_model_scores_df(grid_coxph_search).shape == (12, 6)
+
+# def test_get_model_scores_df_single():
+#     "check that get_model_scores_df works for simple scoring"
+#     assert survwrap.get_model_scores_df(grid_coxph_search).shape == (3,10)

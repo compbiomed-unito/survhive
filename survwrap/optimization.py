@@ -87,17 +87,19 @@ def get_model_scores_df(search):
     Returns a pandas dataframe containing rank, avg_cv_score, std_cv_score,
     params for each score specified in an optimization search result.
     """
-    zcorez = search.scoring.keys()
 
-    zcored_by = search.refit
+    if search.scoring:
+        # multiple scoring
+        zcorez = search.scoring.keys()
+        zcored_by = search.refit
+    else:
+        zcorez = ["score"]
+        zcored_by = "score"
 
     labelz = [
         "_test_".join([_f, _z]) for _z in zcorez for _f in ["rank", "mean", "std"]
     ] + ["params", "mean_fit_time", "std_fit_time"]
 
-    return (
-        DataFrame([search.cv_results_[_] for _ in labelz], index=labelz).T.sort_values(
-            "_".join(["rank_test", zcored_by])
-        )
-        # .sort_index()
-    )
+    return DataFrame(
+        [search.cv_results_[_] for _ in labelz], index=labelz
+    ).T.sort_values("_".join(["rank_test", zcored_by]))

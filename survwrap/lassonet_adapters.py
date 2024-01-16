@@ -122,7 +122,7 @@ class FastCPH(SurvivalEstimator):
     @staticmethod
     def get_parameter_grid(max_width=None):
         if not max_width:
-            _mw=max_width
+            _mw = max_width
         else:
             _mw = 8
         return dict(
