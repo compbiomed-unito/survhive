@@ -43,3 +43,8 @@ Ovviamente è molto meglio fare l'installazione all interno di un [virtual envir
         ~~~ {.bash}
         python -m pip install "survwrap @ git+ssh://git@github.com/compbiomed-unito/survwrap.git"
         ~~~
+
+Se non funziona si puo' provare "a calci e pugni":
+1. pip install -r requirements.txt
+2. pip install --no-deps (path-del-repo)
+Per sviluppo si puo' aggiungere anche --editable
