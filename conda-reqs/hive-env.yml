@@ -13,7 +13,7 @@ dependencies:
   - jupyterlab
   - papermill
   - libmamba
-  - openssl=3.1.2
+  - openssl=3.1.4
   - pandas
   - tabulate
   - pandoc
