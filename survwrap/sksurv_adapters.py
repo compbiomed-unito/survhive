@@ -55,6 +55,7 @@ class CoxNet(SkSurvEstimator):
     def fit(self, X, y):
         X, y = check_X_y(X, y)
         self.model_.set_params(
+            alphas=None if self.alpha is None else [self.alpha],
             l1_ratio=self.l1_ratio,
             verbose=self.verbose,
             fit_baseline_model=True,
