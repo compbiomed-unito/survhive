@@ -14,7 +14,7 @@ def concordance_index_score(y_true, y_pred, return_all=False):
     return r if return_all else r[0]
 
 
-def _estimate_concordance_index_td(
+def _estimate_concordance_index_antolini(
     event_indicator, event_time, estimate, weights, tied_tol=1e-8
 ):
     # taken from sksurv.metrics, generalized to a time-dependant estimate matrix
@@ -64,9 +64,9 @@ def _estimate_concordance_index_td(
     return cindex, concordant, discordant, tied_risk, tied_time
 
 
-def concordance_index_td_scorer(estimator, X, y, return_all=False):
+def concordance_index_antolini_scorer(estimator, X, y, return_all=False):
     """Naive extension of concordance index to time-dependent predictions."""
-    r = _estimate_concordance_index_td(
+    r = _estimate_concordance_index_antolini(
         event_indicator=get_indicator(y),
         event_time=get_time(y),
         estimate=1.0 - estimator.predict_survival(X, get_time(y)),  # use failure

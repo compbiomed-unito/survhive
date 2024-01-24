@@ -63,7 +63,7 @@ class basic_test:
 
     def test_td_harrel_score(self):
         "assert on time-dependent Harrel score"
-        td_harrel_score = survwrap.metrics.concordance_index_td_scorer(
+        td_harrel_score = survwrap.metrics.concordance_index_antolini_scorer(
             self.model.fit(self.X, self.y), self.X, self.y
         ).round(self.rounding)
         assert (

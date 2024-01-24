@@ -3,8 +3,7 @@ from dataclasses import dataclass
 from sklearn.base import BaseEstimator
 from sklearn.utils import check_X_y, check_array
 
-# from sksurv.metrics import concordance_index_censored
-from .metrics import concordance_index_score
+from .metrics import concordance_index_antolini_scorer
 
 
 @dataclass
@@ -54,4 +53,4 @@ class SurvivalEstimator(BaseEstimator):
     def score(self, X, y):
         "return the Harrell's c-index as a sklearn score"
         X, y = check_X_y(X, y)
-        return concordance_index_score(y, self.predict(X))
+        return concordance_index_antolini_scorer(self, X, y)
