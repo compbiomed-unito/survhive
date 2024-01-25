@@ -30,7 +30,7 @@ class SkSurvEstimator(SurvivalEstimator):
         X = check_array(X)
         return numpy.array(
             [
-                numpy.interp(time, sf.x, sf.y, left=1, right=0)
+                numpy.interp(time, sf.x, sf.y, left=1)
                 for sf in self.model_.predict_survival_function(X)
             ]
         )
@@ -71,19 +71,10 @@ class CoxNet(SkSurvEstimator):
         X = check_array(X)
         return numpy.array(
             [
-                numpy.interp(time, sf.x, sf.y, left=1, right=0)
+                numpy.interp(time, sf.x, sf.y, left=1)
                 for sf in self.model_.predict_survival_function(X, alpha=self.alpha)
             ]
         )
-
-    # def predict_survival(self, X, time):
-    #     X = check_array(X)
-    #     return numpy.array(
-    #         [
-    #             numpy.interp(time, sf.x, sf.y, left=1, right=0)
-    #             for sf in self.model_.predict_survival_function(X)
-    #         ]
-    #     )
 
     @staticmethod
     def get_parameter_grid(max_width=None):
@@ -190,7 +181,7 @@ class CoxPH(SkSurvEstimator):
         # return interpolated survival
         return numpy.array(
             [
-                numpy.interp(time, _utimes, sf, left=1, right=0)
+                numpy.interp(time, _utimes, sf, left=1)
                 for sf in self.model_.predict_survival_function(X, return_array=True)
             ]
         )

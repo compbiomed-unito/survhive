@@ -4,21 +4,24 @@ from common import basic_test
 
 # init test data
 coxnet_test = basic_test()
-coxnet_test.model = survwrap.CoxNet(rng_seed=2307)
-coxnet_test.exp_score = 0.95
-coxnet_test.exp_cv_mean = 0.63
-coxnet_test.exp_cv_std = 0.04
-coxnet_test.exp_survival = [[0.99, 0.86, 0.52]]
-coxnet_test.exp_td_harrel_score = 0.95
-coxnet_test.exp_td_brier_score = -0.02
-coxnet_test.exp_td_roc_auc_score = 0.98
+coxnet_test.model = survwrap.CoxNet(
+    rng_seed=2401,
+    alpha=0.015,
+)
+coxnet_test.exp_score = 0.92
+coxnet_test.exp_cv_mean = 0.64
+coxnet_test.exp_cv_std = 0.02
+coxnet_test.exp_survival = [[0.89, 0.71, 0.52]]
+coxnet_test.exp_td_harrel_score = 0.92
+coxnet_test.exp_td_brier_score = -0.04
+coxnet_test.exp_td_roc_auc_score = 0.96
 coxnet_test.rounding = 2
 
 rsf_test = basic_test()
 rsf_test.model = survwrap.RSF(rng_seed=2309)
-rsf_test.exp_score = 0.93
+rsf_test.exp_score = 0.98
 rsf_test.exp_cv_mean = 0.63
-rsf_test.exp_cv_std = 0.04
+rsf_test.exp_cv_std = 0.01
 rsf_test.exp_survival = [[0.9, 0.79, 0.67]]
 rsf_test.exp_td_harrel_score = 0.98
 rsf_test.exp_td_brier_score = -0.07
