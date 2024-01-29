@@ -75,100 +75,46 @@ def concordance_index_antolini_scorer(estimator, X, y, return_all=False):
     return r if return_all else r[0]
 
 
-def neg_brier_score(y_true, y_pred, times):
-    # Time-dependent brier score, returned as a _negative_ values
-    # for compatibility with sklearn optimizers, that search for a
-    # maximal score
-    #
-    # y_true: shape n_samples
-    # y_pred: probability of event at time, shape n_samples x n_times
-    # times: prediction times, shape n_times
-
-    y_time = get_time(y_true)
-    y_ind = get_indicator(y_true)
-    if len(y_pred.shape) == 2:
-        y_time = y_time.reshape((-1, 1))
-        y_ind = y_ind.reshape((-1, 1))
-
-    informative = (y_time > times) | y_ind
-    positive = (y_time <= times) & y_ind
-    err = y_pred[informative] - positive[informative]
-    return -numpy.square(err).mean()
-
-
-def make_time_dependent_classification_score(score_func, aggregate="mean"):
-    """Make a time-dependent survival metric from a classification metric.
-
-    Given a time threshold t, a survival outcome can be reduced to a classification
-    outcome by taking as positives all events occurring before t and as negatives
-    all events or censorings occurring after t (censorings before t are discarded
-    as non informative).  Using this reduction at multiple times we can extend any
-    classification metric to survival.
-
-    Parameters
-    ----------
-    score_func : callable
-        Classification metric function with signature
-        ``score_func(y_true, y_pred, **kwargs)
-
-
-    Return
-    ------
-    scorer: callable with signature (y_true, y_pred, times, **kwargs)
-    """
-
-    def td_score(y_true, y_pred, times, **kwargs):
-        y_time = get_time(y_true)
-        y_ind = get_indicator(y_true)
-        if len(y_pred.shape) == 2:
-            y_time = y_time.reshape((-1, 1))
-            y_ind = y_ind.reshape((-1, 1))
-
-        informative = (y_time > times) | y_ind
-        positive = (y_time <= times) & y_ind
-
-        if len(y_pred.shape) == 2:
-            scores = numpy.array(
-                [
-                    score_func(positive[mask, i], y_pred[mask, i], **kwargs)
-                    for i, mask in enumerate(informative.T)
-                ]
-            )
-            if aggregate == "no":
-                return scores
-            elif aggregate == "mean":
-                return numpy.mean(scores)
-        else:
-            return score_func(positive[informative], y_pred[informative], **kwargs)
-
-    return td_score
-
-
-def make_time_dependent_scorer(
-    score_func, needs="failure", time_mode="events", time_values=None, **kwargs
+def make_survival_scorer(
+    score_func, needs="failure", classification=False, aggregate='mean', time_mode="events", time_values=None, **kwargs
 ):
-    """Make a scorer from a time-dependent survival metric function.
+    """
+    Create a time-dependent survival scoring function for survival analysis.
 
-    Parameters
-    ----------
-    score_func: callable
-        Time-dependent score or loss function with signature
-        ``score_func(y_true, y_pred, times, **kwargs)
-    needs: string
-        the type of survival prediction needed for td_score, one of
-        `failure`: probability of event before a given time,
-        `survival`: probability of event after a given time.
-    times: string or sequence
-        indicates at which times to evaluate td_score
+    Parameters:
+    - score_func (callable, with signature (y_pred, y_true)): A function that computes a score based on predicted and true values.
+    - needs (str, optional): The type of predictions needed. Either "failure" or "survival" probability predictions. Default is "failure".
+    - classification (bool, optional): If True, treat score_func as a classification score and run it on positive/negative events computed separately for each time point. Default is False.
+    - aggregate (str, optional): The method to aggregate scores over different time points. Options include 'mean', 'median', 'sum', or 'no' for no aggregation. Default is 'mean'.
+    - time_mode (str, optional): The mode for specifying prediction times. Options are "events" (using event times), "quantiles" (using quantiles of event times), or "absolute" (using specified absolute time values). Default is "events".
+    - time_values (array-like or float, optional): The time values depending on the chosen time_mode. If time_mode is "events", time_values should be None. If time_mode is "quantiles", time_values should be an array of quantiles between 0 and 1. If time_mode is "absolute", time_values should be an array-like object or a float representing absolute time values.
+    - **kwargs: Additional keyword arguments to be passed to the underlying score_func.
 
-    Return
-    ------
-    scorer: callable with signature (estimator, X, y)
+    Returns:
+    - scorer (callable with signature (estimator, X, y)): A time-dependent scoring function that computes score_func at different time points and aggregate the results.
+      
+    Notes:
+      that can be used 
+
+    Notes:
+    - The resulting scorer can be used as a standard scikit-learn scorer with survival outcomes and survwrap models. See the example
+
+    ```
+    from survwrap import CoxNet, load_test_data
+    from sklearn.metrics import roc_auc_score, brier_score_loss
+    roc_auc_at_quartiles = make_survival_scorer(roc_auc_score, classification=True, time_mode='quantiles', time_values=[0.25, 0.5, 0.75])
+    brier_at_quartiles = make_survival_scorer(lambda *args: -brier_score_loss(*args), classification=True, time_mode='quantiles', time_values=[0.25, 0.5, 0.75]),
+
+    X, y = load_test_data('veterans_lung_cancer')
+
+    cross_val_score(CoxNet(), X, y, scoring=roc_auc_at_quartiles)
+    ```
     """
 
     def scorer(estimator, X, y):
         event_times = get_time(y)[get_indicator(y)]
 
+        # get evaluation times
         if time_mode == "events":
             pred_times = event_times
         elif time_mode == "quantiles":
@@ -177,19 +123,50 @@ def make_time_dependent_scorer(
             pred_times = time_values
         else:  # keep as is, must be a scalar or sequence
             raise ValueError('needs must be either "events", "quantiles" or "absolute"')
-
+        
+        # compute predictions at pred_times
         if needs == "failure":
             y_pred = 1.0 - estimator.predict_survival(X, pred_times)
         elif needs == "survival":
             y_pred = estimator.predict_survival(X, pred_times)
         else:
             raise ValueError('needs must be either "failure" or "survival"')
-        return score_func(y, y_pred, pred_times, **kwargs)
+        
+        # run score_func at each time
+        scores = []
+        for p, t in zip(y_pred.T, pred_times):
+            if classification:
+                y_time = get_time(y)
+                y_ind = get_indicator(y)
+
+                informative = (y_time > t) | y_ind
+                positive = (y_time <= t) & y_ind
+
+                score = score_func(positive[informative], p[informative])
+            else:
+                score = score_func(y, p)
+            if score != score:
+                print(f'bad survival score at time {t} computed by {score_func}')
+            scores.append(score)
+
+        # aggregate scores for different times
+        if aggregate == 'no':
+            return numpy.array(scores)
+        else:
+            if hasattr(numpy, aggregate):
+                return getattr(numpy, aggregate)(scores)
+            else:
+                raise ValueError(f'unknonw aggregate value `{aggregate}`')
+
+    scorer.__name__ = score_func.__name__ + '_td_scorer'
 
     return scorer
 
-
-def roc_auc_td_score(y_true, y_pred, times):
-    "returns the ROC AUC score at times"
-    _auc_td_score = make_time_dependent_classification_score(roc_auc_score)
-    return _auc_td_score(y_true, y_pred, times)
+from sklearn.metrics import roc_auc_score, brier_score_loss
+_qt = dict(time_mode='quantiles', time_values=numpy.linspace(0, 1, 5)[1:-1])
+_SCORERS = {
+    'c-index-antolini': concordance_index_antolini_scorer,
+    'c-index-quartiles': make_survival_scorer(concordance_index_score, classification=False, **_qt), # FIXME this is not a good score, maybe remove it from this list
+    'roc-auc-quartiles': make_survival_scorer(roc_auc_score, classification=True, **_qt),
+    'neg-brier-quartiles': make_survival_scorer(lambda *args: -brier_score_loss(*args), classification=True, **_qt),
+}

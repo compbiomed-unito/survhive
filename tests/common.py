@@ -1,6 +1,7 @@
 import survwrap
 import numpy as np
 from sklearn.model_selection import cross_val_score
+from sklearn.metrics import roc_auc_score, brier_score_loss
 from dataclasses import field
 from sklearn.utils.estimator_checks import check_estimator
 from sklearn.preprocessing import StandardScaler
@@ -79,9 +80,11 @@ class basic_test:
 
     def test_td_neg_brier_score(self):
         "assert on time-dependent brier score"
-        scorer = survwrap.metrics.make_time_dependent_scorer(
-            survwrap.metrics.neg_brier_score,
-            time_mode="quantiles",
+        scorer = survwrap.metrics.make_survival_scorer(
+            lambda *args: -brier_score_loss(*args),
+            classification=True, 
+            aggregation='mean',
+            time_mode='quantiles', 
             time_values=[0.1, 0.25, 0.4, 0.5, 0.6, 0.75],
         )
         td_brier_score = scorer(self.model.fit(self.X, self.y), self.X, self.y).round(
@@ -93,12 +96,11 @@ class basic_test:
 
     def test_td_roc_auc_score(self):
         "assert on time-dependent ROC AUC score"
-        td_auc_score = survwrap.metrics.make_time_dependent_classification_score(
-            survwrap.metrics.roc_auc_score, aggregate="mean"
-        )
-        scorer = survwrap.metrics.make_time_dependent_scorer(
-            td_auc_score,
-            time_mode="quantiles",
+        scorer = survwrap.metrics.make_survival_scorer(
+            roc_auc_score, 
+            classification=True, 
+            aggregation='mean',
+            time_mode='quantiles', 
             time_values=[0.1, 0.25, 0.4, 0.5, 0.6, 0.75],
         )
         td_roc_auc_score = scorer(self.model.fit(self.X, self.y), self.X, self.y).round(
