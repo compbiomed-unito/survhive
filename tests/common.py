@@ -82,9 +82,9 @@ class basic_test:
         "assert on time-dependent brier score"
         scorer = survwrap.metrics.make_survival_scorer(
             lambda *args: -brier_score_loss(*args),
-            classification=True, 
-            aggregation='mean',
-            time_mode='quantiles', 
+            classification=True,
+            aggregation="mean",
+            time_mode="quantiles",
             time_values=[0.1, 0.25, 0.4, 0.5, 0.6, 0.75],
         )
         td_brier_score = scorer(self.model.fit(self.X, self.y), self.X, self.y).round(
@@ -97,10 +97,10 @@ class basic_test:
     def test_td_roc_auc_score(self):
         "assert on time-dependent ROC AUC score"
         scorer = survwrap.metrics.make_survival_scorer(
-            roc_auc_score, 
-            classification=True, 
-            aggregation='mean',
-            time_mode='quantiles', 
+            roc_auc_score,
+            classification=True,
+            aggregation="mean",
+            time_mode="quantiles",
             time_values=[0.1, 0.25, 0.4, 0.5, 0.6, 0.75],
         )
         td_roc_auc_score = scorer(self.model.fit(self.X, self.y), self.X, self.y).round(
