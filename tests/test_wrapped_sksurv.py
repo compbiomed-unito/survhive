@@ -1,10 +1,10 @@
 import pytest
-import survwrap
+import survhive
 from common import basic_test
 
 # init test data
 coxnet_test = basic_test()
-coxnet_test.model = survwrap.CoxNet(
+coxnet_test.model = survhive.CoxNet(
     rng_seed=2401,
     alpha=0.015,
 )
@@ -18,7 +18,7 @@ coxnet_test.exp_td_roc_auc_score = 0.96
 coxnet_test.rounding = 2
 
 rsf_test = basic_test()
-rsf_test.model = survwrap.RSF(rng_seed=2309)
+rsf_test.model = survhive.RSF(rng_seed=2309)
 rsf_test.exp_score = 0.98
 rsf_test.exp_cv_mean = 0.63
 rsf_test.exp_cv_std = 0.01
@@ -29,8 +29,8 @@ rsf_test.exp_td_roc_auc_score = 0.99
 rsf_test.rounding = 2
 
 coxph_test = basic_test()
-coxph_test.model = survwrap.CoxPH(rng_seed=2311, alpha=0.1)
-# coxph_test.X, coxph_test.y = survwrap.load_test_data()
+coxph_test.model = survhive.CoxPH(rng_seed=2311, alpha=0.1)
+# coxph_test.X, coxph_test.y = survhive.load_test_data()
 coxph_test.X = coxph_test.X
 coxph_test.exp_score = 0.94
 coxph_test.exp_cv_mean = 0.63

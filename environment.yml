@@ -1,4 +1,4 @@
-name: survwrap-pycox
+name: survhive-pycox
 channels:
   - sebp
   - conda-forge

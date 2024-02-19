@@ -1,4 +1,4 @@
-# survwrap (codename)
+# survhive (codename)
 Convenient wrapper of various (deep) survival model
 
 ## Main objective

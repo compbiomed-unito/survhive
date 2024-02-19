@@ -3,7 +3,7 @@ requires = ["flit_core >=3.2,<4"]
 build-backend = "flit_core.buildapi"
 
 [project]
-name = "survwrap"
+name = "survhive"
 authors = [{name = "Computational BioMedicine - Univ. of Torino", email = "piero.fariselli@unito.it"}]
 description = "A convenient, opinionated wrapper around some (deep) survival models."
 readme = "README.md"
@@ -33,7 +33,7 @@ dev = [
 ]
 
 [project.urls]
-Home = "https://github.com/compbiomed-unito/survwrap"
+Home = "https://github.com/compbiomed-unito/survhive"
 
 
 [tool.ruff]

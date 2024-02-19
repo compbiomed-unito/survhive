@@ -118,10 +118,10 @@ def make_survival_scorer(
 
     Notes:
     - The resulting scorer can be used as a standard scikit-learn scorer with
-      survival outcomes and survwrap models. See the example
+      survival outcomes and survhive models. See the example
 
     ```
-    from survwrap import CoxNet, load_test_data
+    from survhive import CoxNet, load_test_data
     from sklearn.metrics import roc_auc_score, brier_score_loss
     roc_auc_at_quartiles = make_survival_scorer(roc_auc_score, classification=True,
                                                 time_mode='quantiles',

@@ -1,4 +1,4 @@
-import survwrap
+import survhive
 import numpy as np
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import roc_auc_score, brier_score_loss
@@ -6,7 +6,7 @@ from dataclasses import field
 from sklearn.utils.estimator_checks import check_estimator
 from sklearn.preprocessing import StandardScaler
 
-test_X, test_y = survwrap.load_test_data()
+test_X, test_y = survhive.load_test_data()
 test_X = StandardScaler().fit_transform(test_X)
 
 
@@ -19,7 +19,7 @@ class basic_test:
     4. calculates mean and std for the CV and compares them to their expected values.
     """
 
-    model: field(default_factory=survwrap.SurvivalEstimator)
+    model: field(default_factory=survhive.SurvivalEstimator)
     X: field(default_factory=test_X) = test_X
     y: field(default_factory=test_y) = test_y
     exp_score: float
@@ -64,7 +64,7 @@ class basic_test:
 
     def test_td_harrel_score(self):
         "assert on time-dependent Harrel score"
-        td_harrel_score = survwrap.metrics.concordance_index_antolini_scorer(
+        td_harrel_score = survhive.metrics.concordance_index_antolini_scorer(
             self.model.fit(self.X, self.y), self.X, self.y
         ).round(self.rounding)
         assert (
@@ -74,13 +74,13 @@ class basic_test:
     def test_predict_survival(self):
         "assert on survival score"
         a_survival_score = self.model.predict_survival(
-            self.X[4:5], survwrap.event_quantiles(self.y)
+            self.X[4:5], survhive.event_quantiles(self.y)
         ).round(self.rounding)
         np.testing.assert_array_almost_equal(a_survival_score, self.exp_survival)
 
     def test_td_neg_brier_score(self):
         "assert on time-dependent brier score"
-        scorer = survwrap.metrics.make_survival_scorer(
+        scorer = survhive.metrics.make_survival_scorer(
             lambda *args: -brier_score_loss(*args),
             classification=True,
             aggregation="mean",
@@ -96,7 +96,7 @@ class basic_test:
 
     def test_td_roc_auc_score(self):
         "assert on time-dependent ROC AUC score"
-        scorer = survwrap.metrics.make_survival_scorer(
+        scorer = survhive.metrics.make_survival_scorer(
             roc_auc_score,
             classification=True,
             aggregation="mean",
@@ -113,7 +113,7 @@ class basic_test:
 
 #  init test data example
 # dsm_test = basic_test()
-# dsm_test.model = survwrap.DeepSurvivalMachines(
+# dsm_test.model = survhive.DeepSurvivalMachines(
 #     rng_seed=2307, max_epochs=20, layer_sizes=[10, 10, 10]
 # )
 # dsm_test.X = test_X

@@ -1,11 +1,11 @@
 import pytest
-import survwrap
+import survhive
 from common import basic_test
 
 # init test data
 pycox_test = basic_test()
 #
-pycox_test.model = survwrap.DeepHitSingle(
+pycox_test.model = survhive.DeepHitSingle(
     epochs=100,
     layer_sizes=[7, 7],
     learning_rate=0.005,

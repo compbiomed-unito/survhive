@@ -285,7 +285,7 @@ cross_val_score(CoxnetSurvivalAnalysis(), X, y, scoring=concordance_index_score)
 # In[ ]:
 
 
-import survwrap
+import survhive
 
 
 # In[ ]:

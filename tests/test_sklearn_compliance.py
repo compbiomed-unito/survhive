@@ -4,7 +4,7 @@
 # specification.
 
 from sklearn.utils.estimator_checks import check_estimator
-from survwrap import SurvivalEstimator
+from survhive import SurvivalEstimator
 
 
 def sklearn_compliance(TestedEstimator):

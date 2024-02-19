@@ -41,7 +41,7 @@ Ovviamente è molto meglio fare l'installazione all interno di un [virtual envir
     a.  installazione direttamente dal repo
 
         ~~~ {.bash}
-        python -m pip install "survwrap @ git+ssh://git@github.com/compbiomed-unito/survwrap.git"
+        python -m pip install "survhive @ git+ssh://git@github.com/compbiomed-unito/survhive.git"
         ~~~
 
 Se non funziona si puo' provare "a calci e pugni":

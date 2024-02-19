@@ -1,10 +1,10 @@
 import pytest
-import survwrap
+import survhive
 from common import basic_test
 
 # init test data
 fastcph_test = basic_test()
-fastcph_test.model = survwrap.FastCPH(
+fastcph_test.model = survhive.FastCPH(
     rng_seed=2401,
     layer_sizes=[4, 4, 4],
     tie_approximation="efron"

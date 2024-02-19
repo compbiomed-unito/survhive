@@ -1,6 +1,6 @@
 "tests on bechmark datasets integrity and format conversions"
 
-import survwrap as hive
+import survhive as hive
 import pytest
 import os
 from sksurv.util import check_array_survival

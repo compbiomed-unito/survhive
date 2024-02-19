@@ -9,10 +9,10 @@ test:
 	python3 -m pytest tests/*.py
 
 black: 
-	black survwrap/*.py tests/*.py
+	black survhive/*.py tests/*.py
 
 lint: ctags
-	ruff survwrap/*.py tests/*.py
+	ruff survhive/*.py tests/*.py
 
 ctags: 
-	ctags-universal -R survwrap/ tests/
+	ctags-universal -R survhive/ tests/

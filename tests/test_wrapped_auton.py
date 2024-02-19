@@ -1,10 +1,10 @@
 import pytest
-import survwrap
+import survhive
 from common import basic_test
 
 # init test data
 dsm_test = basic_test()
-dsm_test.model = survwrap.DeepSurvivalMachines(
+dsm_test.model = survhive.DeepSurvivalMachines(
     rng_seed=2307,
     torch_threads=2,
     batch_size=10,

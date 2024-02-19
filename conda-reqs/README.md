@@ -15,5 +15,5 @@ NB non essendo un export *i canali vanno specificate in command line in ordine d
 
 * base-env.yml : mamba git pip  
 * sksurv-env.yml: la precedente + jupyterlab, scikit-survival
-* survwrap-pycox-env.yml: la precedente + pycox (pytorch come dipendenza)
+* survhive-pycox-env.yml: la precedente + pycox (pytorch come dipendenza)
 

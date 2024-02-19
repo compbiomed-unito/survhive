@@ -18,13 +18,13 @@ import sklearn
 # In[52]:
 
 
-import survwrap
+import survhive
 
 
 # In[53]:
 
 
-#X, y = survwrap.load_test_data()
+#X, y = survhive.load_test_data()
 #X.shape, y.shape
 
 
@@ -32,7 +32,7 @@ import survwrap
 
 
 my_data='flchain'
-my_data_df=survwrap.datasets.get_data(my_data)
+my_data_df=survhive.datasets.get_data(my_data)
 seed=2312
 
 
@@ -56,7 +56,7 @@ from sklearn.preprocessing import StandardScaler, RobustScaler
 # In[57]:
 
 
-X_train, X_test, y_train, y_test = survwrap.survival_train_test_split(X, y,rng_seed=2311)
+X_train, X_test, y_train, y_test = survhive.survival_train_test_split(X, y,rng_seed=2311)
 
 
 # In[58]:
@@ -79,14 +79,14 @@ X_train.shape, X_test.shape
 # In[60]:
 
 
-survwrap.get_indicator(y).sum(), survwrap.get_indicator(y_train).sum(), survwrap.get_indicator(y_test).sum(),
+survhive.get_indicator(y).sum(), survhive.get_indicator(y_train).sum(), survhive.get_indicator(y_test).sum(),
 
 
 # In[61]:
 
 
-splitter = survwrap.survival_crossval_splitter(X_train,y_train,n_splits=3, n_repeats=2,rng_seed=2309)
-print([ (survwrap.get_indicator(y_train[_[1]]).sum()) for _ in splitter])
+splitter = survhive.survival_crossval_splitter(X_train,y_train,n_splits=3, n_repeats=2,rng_seed=2309)
+print([ (survhive.get_indicator(y_train[_[1]]).sum()) for _ in splitter])
 
 
 # ## check possible dimensionality reduction
@@ -154,11 +154,11 @@ fastcph
 
 #y_swap
 #from pandas import DataFrame
-#y_df= DataFrame({'time': survwrap.get_time(y_train),'event':survwrap.get_indicator(y_train)})
-yup=numpy.column_stack((survwrap.get_time(y_train).astype('float32'),
-                        survwrap.get_indicator(y_train).astype('float32')))
+#y_df= DataFrame({'time': survhive.get_time(y_train),'event':survhive.get_indicator(y_train)})
+yup=numpy.column_stack((survhive.get_time(y_train).astype('float32'),
+                        survhive.get_indicator(y_train).astype('float32')))
 print(type(yup))
-#yup=numpy.array(list(zip(survwrap.get_indicator(y_train).astype(float),survwrap.get_time(y_train).astype(float))))
+#yup=numpy.array(list(zip(survhive.get_indicator(y_train).astype(float),survhive.get_time(y_train).astype(float))))
 yup[:10]
 X_train.shape, yup.shape
 #numpy.ndarray(y_train[1], y_train[0])
@@ -239,9 +239,9 @@ fastcph.score(X_train,yup)
 
 #y_swap
 #from pandas import DataFrame
-#y_df= DataFrame({'time': survwrap.get_time(y_train),'event':survwrap.get_indicator(y_train)})
-yup_test=numpy.column_stack((survwrap.get_time(y_test).astype('float32'),
-                        survwrap.get_indicator(y_test).astype('float32')))
+#y_df= DataFrame({'time': survhive.get_time(y_train),'event':survhive.get_indicator(y_train)})
+yup_test=numpy.column_stack((survhive.get_time(y_test).astype('float32'),
+                        survhive.get_indicator(y_test).astype('float32')))
 print(type(yup_test))
 X_test.shape, yup_test.shape
 #numpy.ndarray(y_train[1], y_train[0])
@@ -258,7 +258,7 @@ fastcph.score(X_test,yup_test)
 # In[87]:
 
 
-cv_set=survwrap.survival_crossval_splitter(X_train,y_train,
+cv_set=survhive.survival_crossval_splitter(X_train,y_train,
                                            n_repeats=1,
                                           rng_seed=seed)
 cv_set

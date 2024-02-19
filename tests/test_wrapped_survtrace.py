@@ -1,10 +1,10 @@
 import pytest
-import survwrap
+import survhive
 from common import basic_test
 
 # init test data
 trace_test = basic_test()
-trace_test.model = survwrap.SurvTraceSingle(
+trace_test.model = survhive.SurvTraceSingle(
     rng_seed=2310,
     num_durations=10,
     # hidden_size=32,
