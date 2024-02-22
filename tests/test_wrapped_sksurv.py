@@ -41,6 +41,17 @@ coxph_test.exp_td_brier_score = -0.02
 coxph_test.exp_td_roc_auc_score = 0.98
 coxph_test.rounding = 2
 
+grbsa_test = basic_test()
+grbsa_test.model = survhive.GrBoostSA(rng_seed=2402)
+grbsa_test.exp_score = 0.98
+grbsa_test.exp_cv_mean = 0.59
+grbsa_test.exp_cv_std = 0.03
+grbsa_test.exp_survival = [[0.91, 0.73, 0.48]]
+grbsa_test.exp_td_harrel_score = 0.98
+grbsa_test.exp_td_brier_score = -0.03
+grbsa_test.exp_td_roc_auc_score = 0.99
+grbsa_test.rounding = 2
+
 
 def test_sksurv_data_is_loading(X=coxnet_test.X):
     assert X.shape == (198, 84)
@@ -61,4 +72,10 @@ def test_evaluation_rsf(testmethod):
 # coxph_test.run
 @pytest.mark.parametrize("testmethod", coxph_test.get_tests())
 def test_evaluation_coxph(testmethod):
+    testmethod()
+
+
+# grbsa.run
+@pytest.mark.parametrize("testmethod", grbsa_test.get_tests())
+def test_evaluation_grbsa(testmethod):
     testmethod()

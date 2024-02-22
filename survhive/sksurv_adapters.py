@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from sklearn.utils import check_X_y, check_array
 from .adapter import SurvivalEstimator
 from sksurv.linear_model import CoxnetSurvivalAnalysis, CoxPHSurvivalAnalysis
-from sksurv.ensemble import RandomSurvivalForest
+from sksurv.ensemble import RandomSurvivalForest, GradientBoostingSurvivalAnalysis
 
 
 class SkSurvEstimator(SurvivalEstimator):
@@ -216,4 +216,51 @@ class CoxPH(SkSurvEstimator):
                 0.4,
                 0.5,
             ],
+        )
+
+
+@dataclass
+class GrBoostSA(SkSurvEstimator):
+    """
+    Adapter for the GradientBoostingSurvivalAnalysis method from scikit-survival
+    """
+
+    model_ = GradientBoostingSurvivalAnalysis()
+
+    # init
+    # l1_ratio: float = 0.5
+    # fit_baseline_model: bool = False
+    n_estimators: int = 100
+    max_depth: int = None
+    min_samples_split: float = 0.1
+    min_samples_leaf: float = 0.05
+    validation_fraction: float = 0.1
+    patience: int = 5
+
+    def fit(self, X, y):
+        X, y = check_X_y(X, y)
+        self.model_.set_params(
+            n_estimators=self.n_estimators,
+            max_depth=self.max_depth,
+            min_samples_split=self.min_samples_split,
+            min_samples_leaf=self.min_samples_leaf,
+            validation_fraction=self.validation_fraction,
+            n_iter_no_change=self.patience,
+            verbose=self.verbose,
+            random_state=self.rng_seed,
+        )
+        self.model_ = self.model_.fit(X, y)
+        return self
+
+    def get_parameter_grid(self, max_width=None):
+        """Generate default parameter grid for optimization
+        Here max_width does nothing, it is pesent to keep the API uniform
+        with the deep-learning-based methods.
+        """
+        return dict(
+            n_estimators=[50, 100, 200],
+            max_depth=[self.max_depth],
+            min_samples_split=[self.min_samples_split],
+            min_samples_leaf=[self.min_samples_leaf],
+            patience=[None, self.patience],
         )
