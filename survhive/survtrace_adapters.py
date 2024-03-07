@@ -76,7 +76,7 @@ class SurvTraceSingle(SurvivalEstimator):
         X, y = check_X_y(X, y)
         self._seed_rngs()
         if self.device:
-            torch.cuda.device(self.device)
+            torch.device(self.device)
 
         # detect competing risks
         num_risks = numpy.max(get_indicator(y).astype(float))
