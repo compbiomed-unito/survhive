@@ -1,5 +1,6 @@
 from math import prod
-from pandas import DataFrame
+from functools import reduce
+from pandas import DataFrame, Index
 from sklearn.model_selection import (
     GridSearchCV,
     RandomizedSearchCV,
@@ -103,3 +104,18 @@ def get_model_scores_df(search):
     return DataFrame(
         [search.cv_results_[_] for _ in labelz], index=labelz
     ).T.sort_values("_".join(["rank_test", zcored_by]))
+
+
+def get_model_top_ranking_df(search):
+    """
+    Returns a pandas dataframe containing the top-ranking solutions
+    for each score specified in an optimization search result.
+    This is a subset of what reported from the get_model_scores_df function.
+    """
+    _scores_df = get_model_scores_df(search)
+    # top_scorers
+    ranks = [_ for _ in list(_scores_df.columns) if _.startswith("rank")]
+    _top_scorers_ndx = reduce(
+        Index.append, [_scores_df.index[_scores_df[_] == 1] for _ in ranks]
+    ).unique()
+    return _scores_df.loc[_top_scorers_ndx]

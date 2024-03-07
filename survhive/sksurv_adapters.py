@@ -258,9 +258,13 @@ class GrBoostSA(SkSurvEstimator):
         with the deep-learning-based methods.
         """
         return dict(
-            n_estimators=[50, 100, 200],
+            n_estimators=[
+                50,
+                100,
+                200,
+            ],
             max_depth=[self.max_depth],
-            min_samples_split=[self.min_samples_split],
-            min_samples_leaf=[self.min_samples_leaf],
+            min_samples_split=[self.min_samples_split / _ for _ in [1, 2]],
+            min_samples_leaf=[self.min_samples_leaf / _ for _ in [1, 2, 5]],
             patience=[None, self.patience],
         )
