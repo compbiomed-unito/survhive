@@ -43,6 +43,8 @@ class SurvTraceSingle(SurvivalEstimator):
     num_attention_heads: int = 2
     validation_size: float = 0.1
     rng_seed: int = None
+    device: str = None
+
     # hidden_dropout_prob: float = 0.0
     #  'num_event': 1,
     #  'hidden_act': 'gelu',
@@ -73,6 +75,8 @@ class SurvTraceSingle(SurvivalEstimator):
 
         X, y = check_X_y(X, y)
         self._seed_rngs()
+        if self.device:
+            torch.cuda.device(self.device)
 
         # detect competing risks
         num_risks = numpy.max(get_indicator(y).astype(float))

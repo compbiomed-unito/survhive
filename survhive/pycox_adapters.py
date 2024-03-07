@@ -38,7 +38,6 @@ class DeepHitSingle(SurvivalEstimator):
     learning_rate: float = 0.001
     dropout: float = 0.1
     device: str = "cpu"
-    verbose = bool = False
 
     def _seed_rngs(self):
         "seed the random number generators involved in the model fit"
