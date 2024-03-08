@@ -42,6 +42,8 @@ class SurvTraceSingle(SurvivalEstimator):
     num_hidden_layers: int = 3
     num_attention_heads: int = 2
     validation_size: float = 0.1
+    batch_size: int = 64
+    epochs: int = 100
     rng_seed: int = None
     device: str = None
 
@@ -174,6 +176,8 @@ class SurvTraceSingle(SurvivalEstimator):
                 preprocessed_y_df["train"],
             ),
             (pandas.DataFrame(_X["val"].astype("float32")), preprocessed_y_df["val"]),
+            batch_size=self.batch_size,
+            epochs=self.epochs,
         )
         return self
 
