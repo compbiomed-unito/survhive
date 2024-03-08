@@ -32,12 +32,13 @@ class DeepHitSingle(SurvivalEstimator):
     # qui mettiamo i parametri per la forma della rete,
     # cercherei di fare qualcosa che rispetti il paper originale
     layer_sizes: Sequence[int] = field(default_factory=lambda: [10, 10])
-    epochs: int = 10  # maybe implement also early stopping
-    batch_size: int = 16
+    epochs: int = 100
+    batch_size: int = 64
     validation_size: float = 0.1
     learning_rate: float = 0.001
-    dropout: float = 0.1
+    dropout: float = 0.2
     device: str = "cpu"
+    verbose: bool = False
 
     def _seed_rngs(self):
         "seed the random number generators involved in the model fit"
@@ -129,10 +130,9 @@ class DeepHitSingle(SurvivalEstimator):
     @staticmethod
     def get_parameter_grid(max_width):
         return dict(
-            num_durations=[10],
             layer_sizes=generate_topology_grid(max_width),
-            epochs=[100],
-            batch_size=[16, 32],
-            dropout=[0.1, 0.2, 0.3],
-            validation_size=[0.1],
+            # epochs=[100],
+            # batch_size=[16, 32],
+            dropout=[0.1, 0.2, 0.5],
+            # validation_size=[0.1],
         )
