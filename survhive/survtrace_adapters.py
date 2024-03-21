@@ -42,6 +42,9 @@ class SurvTraceSingle(SurvivalEstimator):
     num_hidden_layers: int = 3
     num_attention_heads: int = 2
     validation_size: float = 0.1
+    hidden_dropout: float = 0.0
+    attention_dropout: float = 0.1
+    patience: int = 5
     batch_size: int = 64
     epochs: int = 100
     rng_seed: int = None
@@ -149,6 +152,9 @@ class SurvTraceSingle(SurvivalEstimator):
         STConfig["intermediate_size"] = self.intermediate_size
         STConfig["num_hidden_layers"] = self.num_hidden_layers
         STConfig["num_attention_heads"] = self.num_attention_heads
+        STConfig["early_stop_patience"] = self.patience
+        STConfig['hidden_dropout_prob'] = self.hidden_dropout
+        STConfig['attention_probs_dropout_prob'] = self.attention_dropout
 
         # constrained parameters
         STConfig["seed"] = self.rng_seed
@@ -164,7 +170,6 @@ class SurvTraceSingle(SurvivalEstimator):
         STConfig["duration_index"] = self.labtrans_.cuts
         STConfig["out_feature"] = int(self.labtrans_.out_features)
         STConfig["num_event"] = num_risks
-        # STConfig["early_stop_patience"] = 10
 
         self.model_ = SurvTraceSingle(STConfig)
 
