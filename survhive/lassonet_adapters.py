@@ -121,7 +121,7 @@ class FastCPH(SurvivalEstimator):
 
     @staticmethod
     def get_parameter_grid(max_width=None):
-        if not max_width:
+        if max_width is not None:
             _mw = max_width
         else:
             _mw = 8
