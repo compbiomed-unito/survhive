@@ -153,8 +153,8 @@ class SurvTraceSingle(SurvivalEstimator):
         STConfig["num_hidden_layers"] = self.num_hidden_layers
         STConfig["num_attention_heads"] = self.num_attention_heads
         STConfig["early_stop_patience"] = self.patience
-        STConfig['hidden_dropout_prob'] = self.hidden_dropout
-        STConfig['attention_probs_dropout_prob'] = self.attention_dropout
+        STConfig["hidden_dropout_prob"] = self.hidden_dropout
+        STConfig["attention_probs_dropout_prob"] = self.attention_dropout
 
         # constrained parameters
         STConfig["seed"] = self.rng_seed

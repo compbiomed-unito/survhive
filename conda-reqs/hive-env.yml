@@ -37,4 +37,5 @@ dependencies:
     - "auton-survival @ git+https://github.com/IvanUniTO/auton-survival.git@v1.0.1+tosa"
     - "survtrace @ git+https://github.com/IvanUniTO/survTRACE.git@1.0.3+hive"
     - lassonet == 0.0.14
+    - pdoc
     # - "survhive @ git+ssh://git@github.com/compbiomed-unito/survhive.git"

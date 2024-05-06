@@ -1,4 +1,8 @@
 # ruff: noqa: F403
+"""
+SurvHive is a convenient, opinionated wrapper around some survival models, 
+with special emphasis on those based on deep neural networks.
+"""
 
 from .metrics import *
 from .adapter import *
