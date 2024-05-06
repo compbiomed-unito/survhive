@@ -28,6 +28,7 @@ dev = [
   "flit",
   "ruff",
   "black",
+  "pdoc",
   "jupyterlab",
   "papermill",
 ]
