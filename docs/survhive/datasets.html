@@ -104,7 +104,7 @@
 </span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>
 </span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>
 </span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="k">def</span> <span class="nf">list_available_datasets</span><span class="p">():</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>    <span class="s2">&quot;list the available benchmark datasets&quot;</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>    <span class="s2">&quot;list of the available benchmark datasets&quot;</span>
 </span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>    <span class="k">return</span> <span class="n">_available_datasets</span>
 </span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>
 </span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>
@@ -127,28 +127,34 @@
 </span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>
 </span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>    <span class="k">def</span> <span class="nf">get_X_y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>        <span class="c1"># &quot;return dataset in scikit-survival format&quot;</span>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>        <span class="s2">&quot;return dataset as two numpy ndarrays&quot;</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the dataset in scikit-survival format).</span>
 </span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>        <span class="n">_X</span><span class="p">,</span> <span class="n">_y</span> <span class="o">=</span> <span class="n">get_x_y</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">attr_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="n">pos_label</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>        <span class="k">return</span> <span class="n">_X</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">ndarray</span><span class="p">),</span> <span class="n">_y</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>
-</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>    <span class="k">def</span> <span class="nf">index_zero_times</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="sd">        Return pandas indexes of event with a zero time.</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="sd">        Usually these data points should be removed.</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="sd">        Removal can be performed *inplace* using the discard_zero_times method.</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>
-</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>    <span class="k">def</span> <span class="nf">discard_zero_times</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a><span class="sd">        In-place (side effects!) discard data points with zero times.</span>
-</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a><span class="sd">        Returns the new shape of the dataset.</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a>        <span class="n">_zeroes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_zero_times</span><span class="p">()</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">_zeroes</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
-</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">_zeroes</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="sd">        Returns:</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="sd">            two numpy ndarrays containing features and (event,time) ndarray.</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>        <span class="n">_X</span><span class="p">,</span> <span class="n">_y</span> <span class="o">=</span> <span class="n">get_x_y</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">attr_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="n">pos_label</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>        <span class="k">return</span> <span class="n">_X</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">ndarray</span><span class="p">),</span> <span class="n">_y</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>    <span class="k">def</span> <span class="nf">index_zero_times</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a><span class="sd">        Returns pandas indexes of event with a zero time.</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a><span class="sd">        Usually these data points should be removed.</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a><span class="sd">        Removal can be performed **inplace** using the *discard_zero_times* method.</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>
+</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>    <span class="k">def</span> <span class="nf">discard_zero_times</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a><span class="sd">        In-place discards (*side effects!*) data points with zero times.</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>
+</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a><span class="sd">        Returns:</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a><span class="sd">            the new shape of the dataset.</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a>        <span class="n">_zeroes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_zero_times</span><span class="p">()</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">_zeroes</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">_zeroes</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">shape</span>
 </span></pre></div>
 
 
@@ -165,12 +171,12 @@
     </div>
     <a class="headerlink" href="#list_available_datasets"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="list_available_datasets-22"><a href="#list_available_datasets-22"><span class="linenos">22</span></a><span class="k">def</span> <span class="nf">list_available_datasets</span><span class="p">():</span>
-</span><span id="list_available_datasets-23"><a href="#list_available_datasets-23"><span class="linenos">23</span></a>    <span class="s2">&quot;list the available benchmark datasets&quot;</span>
+</span><span id="list_available_datasets-23"><a href="#list_available_datasets-23"><span class="linenos">23</span></a>    <span class="s2">&quot;list of the available benchmark datasets&quot;</span>
 </span><span id="list_available_datasets-24"><a href="#list_available_datasets-24"><span class="linenos">24</span></a>    <span class="k">return</span> <span class="n">_available_datasets</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>list the available benchmark datasets</p>
+            <div class="docstring"><p>list of the available benchmark datasets</p>
 </div>
 
 
@@ -221,28 +227,34 @@
 </span><span id="dataset-43"><a href="#dataset-43"><span class="linenos">43</span></a>
 </span><span id="dataset-44"><a href="#dataset-44"><span class="linenos">44</span></a>    <span class="k">def</span> <span class="nf">get_X_y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="dataset-45"><a href="#dataset-45"><span class="linenos">45</span></a>        <span class="c1"># &quot;return dataset in scikit-survival format&quot;</span>
-</span><span id="dataset-46"><a href="#dataset-46"><span class="linenos">46</span></a>        <span class="s2">&quot;return dataset as two numpy ndarrays&quot;</span>
+</span><span id="dataset-46"><a href="#dataset-46"><span class="linenos">46</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the dataset in scikit-survival format).</span>
 </span><span id="dataset-47"><a href="#dataset-47"><span class="linenos">47</span></a>
-</span><span id="dataset-48"><a href="#dataset-48"><span class="linenos">48</span></a>        <span class="n">_X</span><span class="p">,</span> <span class="n">_y</span> <span class="o">=</span> <span class="n">get_x_y</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">attr_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="n">pos_label</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</span><span id="dataset-49"><a href="#dataset-49"><span class="linenos">49</span></a>        <span class="k">return</span> <span class="n">_X</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">ndarray</span><span class="p">),</span> <span class="n">_y</span>
-</span><span id="dataset-50"><a href="#dataset-50"><span class="linenos">50</span></a>
-</span><span id="dataset-51"><a href="#dataset-51"><span class="linenos">51</span></a>    <span class="k">def</span> <span class="nf">index_zero_times</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="dataset-52"><a href="#dataset-52"><span class="linenos">52</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="dataset-53"><a href="#dataset-53"><span class="linenos">53</span></a><span class="sd">        Return pandas indexes of event with a zero time.</span>
-</span><span id="dataset-54"><a href="#dataset-54"><span class="linenos">54</span></a><span class="sd">        Usually these data points should be removed.</span>
-</span><span id="dataset-55"><a href="#dataset-55"><span class="linenos">55</span></a><span class="sd">        Removal can be performed *inplace* using the discard_zero_times method.</span>
-</span><span id="dataset-56"><a href="#dataset-56"><span class="linenos">56</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="dataset-57"><a href="#dataset-57"><span class="linenos">57</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
-</span><span id="dataset-58"><a href="#dataset-58"><span class="linenos">58</span></a>
-</span><span id="dataset-59"><a href="#dataset-59"><span class="linenos">59</span></a>    <span class="k">def</span> <span class="nf">discard_zero_times</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="dataset-60"><a href="#dataset-60"><span class="linenos">60</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="dataset-61"><a href="#dataset-61"><span class="linenos">61</span></a><span class="sd">        In-place (side effects!) discard data points with zero times.</span>
-</span><span id="dataset-62"><a href="#dataset-62"><span class="linenos">62</span></a><span class="sd">        Returns the new shape of the dataset.</span>
-</span><span id="dataset-63"><a href="#dataset-63"><span class="linenos">63</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="dataset-64"><a href="#dataset-64"><span class="linenos">64</span></a>        <span class="n">_zeroes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_zero_times</span><span class="p">()</span>
-</span><span id="dataset-65"><a href="#dataset-65"><span class="linenos">65</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">_zeroes</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
-</span><span id="dataset-66"><a href="#dataset-66"><span class="linenos">66</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">_zeroes</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="dataset-67"><a href="#dataset-67"><span class="linenos">67</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="dataset-48"><a href="#dataset-48"><span class="linenos">48</span></a><span class="sd">        Returns:</span>
+</span><span id="dataset-49"><a href="#dataset-49"><span class="linenos">49</span></a><span class="sd">            two numpy ndarrays containing features and (event,time) ndarray.</span>
+</span><span id="dataset-50"><a href="#dataset-50"><span class="linenos">50</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="dataset-51"><a href="#dataset-51"><span class="linenos">51</span></a>
+</span><span id="dataset-52"><a href="#dataset-52"><span class="linenos">52</span></a>        <span class="n">_X</span><span class="p">,</span> <span class="n">_y</span> <span class="o">=</span> <span class="n">get_x_y</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">attr_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="n">pos_label</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="dataset-53"><a href="#dataset-53"><span class="linenos">53</span></a>        <span class="k">return</span> <span class="n">_X</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">ndarray</span><span class="p">),</span> <span class="n">_y</span>
+</span><span id="dataset-54"><a href="#dataset-54"><span class="linenos">54</span></a>
+</span><span id="dataset-55"><a href="#dataset-55"><span class="linenos">55</span></a>    <span class="k">def</span> <span class="nf">index_zero_times</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="dataset-56"><a href="#dataset-56"><span class="linenos">56</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="dataset-57"><a href="#dataset-57"><span class="linenos">57</span></a><span class="sd">        Returns pandas indexes of event with a zero time.</span>
+</span><span id="dataset-58"><a href="#dataset-58"><span class="linenos">58</span></a><span class="sd">        Usually these data points should be removed.</span>
+</span><span id="dataset-59"><a href="#dataset-59"><span class="linenos">59</span></a><span class="sd">        Removal can be performed **inplace** using the *discard_zero_times* method.</span>
+</span><span id="dataset-60"><a href="#dataset-60"><span class="linenos">60</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="dataset-61"><a href="#dataset-61"><span class="linenos">61</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+</span><span id="dataset-62"><a href="#dataset-62"><span class="linenos">62</span></a>
+</span><span id="dataset-63"><a href="#dataset-63"><span class="linenos">63</span></a>    <span class="k">def</span> <span class="nf">discard_zero_times</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="dataset-64"><a href="#dataset-64"><span class="linenos">64</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="dataset-65"><a href="#dataset-65"><span class="linenos">65</span></a><span class="sd">        In-place discards (*side effects!*) data points with zero times.</span>
+</span><span id="dataset-66"><a href="#dataset-66"><span class="linenos">66</span></a>
+</span><span id="dataset-67"><a href="#dataset-67"><span class="linenos">67</span></a><span class="sd">        Returns:</span>
+</span><span id="dataset-68"><a href="#dataset-68"><span class="linenos">68</span></a><span class="sd">            the new shape of the dataset.</span>
+</span><span id="dataset-69"><a href="#dataset-69"><span class="linenos">69</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="dataset-70"><a href="#dataset-70"><span class="linenos">70</span></a>        <span class="n">_zeroes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_zero_times</span><span class="p">()</span>
+</span><span id="dataset-71"><a href="#dataset-71"><span class="linenos">71</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">_zeroes</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+</span><span id="dataset-72"><a href="#dataset-72"><span class="linenos">72</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">_zeroes</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="dataset-73"><a href="#dataset-73"><span class="linenos">73</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">shape</span>
 </span></pre></div>
 
 
@@ -275,7 +287,7 @@
                             </div>
                             <div id="dataset.dataframe" class="classattr">
                                 <div class="attr variable">
-            <span class="name">dataframe</span><span class="annotation">: Field(name=None,type=None,default=&lt;dataclasses._MISSING_TYPE object at 0x7fab8ca24880&gt;,default_factory=&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=None)</span>
+            <span class="name">dataframe</span><span class="annotation">: Field(name=None,type=None,default=&lt;dataclasses._MISSING_TYPE object at 0x7f09f91e38b0&gt;,default_factory=&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=None)</span>
 
         
     </div>
@@ -297,14 +309,24 @@
     <a class="headerlink" href="#dataset.get_X_y"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="dataset.get_X_y-44"><a href="#dataset.get_X_y-44"><span class="linenos">44</span></a>    <span class="k">def</span> <span class="nf">get_X_y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="dataset.get_X_y-45"><a href="#dataset.get_X_y-45"><span class="linenos">45</span></a>        <span class="c1"># &quot;return dataset in scikit-survival format&quot;</span>
-</span><span id="dataset.get_X_y-46"><a href="#dataset.get_X_y-46"><span class="linenos">46</span></a>        <span class="s2">&quot;return dataset as two numpy ndarrays&quot;</span>
+</span><span id="dataset.get_X_y-46"><a href="#dataset.get_X_y-46"><span class="linenos">46</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the dataset in scikit-survival format).</span>
 </span><span id="dataset.get_X_y-47"><a href="#dataset.get_X_y-47"><span class="linenos">47</span></a>
-</span><span id="dataset.get_X_y-48"><a href="#dataset.get_X_y-48"><span class="linenos">48</span></a>        <span class="n">_X</span><span class="p">,</span> <span class="n">_y</span> <span class="o">=</span> <span class="n">get_x_y</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">attr_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="n">pos_label</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</span><span id="dataset.get_X_y-49"><a href="#dataset.get_X_y-49"><span class="linenos">49</span></a>        <span class="k">return</span> <span class="n">_X</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">ndarray</span><span class="p">),</span> <span class="n">_y</span>
+</span><span id="dataset.get_X_y-48"><a href="#dataset.get_X_y-48"><span class="linenos">48</span></a><span class="sd">        Returns:</span>
+</span><span id="dataset.get_X_y-49"><a href="#dataset.get_X_y-49"><span class="linenos">49</span></a><span class="sd">            two numpy ndarrays containing features and (event,time) ndarray.</span>
+</span><span id="dataset.get_X_y-50"><a href="#dataset.get_X_y-50"><span class="linenos">50</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="dataset.get_X_y-51"><a href="#dataset.get_X_y-51"><span class="linenos">51</span></a>
+</span><span id="dataset.get_X_y-52"><a href="#dataset.get_X_y-52"><span class="linenos">52</span></a>        <span class="n">_X</span><span class="p">,</span> <span class="n">_y</span> <span class="o">=</span> <span class="n">get_x_y</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">attr_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="n">pos_label</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="dataset.get_X_y-53"><a href="#dataset.get_X_y-53"><span class="linenos">53</span></a>        <span class="k">return</span> <span class="n">_X</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">ndarray</span><span class="p">),</span> <span class="n">_y</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>return dataset as two numpy ndarrays</p>
+            <div class="docstring"><p>Returns the dataset in scikit-survival format).</p>
+
+<h6 id="returns">Returns:</h6>
+
+<blockquote>
+  <p>two numpy ndarrays containing features and (event,time) ndarray.</p>
+</blockquote>
 </div>
 
 
@@ -320,19 +342,19 @@
 
     </div>
     <a class="headerlink" href="#dataset.index_zero_times"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="dataset.index_zero_times-51"><a href="#dataset.index_zero_times-51"><span class="linenos">51</span></a>    <span class="k">def</span> <span class="nf">index_zero_times</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="dataset.index_zero_times-52"><a href="#dataset.index_zero_times-52"><span class="linenos">52</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="dataset.index_zero_times-53"><a href="#dataset.index_zero_times-53"><span class="linenos">53</span></a><span class="sd">        Return pandas indexes of event with a zero time.</span>
-</span><span id="dataset.index_zero_times-54"><a href="#dataset.index_zero_times-54"><span class="linenos">54</span></a><span class="sd">        Usually these data points should be removed.</span>
-</span><span id="dataset.index_zero_times-55"><a href="#dataset.index_zero_times-55"><span class="linenos">55</span></a><span class="sd">        Removal can be performed *inplace* using the discard_zero_times method.</span>
-</span><span id="dataset.index_zero_times-56"><a href="#dataset.index_zero_times-56"><span class="linenos">56</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="dataset.index_zero_times-57"><a href="#dataset.index_zero_times-57"><span class="linenos">57</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="dataset.index_zero_times-55"><a href="#dataset.index_zero_times-55"><span class="linenos">55</span></a>    <span class="k">def</span> <span class="nf">index_zero_times</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="dataset.index_zero_times-56"><a href="#dataset.index_zero_times-56"><span class="linenos">56</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="dataset.index_zero_times-57"><a href="#dataset.index_zero_times-57"><span class="linenos">57</span></a><span class="sd">        Returns pandas indexes of event with a zero time.</span>
+</span><span id="dataset.index_zero_times-58"><a href="#dataset.index_zero_times-58"><span class="linenos">58</span></a><span class="sd">        Usually these data points should be removed.</span>
+</span><span id="dataset.index_zero_times-59"><a href="#dataset.index_zero_times-59"><span class="linenos">59</span></a><span class="sd">        Removal can be performed **inplace** using the *discard_zero_times* method.</span>
+</span><span id="dataset.index_zero_times-60"><a href="#dataset.index_zero_times-60"><span class="linenos">60</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="dataset.index_zero_times-61"><a href="#dataset.index_zero_times-61"><span class="linenos">61</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Return pandas indexes of event with a zero time.
+            <div class="docstring"><p>Returns pandas indexes of event with a zero time.
 Usually these data points should be removed.
-Removal can be performed <em>inplace</em> using the discard_zero_times method.</p>
+Removal can be performed <strong>inplace</strong> using the <em>discard_zero_times</em> method.</p>
 </div>
 
 
@@ -348,20 +370,27 @@ Removal can be performed <em>inplace</em> using the discard_zero_times method.</
 
     </div>
     <a class="headerlink" href="#dataset.discard_zero_times"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="dataset.discard_zero_times-59"><a href="#dataset.discard_zero_times-59"><span class="linenos">59</span></a>    <span class="k">def</span> <span class="nf">discard_zero_times</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="dataset.discard_zero_times-60"><a href="#dataset.discard_zero_times-60"><span class="linenos">60</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="dataset.discard_zero_times-61"><a href="#dataset.discard_zero_times-61"><span class="linenos">61</span></a><span class="sd">        In-place (side effects!) discard data points with zero times.</span>
-</span><span id="dataset.discard_zero_times-62"><a href="#dataset.discard_zero_times-62"><span class="linenos">62</span></a><span class="sd">        Returns the new shape of the dataset.</span>
-</span><span id="dataset.discard_zero_times-63"><a href="#dataset.discard_zero_times-63"><span class="linenos">63</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="dataset.discard_zero_times-64"><a href="#dataset.discard_zero_times-64"><span class="linenos">64</span></a>        <span class="n">_zeroes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_zero_times</span><span class="p">()</span>
-</span><span id="dataset.discard_zero_times-65"><a href="#dataset.discard_zero_times-65"><span class="linenos">65</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">_zeroes</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
-</span><span id="dataset.discard_zero_times-66"><a href="#dataset.discard_zero_times-66"><span class="linenos">66</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">_zeroes</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="dataset.discard_zero_times-67"><a href="#dataset.discard_zero_times-67"><span class="linenos">67</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">shape</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="dataset.discard_zero_times-63"><a href="#dataset.discard_zero_times-63"><span class="linenos">63</span></a>    <span class="k">def</span> <span class="nf">discard_zero_times</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="dataset.discard_zero_times-64"><a href="#dataset.discard_zero_times-64"><span class="linenos">64</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="dataset.discard_zero_times-65"><a href="#dataset.discard_zero_times-65"><span class="linenos">65</span></a><span class="sd">        In-place discards (*side effects!*) data points with zero times.</span>
+</span><span id="dataset.discard_zero_times-66"><a href="#dataset.discard_zero_times-66"><span class="linenos">66</span></a>
+</span><span id="dataset.discard_zero_times-67"><a href="#dataset.discard_zero_times-67"><span class="linenos">67</span></a><span class="sd">        Returns:</span>
+</span><span id="dataset.discard_zero_times-68"><a href="#dataset.discard_zero_times-68"><span class="linenos">68</span></a><span class="sd">            the new shape of the dataset.</span>
+</span><span id="dataset.discard_zero_times-69"><a href="#dataset.discard_zero_times-69"><span class="linenos">69</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="dataset.discard_zero_times-70"><a href="#dataset.discard_zero_times-70"><span class="linenos">70</span></a>        <span class="n">_zeroes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_zero_times</span><span class="p">()</span>
+</span><span id="dataset.discard_zero_times-71"><a href="#dataset.discard_zero_times-71"><span class="linenos">71</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">_zeroes</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+</span><span id="dataset.discard_zero_times-72"><a href="#dataset.discard_zero_times-72"><span class="linenos">72</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">_zeroes</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="dataset.discard_zero_times-73"><a href="#dataset.discard_zero_times-73"><span class="linenos">73</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">shape</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>In-place (side effects!) discard data points with zero times.
-Returns the new shape of the dataset.</p>
+            <div class="docstring"><p>In-place discards (<em>side effects!</em>) data points with zero times.</p>
+
+<h6 id="returns">Returns:</h6>
+
+<blockquote>
+  <p>the new shape of the dataset.</p>
+</blockquote>
 </div>
 
 

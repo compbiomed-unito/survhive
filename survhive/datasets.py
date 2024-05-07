@@ -19,7 +19,7 @@ _available_datasets = (
 
 
 def list_available_datasets():
-    "list the available benchmark datasets"
+    "list of the available benchmark datasets"
     return _available_datasets
 
 
@@ -42,23 +42,29 @@ class dataset:
 
     def get_X_y(self):
         # "return dataset in scikit-survival format"
-        "return dataset as two numpy ndarrays"
+        """Returns the dataset in scikit-survival format).
+
+        Returns:
+            two numpy ndarrays containing features and (event,time) ndarray.
+        """
 
         _X, _y = get_x_y(self.dataframe, attr_labels=["event", "time"], pos_label=1)
         return _X.to_numpy(dtype=ndarray), _y
 
     def index_zero_times(self):
         """
-        Return pandas indexes of event with a zero time.
+        Returns pandas indexes of event with a zero time.
         Usually these data points should be removed.
-        Removal can be performed *inplace* using the discard_zero_times method.
+        Removal can be performed **inplace** using the *discard_zero_times* method.
         """
         return self.dataframe[self.dataframe["time"] == 0].index
 
     def discard_zero_times(self):
         """
-        In-place (side effects!) discard data points with zero times.
-        Returns the new shape of the dataset.
+        In-place discards (*side effects!*) data points with zero times.
+
+        Returns:
+            the new shape of the dataset.
         """
         _zeroes = self.index_zero_times()
         if not _zeroes.empty:

@@ -205,17 +205,25 @@
 </span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>        <span class="k">return</span> <span class="n">_preds</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">single_event</span> <span class="k">else</span> <span class="n">_preds</span>
 </span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>
 </span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>    <span class="k">def</span> <span class="nf">get_parameter_grid</span><span class="p">(</span><span class="n">max_width</span><span class="p">):</span>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
-</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>            <span class="n">n_distr</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>            <span class="n">distr_kind</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Weibull&quot;</span><span class="p">],</span>
-</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>            <span class="n">batch_size</span><span class="o">=</span><span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span>
-</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>            <span class="n">layer_sizes</span><span class="o">=</span><span class="n">generate_topology_grid</span><span class="p">(</span><span class="n">max_width</span><span class="p">),</span>
-</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>            <span class="n">learning_rate</span><span class="o">=</span><span class="p">[</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">],</span>
-</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>            <span class="n">validation_size</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">],</span>
-</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>            <span class="n">max_epochs</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span>
-</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>            <span class="n">elbo</span><span class="o">=</span><span class="p">[</span><span class="kc">False</span><span class="p">],</span>
-</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>        <span class="p">)</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>    <span class="k">def</span> <span class="nf">get_parameter_grid</span><span class="p">(</span><span class="n">max_width</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;set-up a default grid for parameter optimization.</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a><span class="sd">        Arguments:</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a><span class="sd">            max_width: the dimension of a neural-network layer</span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a><span class="sd">        Returns:</span>
+</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a><span class="sd">            a dictionary of parameters compatible with sklearn search methods</span>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>            <span class="n">n_distr</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>            <span class="n">distr_kind</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Weibull&quot;</span><span class="p">],</span>
+</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>            <span class="n">batch_size</span><span class="o">=</span><span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>            <span class="n">layer_sizes</span><span class="o">=</span><span class="n">generate_topology_grid</span><span class="p">(</span><span class="n">max_width</span><span class="p">),</span>
+</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>            <span class="n">learning_rate</span><span class="o">=</span><span class="p">[</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">],</span>
+</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>            <span class="n">validation_size</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">],</span>
+</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>            <span class="n">max_epochs</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span>
+</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>            <span class="n">elbo</span><span class="o">=</span><span class="p">[</span><span class="kc">False</span><span class="p">],</span>
+</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>        <span class="p">)</span>
 </span></pre></div>
 
 
@@ -317,17 +325,25 @@
 </span><span id="DeepSurvivalMachines-102"><a href="#DeepSurvivalMachines-102"><span class="linenos">102</span></a>        <span class="k">return</span> <span class="n">_preds</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">single_event</span> <span class="k">else</span> <span class="n">_preds</span>
 </span><span id="DeepSurvivalMachines-103"><a href="#DeepSurvivalMachines-103"><span class="linenos">103</span></a>
 </span><span id="DeepSurvivalMachines-104"><a href="#DeepSurvivalMachines-104"><span class="linenos">104</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="DeepSurvivalMachines-105"><a href="#DeepSurvivalMachines-105"><span class="linenos">105</span></a>    <span class="k">def</span> <span class="nf">get_parameter_grid</span><span class="p">(</span><span class="n">max_width</span><span class="p">):</span>
-</span><span id="DeepSurvivalMachines-106"><a href="#DeepSurvivalMachines-106"><span class="linenos">106</span></a>        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
-</span><span id="DeepSurvivalMachines-107"><a href="#DeepSurvivalMachines-107"><span class="linenos">107</span></a>            <span class="n">n_distr</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-</span><span id="DeepSurvivalMachines-108"><a href="#DeepSurvivalMachines-108"><span class="linenos">108</span></a>            <span class="n">distr_kind</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Weibull&quot;</span><span class="p">],</span>
-</span><span id="DeepSurvivalMachines-109"><a href="#DeepSurvivalMachines-109"><span class="linenos">109</span></a>            <span class="n">batch_size</span><span class="o">=</span><span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span>
-</span><span id="DeepSurvivalMachines-110"><a href="#DeepSurvivalMachines-110"><span class="linenos">110</span></a>            <span class="n">layer_sizes</span><span class="o">=</span><span class="n">generate_topology_grid</span><span class="p">(</span><span class="n">max_width</span><span class="p">),</span>
-</span><span id="DeepSurvivalMachines-111"><a href="#DeepSurvivalMachines-111"><span class="linenos">111</span></a>            <span class="n">learning_rate</span><span class="o">=</span><span class="p">[</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">],</span>
-</span><span id="DeepSurvivalMachines-112"><a href="#DeepSurvivalMachines-112"><span class="linenos">112</span></a>            <span class="n">validation_size</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">],</span>
-</span><span id="DeepSurvivalMachines-113"><a href="#DeepSurvivalMachines-113"><span class="linenos">113</span></a>            <span class="n">max_epochs</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span>
-</span><span id="DeepSurvivalMachines-114"><a href="#DeepSurvivalMachines-114"><span class="linenos">114</span></a>            <span class="n">elbo</span><span class="o">=</span><span class="p">[</span><span class="kc">False</span><span class="p">],</span>
-</span><span id="DeepSurvivalMachines-115"><a href="#DeepSurvivalMachines-115"><span class="linenos">115</span></a>        <span class="p">)</span>
+</span><span id="DeepSurvivalMachines-105"><a href="#DeepSurvivalMachines-105"><span class="linenos">105</span></a>    <span class="k">def</span> <span class="nf">get_parameter_grid</span><span class="p">(</span><span class="n">max_width</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span><span id="DeepSurvivalMachines-106"><a href="#DeepSurvivalMachines-106"><span class="linenos">106</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;set-up a default grid for parameter optimization.</span>
+</span><span id="DeepSurvivalMachines-107"><a href="#DeepSurvivalMachines-107"><span class="linenos">107</span></a>
+</span><span id="DeepSurvivalMachines-108"><a href="#DeepSurvivalMachines-108"><span class="linenos">108</span></a><span class="sd">        Arguments:</span>
+</span><span id="DeepSurvivalMachines-109"><a href="#DeepSurvivalMachines-109"><span class="linenos">109</span></a><span class="sd">            max_width: the dimension of a neural-network layer</span>
+</span><span id="DeepSurvivalMachines-110"><a href="#DeepSurvivalMachines-110"><span class="linenos">110</span></a>
+</span><span id="DeepSurvivalMachines-111"><a href="#DeepSurvivalMachines-111"><span class="linenos">111</span></a><span class="sd">        Returns:</span>
+</span><span id="DeepSurvivalMachines-112"><a href="#DeepSurvivalMachines-112"><span class="linenos">112</span></a><span class="sd">            a dictionary of parameters compatible with sklearn search methods</span>
+</span><span id="DeepSurvivalMachines-113"><a href="#DeepSurvivalMachines-113"><span class="linenos">113</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="DeepSurvivalMachines-114"><a href="#DeepSurvivalMachines-114"><span class="linenos">114</span></a>        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+</span><span id="DeepSurvivalMachines-115"><a href="#DeepSurvivalMachines-115"><span class="linenos">115</span></a>            <span class="n">n_distr</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+</span><span id="DeepSurvivalMachines-116"><a href="#DeepSurvivalMachines-116"><span class="linenos">116</span></a>            <span class="n">distr_kind</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Weibull&quot;</span><span class="p">],</span>
+</span><span id="DeepSurvivalMachines-117"><a href="#DeepSurvivalMachines-117"><span class="linenos">117</span></a>            <span class="n">batch_size</span><span class="o">=</span><span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span>
+</span><span id="DeepSurvivalMachines-118"><a href="#DeepSurvivalMachines-118"><span class="linenos">118</span></a>            <span class="n">layer_sizes</span><span class="o">=</span><span class="n">generate_topology_grid</span><span class="p">(</span><span class="n">max_width</span><span class="p">),</span>
+</span><span id="DeepSurvivalMachines-119"><a href="#DeepSurvivalMachines-119"><span class="linenos">119</span></a>            <span class="n">learning_rate</span><span class="o">=</span><span class="p">[</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">],</span>
+</span><span id="DeepSurvivalMachines-120"><a href="#DeepSurvivalMachines-120"><span class="linenos">120</span></a>            <span class="n">validation_size</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">],</span>
+</span><span id="DeepSurvivalMachines-121"><a href="#DeepSurvivalMachines-121"><span class="linenos">121</span></a>            <span class="n">max_epochs</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span>
+</span><span id="DeepSurvivalMachines-122"><a href="#DeepSurvivalMachines-122"><span class="linenos">122</span></a>            <span class="n">elbo</span><span class="o">=</span><span class="p">[</span><span class="kc">False</span><span class="p">],</span>
+</span><span id="DeepSurvivalMachines-123"><a href="#DeepSurvivalMachines-123"><span class="linenos">123</span></a>        <span class="p">)</span>
 </span></pre></div>
 
 
@@ -531,7 +547,9 @@
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>predict survival at given <em>times</em> using the fit model</p>
+</div>
+
 
                             </div>
                             <div id="DeepSurvivalMachines.predict" class="classattr">
@@ -571,28 +589,50 @@
                     <div class="decorator">@staticmethod</div>
 
         <span class="def">def</span>
-        <span class="name">get_parameter_grid</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">max_width</span></span><span class="return-annotation">):</span></span>
+        <span class="name">get_parameter_grid</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">max_width</span><span class="p">:</span> <span class="nb">int</span></span><span class="return-annotation">):</span></span>
 
                 <label class="view-source-button" for="DeepSurvivalMachines.get_parameter_grid-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#DeepSurvivalMachines.get_parameter_grid"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="DeepSurvivalMachines.get_parameter_grid-104"><a href="#DeepSurvivalMachines.get_parameter_grid-104"><span class="linenos">104</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="DeepSurvivalMachines.get_parameter_grid-105"><a href="#DeepSurvivalMachines.get_parameter_grid-105"><span class="linenos">105</span></a>    <span class="k">def</span> <span class="nf">get_parameter_grid</span><span class="p">(</span><span class="n">max_width</span><span class="p">):</span>
-</span><span id="DeepSurvivalMachines.get_parameter_grid-106"><a href="#DeepSurvivalMachines.get_parameter_grid-106"><span class="linenos">106</span></a>        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
-</span><span id="DeepSurvivalMachines.get_parameter_grid-107"><a href="#DeepSurvivalMachines.get_parameter_grid-107"><span class="linenos">107</span></a>            <span class="n">n_distr</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-</span><span id="DeepSurvivalMachines.get_parameter_grid-108"><a href="#DeepSurvivalMachines.get_parameter_grid-108"><span class="linenos">108</span></a>            <span class="n">distr_kind</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Weibull&quot;</span><span class="p">],</span>
-</span><span id="DeepSurvivalMachines.get_parameter_grid-109"><a href="#DeepSurvivalMachines.get_parameter_grid-109"><span class="linenos">109</span></a>            <span class="n">batch_size</span><span class="o">=</span><span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span>
-</span><span id="DeepSurvivalMachines.get_parameter_grid-110"><a href="#DeepSurvivalMachines.get_parameter_grid-110"><span class="linenos">110</span></a>            <span class="n">layer_sizes</span><span class="o">=</span><span class="n">generate_topology_grid</span><span class="p">(</span><span class="n">max_width</span><span class="p">),</span>
-</span><span id="DeepSurvivalMachines.get_parameter_grid-111"><a href="#DeepSurvivalMachines.get_parameter_grid-111"><span class="linenos">111</span></a>            <span class="n">learning_rate</span><span class="o">=</span><span class="p">[</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">],</span>
-</span><span id="DeepSurvivalMachines.get_parameter_grid-112"><a href="#DeepSurvivalMachines.get_parameter_grid-112"><span class="linenos">112</span></a>            <span class="n">validation_size</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">],</span>
-</span><span id="DeepSurvivalMachines.get_parameter_grid-113"><a href="#DeepSurvivalMachines.get_parameter_grid-113"><span class="linenos">113</span></a>            <span class="n">max_epochs</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span>
-</span><span id="DeepSurvivalMachines.get_parameter_grid-114"><a href="#DeepSurvivalMachines.get_parameter_grid-114"><span class="linenos">114</span></a>            <span class="n">elbo</span><span class="o">=</span><span class="p">[</span><span class="kc">False</span><span class="p">],</span>
-</span><span id="DeepSurvivalMachines.get_parameter_grid-115"><a href="#DeepSurvivalMachines.get_parameter_grid-115"><span class="linenos">115</span></a>        <span class="p">)</span>
+</span><span id="DeepSurvivalMachines.get_parameter_grid-105"><a href="#DeepSurvivalMachines.get_parameter_grid-105"><span class="linenos">105</span></a>    <span class="k">def</span> <span class="nf">get_parameter_grid</span><span class="p">(</span><span class="n">max_width</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span><span id="DeepSurvivalMachines.get_parameter_grid-106"><a href="#DeepSurvivalMachines.get_parameter_grid-106"><span class="linenos">106</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;set-up a default grid for parameter optimization.</span>
+</span><span id="DeepSurvivalMachines.get_parameter_grid-107"><a href="#DeepSurvivalMachines.get_parameter_grid-107"><span class="linenos">107</span></a>
+</span><span id="DeepSurvivalMachines.get_parameter_grid-108"><a href="#DeepSurvivalMachines.get_parameter_grid-108"><span class="linenos">108</span></a><span class="sd">        Arguments:</span>
+</span><span id="DeepSurvivalMachines.get_parameter_grid-109"><a href="#DeepSurvivalMachines.get_parameter_grid-109"><span class="linenos">109</span></a><span class="sd">            max_width: the dimension of a neural-network layer</span>
+</span><span id="DeepSurvivalMachines.get_parameter_grid-110"><a href="#DeepSurvivalMachines.get_parameter_grid-110"><span class="linenos">110</span></a>
+</span><span id="DeepSurvivalMachines.get_parameter_grid-111"><a href="#DeepSurvivalMachines.get_parameter_grid-111"><span class="linenos">111</span></a><span class="sd">        Returns:</span>
+</span><span id="DeepSurvivalMachines.get_parameter_grid-112"><a href="#DeepSurvivalMachines.get_parameter_grid-112"><span class="linenos">112</span></a><span class="sd">            a dictionary of parameters compatible with sklearn search methods</span>
+</span><span id="DeepSurvivalMachines.get_parameter_grid-113"><a href="#DeepSurvivalMachines.get_parameter_grid-113"><span class="linenos">113</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="DeepSurvivalMachines.get_parameter_grid-114"><a href="#DeepSurvivalMachines.get_parameter_grid-114"><span class="linenos">114</span></a>        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+</span><span id="DeepSurvivalMachines.get_parameter_grid-115"><a href="#DeepSurvivalMachines.get_parameter_grid-115"><span class="linenos">115</span></a>            <span class="n">n_distr</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+</span><span id="DeepSurvivalMachines.get_parameter_grid-116"><a href="#DeepSurvivalMachines.get_parameter_grid-116"><span class="linenos">116</span></a>            <span class="n">distr_kind</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Weibull&quot;</span><span class="p">],</span>
+</span><span id="DeepSurvivalMachines.get_parameter_grid-117"><a href="#DeepSurvivalMachines.get_parameter_grid-117"><span class="linenos">117</span></a>            <span class="n">batch_size</span><span class="o">=</span><span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span>
+</span><span id="DeepSurvivalMachines.get_parameter_grid-118"><a href="#DeepSurvivalMachines.get_parameter_grid-118"><span class="linenos">118</span></a>            <span class="n">layer_sizes</span><span class="o">=</span><span class="n">generate_topology_grid</span><span class="p">(</span><span class="n">max_width</span><span class="p">),</span>
+</span><span id="DeepSurvivalMachines.get_parameter_grid-119"><a href="#DeepSurvivalMachines.get_parameter_grid-119"><span class="linenos">119</span></a>            <span class="n">learning_rate</span><span class="o">=</span><span class="p">[</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">],</span>
+</span><span id="DeepSurvivalMachines.get_parameter_grid-120"><a href="#DeepSurvivalMachines.get_parameter_grid-120"><span class="linenos">120</span></a>            <span class="n">validation_size</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">],</span>
+</span><span id="DeepSurvivalMachines.get_parameter_grid-121"><a href="#DeepSurvivalMachines.get_parameter_grid-121"><span class="linenos">121</span></a>            <span class="n">max_epochs</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span>
+</span><span id="DeepSurvivalMachines.get_parameter_grid-122"><a href="#DeepSurvivalMachines.get_parameter_grid-122"><span class="linenos">122</span></a>            <span class="n">elbo</span><span class="o">=</span><span class="p">[</span><span class="kc">False</span><span class="p">],</span>
+</span><span id="DeepSurvivalMachines.get_parameter_grid-123"><a href="#DeepSurvivalMachines.get_parameter_grid-123"><span class="linenos">123</span></a>        <span class="p">)</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>set-up a default grid for parameter optimization.</p>
+
+<h6 id="arguments">Arguments:</h6>
+
+<ul>
+<li><strong>max_width:</strong>  the dimension of a neural-network layer</li>
+</ul>
+
+<h6 id="returns">Returns:</h6>
+
+<blockquote>
+  <p>a dictionary of parameters compatible with sklearn search methods</p>
+</blockquote>
+</div>
+
 
                             </div>
                             <div id="DeepSurvivalMachines.set_predict_request" class="classattr">
