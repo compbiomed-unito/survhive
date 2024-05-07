@@ -23,7 +23,8 @@ class FastCPH(SurvivalEstimator):
     """
     Adapter for the FastCPH method from lassonet
 
-    NB: setting the parameter lambda_seq overrides the effects of
+    Notice:
+        setting the parameter lambda_seq overrides the effects of
         BOTH lambda_start and path_multiplier
     """
 

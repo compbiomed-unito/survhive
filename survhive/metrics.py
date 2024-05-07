@@ -66,7 +66,8 @@ def _estimate_concordance_index_antolini(
 
 
 def concordance_index_antolini_scorer(estimator, X, y, return_all=False):
-    """Naive extension of concordance index to time-dependent predictions."""
+    """Antolini's extension of concordance index to time-dependent predictions."""
+
     r = _estimate_concordance_index_antolini(
         event_indicator=get_indicator(y),
         event_time=get_time(y),

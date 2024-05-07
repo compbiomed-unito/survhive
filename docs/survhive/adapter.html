@@ -57,6 +57,9 @@
                         <li>
                                 <a class="function" href="#SurvivalEstimator.score">score</a>
                         </li>
+                        <li>
+                                <a class="function" href="#SurvivalEstimator.get_parameter_grid">get_parameter_grid</a>
+                        </li>
                 </ul>
 
             </li>
@@ -92,51 +95,55 @@
 </span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="nd">@dataclass</span>
 </span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="k">class</span> <span class="nc">SurvivalEstimator</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">):</span>
 </span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd">    This is a minimal (empty) estimator that passes the sk-learn check_estimator tests.</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd">    This is a minimal (empty) estimator that passes the sklearn check_estimator tests.</span>
 </span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">    Dataclasses can be useful to avoid long init functions and it appears to work.</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">    - BaseEstimator include the get/set_params methods that are required.</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="sd">    - check_X_y and check_array implement checks (required by check_estimator function)</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="sd">        on the input data.</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">    SurvivalEstimator is implemented as a dataclass.</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>    <span class="n">package</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;the package from which the frapped class is coming.&quot;&quot;&quot;</span>
 </span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>    <span class="n">package</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>    <span class="n">model</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>    <span class="n">model</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>
 </span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>    <span class="n">rng_seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>    <span class="k">def</span> <span class="nf">_seed_rngs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>        <span class="s2">&quot;Seed the random number generators involved in the model fit&quot;</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>        <span class="k">pass</span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>        <span class="s2">&quot;fit the model&quot;</span>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>        <span class="k">return</span> <span class="bp">self</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>        <span class="s2">&quot;do a prediction using a fit model&quot;</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>        <span class="n">X</span> <span class="o">=</span> <span class="n">check_array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fill_value</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>    <span class="k">def</span> <span class="nf">predict_survival</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">times</span><span class="p">):</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>        <span class="n">X</span> <span class="o">=</span> <span class="n">check_array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)),</span> <span class="n">fill_value</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;random-number generator seed&quot;&quot;&quot;</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>    <span class="k">def</span> <span class="nf">_seed_rngs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>        <span class="s2">&quot;Seed the random number generators involved in the model fit&quot;</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>        <span class="k">pass</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>        <span class="s2">&quot;fit the model&quot;</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>        <span class="k">return</span> <span class="bp">self</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>        <span class="s2">&quot;do a (risk) prediction using a fit model&quot;</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>        <span class="n">X</span> <span class="o">=</span> <span class="n">check_array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fill_value</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>    <span class="k">def</span> <span class="nf">predict_survival</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">times</span><span class="p">):</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>        <span class="s2">&quot;predict survival at given *times* using the fit model&quot;</span>
 </span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>    <span class="c1"># def harrell_score(self, y_true, y_pred, *args, **kwargs):</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>    <span class="c1">#     &quot;return Harrell&#39;s C-index for a prediction&quot;</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>        <span class="n">X</span> <span class="o">=</span> <span class="n">check_array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)),</span> <span class="n">fill_value</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
 </span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>    <span class="c1">#     return concordance_index_censored(</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>    <span class="c1">#         event_indicator=get_indicator(y_true),</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>    <span class="c1">#         event_time=get_time(y_true),</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>    <span class="c1">#         estimate=y_pred,</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>    <span class="c1">#         *args,</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>    <span class="c1">#         **kwargs,</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>    <span class="c1">#     )</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>        <span class="s2">&quot;return the Harrell&#39;s c-index as a sklearn score&quot;</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>        <span class="k">return</span> <span class="n">concordance_index_antolini_scorer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>        <span class="s2">&quot;return the Antolini average c-index as a sklearn score&quot;</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>        <span class="k">return</span> <span class="n">concordance_index_antolini_scorer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>    <span class="k">def</span> <span class="nf">get_parameter_grid</span><span class="p">(</span><span class="n">max_width</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;set-up a default grid for parameter optimization.</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="sd">        Arguments:</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="sd">            max_width: the dimension of a neural-network layer</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a><span class="sd">        Returns:</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a><span class="sd">            a dictionary of parameters compatible with sklearn search methods</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>        <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span>
 </span></pre></div>
 
 
@@ -154,63 +161,61 @@
     <a class="headerlink" href="#SurvivalEstimator"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="SurvivalEstimator-11"><a href="#SurvivalEstimator-11"><span class="linenos">11</span></a><span class="k">class</span> <span class="nc">SurvivalEstimator</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">):</span>
 </span><span id="SurvivalEstimator-12"><a href="#SurvivalEstimator-12"><span class="linenos">12</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="SurvivalEstimator-13"><a href="#SurvivalEstimator-13"><span class="linenos">13</span></a><span class="sd">    This is a minimal (empty) estimator that passes the sk-learn check_estimator tests.</span>
+</span><span id="SurvivalEstimator-13"><a href="#SurvivalEstimator-13"><span class="linenos">13</span></a><span class="sd">    This is a minimal (empty) estimator that passes the sklearn check_estimator tests.</span>
 </span><span id="SurvivalEstimator-14"><a href="#SurvivalEstimator-14"><span class="linenos">14</span></a>
-</span><span id="SurvivalEstimator-15"><a href="#SurvivalEstimator-15"><span class="linenos">15</span></a><span class="sd">    Dataclasses can be useful to avoid long init functions and it appears to work.</span>
-</span><span id="SurvivalEstimator-16"><a href="#SurvivalEstimator-16"><span class="linenos">16</span></a><span class="sd">    - BaseEstimator include the get/set_params methods that are required.</span>
-</span><span id="SurvivalEstimator-17"><a href="#SurvivalEstimator-17"><span class="linenos">17</span></a><span class="sd">    - check_X_y and check_array implement checks (required by check_estimator function)</span>
-</span><span id="SurvivalEstimator-18"><a href="#SurvivalEstimator-18"><span class="linenos">18</span></a><span class="sd">        on the input data.</span>
-</span><span id="SurvivalEstimator-19"><a href="#SurvivalEstimator-19"><span class="linenos">19</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="SurvivalEstimator-15"><a href="#SurvivalEstimator-15"><span class="linenos">15</span></a><span class="sd">    SurvivalEstimator is implemented as a dataclass.</span>
+</span><span id="SurvivalEstimator-16"><a href="#SurvivalEstimator-16"><span class="linenos">16</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="SurvivalEstimator-17"><a href="#SurvivalEstimator-17"><span class="linenos">17</span></a>
+</span><span id="SurvivalEstimator-18"><a href="#SurvivalEstimator-18"><span class="linenos">18</span></a>    <span class="n">package</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="SurvivalEstimator-19"><a href="#SurvivalEstimator-19"><span class="linenos">19</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;the package from which the frapped class is coming.&quot;&quot;&quot;</span>
 </span><span id="SurvivalEstimator-20"><a href="#SurvivalEstimator-20"><span class="linenos">20</span></a>
-</span><span id="SurvivalEstimator-21"><a href="#SurvivalEstimator-21"><span class="linenos">21</span></a>    <span class="n">package</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="SurvivalEstimator-22"><a href="#SurvivalEstimator-22"><span class="linenos">22</span></a>    <span class="n">model</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="SurvivalEstimator-21"><a href="#SurvivalEstimator-21"><span class="linenos">21</span></a>    <span class="n">model</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="SurvivalEstimator-22"><a href="#SurvivalEstimator-22"><span class="linenos">22</span></a>
 </span><span id="SurvivalEstimator-23"><a href="#SurvivalEstimator-23"><span class="linenos">23</span></a>    <span class="n">rng_seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="SurvivalEstimator-24"><a href="#SurvivalEstimator-24"><span class="linenos">24</span></a>
-</span><span id="SurvivalEstimator-25"><a href="#SurvivalEstimator-25"><span class="linenos">25</span></a>    <span class="k">def</span> <span class="nf">_seed_rngs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="SurvivalEstimator-26"><a href="#SurvivalEstimator-26"><span class="linenos">26</span></a>        <span class="s2">&quot;Seed the random number generators involved in the model fit&quot;</span>
-</span><span id="SurvivalEstimator-27"><a href="#SurvivalEstimator-27"><span class="linenos">27</span></a>        <span class="k">pass</span>
-</span><span id="SurvivalEstimator-28"><a href="#SurvivalEstimator-28"><span class="linenos">28</span></a>
-</span><span id="SurvivalEstimator-29"><a href="#SurvivalEstimator-29"><span class="linenos">29</span></a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-</span><span id="SurvivalEstimator-30"><a href="#SurvivalEstimator-30"><span class="linenos">30</span></a>        <span class="s2">&quot;fit the model&quot;</span>
-</span><span id="SurvivalEstimator-31"><a href="#SurvivalEstimator-31"><span class="linenos">31</span></a>        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-</span><span id="SurvivalEstimator-32"><a href="#SurvivalEstimator-32"><span class="linenos">32</span></a>        <span class="k">return</span> <span class="bp">self</span>
-</span><span id="SurvivalEstimator-33"><a href="#SurvivalEstimator-33"><span class="linenos">33</span></a>
-</span><span id="SurvivalEstimator-34"><a href="#SurvivalEstimator-34"><span class="linenos">34</span></a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-</span><span id="SurvivalEstimator-35"><a href="#SurvivalEstimator-35"><span class="linenos">35</span></a>        <span class="s2">&quot;do a prediction using a fit model&quot;</span>
-</span><span id="SurvivalEstimator-36"><a href="#SurvivalEstimator-36"><span class="linenos">36</span></a>        <span class="n">X</span> <span class="o">=</span> <span class="n">check_array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-</span><span id="SurvivalEstimator-37"><a href="#SurvivalEstimator-37"><span class="linenos">37</span></a>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fill_value</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
-</span><span id="SurvivalEstimator-38"><a href="#SurvivalEstimator-38"><span class="linenos">38</span></a>
-</span><span id="SurvivalEstimator-39"><a href="#SurvivalEstimator-39"><span class="linenos">39</span></a>    <span class="k">def</span> <span class="nf">predict_survival</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">times</span><span class="p">):</span>
-</span><span id="SurvivalEstimator-40"><a href="#SurvivalEstimator-40"><span class="linenos">40</span></a>        <span class="n">X</span> <span class="o">=</span> <span class="n">check_array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-</span><span id="SurvivalEstimator-41"><a href="#SurvivalEstimator-41"><span class="linenos">41</span></a>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)),</span> <span class="n">fill_value</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+</span><span id="SurvivalEstimator-24"><a href="#SurvivalEstimator-24"><span class="linenos">24</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;random-number generator seed&quot;&quot;&quot;</span>
+</span><span id="SurvivalEstimator-25"><a href="#SurvivalEstimator-25"><span class="linenos">25</span></a>
+</span><span id="SurvivalEstimator-26"><a href="#SurvivalEstimator-26"><span class="linenos">26</span></a>    <span class="k">def</span> <span class="nf">_seed_rngs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="SurvivalEstimator-27"><a href="#SurvivalEstimator-27"><span class="linenos">27</span></a>        <span class="s2">&quot;Seed the random number generators involved in the model fit&quot;</span>
+</span><span id="SurvivalEstimator-28"><a href="#SurvivalEstimator-28"><span class="linenos">28</span></a>        <span class="k">pass</span>
+</span><span id="SurvivalEstimator-29"><a href="#SurvivalEstimator-29"><span class="linenos">29</span></a>
+</span><span id="SurvivalEstimator-30"><a href="#SurvivalEstimator-30"><span class="linenos">30</span></a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+</span><span id="SurvivalEstimator-31"><a href="#SurvivalEstimator-31"><span class="linenos">31</span></a>        <span class="s2">&quot;fit the model&quot;</span>
+</span><span id="SurvivalEstimator-32"><a href="#SurvivalEstimator-32"><span class="linenos">32</span></a>        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span><span id="SurvivalEstimator-33"><a href="#SurvivalEstimator-33"><span class="linenos">33</span></a>        <span class="k">return</span> <span class="bp">self</span>
+</span><span id="SurvivalEstimator-34"><a href="#SurvivalEstimator-34"><span class="linenos">34</span></a>
+</span><span id="SurvivalEstimator-35"><a href="#SurvivalEstimator-35"><span class="linenos">35</span></a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+</span><span id="SurvivalEstimator-36"><a href="#SurvivalEstimator-36"><span class="linenos">36</span></a>        <span class="s2">&quot;do a (risk) prediction using a fit model&quot;</span>
+</span><span id="SurvivalEstimator-37"><a href="#SurvivalEstimator-37"><span class="linenos">37</span></a>        <span class="n">X</span> <span class="o">=</span> <span class="n">check_array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span><span id="SurvivalEstimator-38"><a href="#SurvivalEstimator-38"><span class="linenos">38</span></a>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fill_value</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+</span><span id="SurvivalEstimator-39"><a href="#SurvivalEstimator-39"><span class="linenos">39</span></a>
+</span><span id="SurvivalEstimator-40"><a href="#SurvivalEstimator-40"><span class="linenos">40</span></a>    <span class="k">def</span> <span class="nf">predict_survival</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">times</span><span class="p">):</span>
+</span><span id="SurvivalEstimator-41"><a href="#SurvivalEstimator-41"><span class="linenos">41</span></a>        <span class="s2">&quot;predict survival at given *times* using the fit model&quot;</span>
 </span><span id="SurvivalEstimator-42"><a href="#SurvivalEstimator-42"><span class="linenos">42</span></a>
-</span><span id="SurvivalEstimator-43"><a href="#SurvivalEstimator-43"><span class="linenos">43</span></a>    <span class="c1"># def harrell_score(self, y_true, y_pred, *args, **kwargs):</span>
-</span><span id="SurvivalEstimator-44"><a href="#SurvivalEstimator-44"><span class="linenos">44</span></a>    <span class="c1">#     &quot;return Harrell&#39;s C-index for a prediction&quot;</span>
+</span><span id="SurvivalEstimator-43"><a href="#SurvivalEstimator-43"><span class="linenos">43</span></a>        <span class="n">X</span> <span class="o">=</span> <span class="n">check_array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span><span id="SurvivalEstimator-44"><a href="#SurvivalEstimator-44"><span class="linenos">44</span></a>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)),</span> <span class="n">fill_value</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
 </span><span id="SurvivalEstimator-45"><a href="#SurvivalEstimator-45"><span class="linenos">45</span></a>
-</span><span id="SurvivalEstimator-46"><a href="#SurvivalEstimator-46"><span class="linenos">46</span></a>    <span class="c1">#     return concordance_index_censored(</span>
-</span><span id="SurvivalEstimator-47"><a href="#SurvivalEstimator-47"><span class="linenos">47</span></a>    <span class="c1">#         event_indicator=get_indicator(y_true),</span>
-</span><span id="SurvivalEstimator-48"><a href="#SurvivalEstimator-48"><span class="linenos">48</span></a>    <span class="c1">#         event_time=get_time(y_true),</span>
-</span><span id="SurvivalEstimator-49"><a href="#SurvivalEstimator-49"><span class="linenos">49</span></a>    <span class="c1">#         estimate=y_pred,</span>
-</span><span id="SurvivalEstimator-50"><a href="#SurvivalEstimator-50"><span class="linenos">50</span></a>    <span class="c1">#         *args,</span>
-</span><span id="SurvivalEstimator-51"><a href="#SurvivalEstimator-51"><span class="linenos">51</span></a>    <span class="c1">#         **kwargs,</span>
-</span><span id="SurvivalEstimator-52"><a href="#SurvivalEstimator-52"><span class="linenos">52</span></a>    <span class="c1">#     )</span>
-</span><span id="SurvivalEstimator-53"><a href="#SurvivalEstimator-53"><span class="linenos">53</span></a>
-</span><span id="SurvivalEstimator-54"><a href="#SurvivalEstimator-54"><span class="linenos">54</span></a>    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-</span><span id="SurvivalEstimator-55"><a href="#SurvivalEstimator-55"><span class="linenos">55</span></a>        <span class="s2">&quot;return the Harrell&#39;s c-index as a sklearn score&quot;</span>
-</span><span id="SurvivalEstimator-56"><a href="#SurvivalEstimator-56"><span class="linenos">56</span></a>        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-</span><span id="SurvivalEstimator-57"><a href="#SurvivalEstimator-57"><span class="linenos">57</span></a>        <span class="k">return</span> <span class="n">concordance_index_antolini_scorer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span><span id="SurvivalEstimator-46"><a href="#SurvivalEstimator-46"><span class="linenos">46</span></a>    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+</span><span id="SurvivalEstimator-47"><a href="#SurvivalEstimator-47"><span class="linenos">47</span></a>        <span class="s2">&quot;return the Antolini average c-index as a sklearn score&quot;</span>
+</span><span id="SurvivalEstimator-48"><a href="#SurvivalEstimator-48"><span class="linenos">48</span></a>        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span><span id="SurvivalEstimator-49"><a href="#SurvivalEstimator-49"><span class="linenos">49</span></a>        <span class="k">return</span> <span class="n">concordance_index_antolini_scorer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span><span id="SurvivalEstimator-50"><a href="#SurvivalEstimator-50"><span class="linenos">50</span></a>
+</span><span id="SurvivalEstimator-51"><a href="#SurvivalEstimator-51"><span class="linenos">51</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="SurvivalEstimator-52"><a href="#SurvivalEstimator-52"><span class="linenos">52</span></a>    <span class="k">def</span> <span class="nf">get_parameter_grid</span><span class="p">(</span><span class="n">max_width</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span><span id="SurvivalEstimator-53"><a href="#SurvivalEstimator-53"><span class="linenos">53</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;set-up a default grid for parameter optimization.</span>
+</span><span id="SurvivalEstimator-54"><a href="#SurvivalEstimator-54"><span class="linenos">54</span></a>
+</span><span id="SurvivalEstimator-55"><a href="#SurvivalEstimator-55"><span class="linenos">55</span></a><span class="sd">        Arguments:</span>
+</span><span id="SurvivalEstimator-56"><a href="#SurvivalEstimator-56"><span class="linenos">56</span></a><span class="sd">            max_width: the dimension of a neural-network layer</span>
+</span><span id="SurvivalEstimator-57"><a href="#SurvivalEstimator-57"><span class="linenos">57</span></a>
+</span><span id="SurvivalEstimator-58"><a href="#SurvivalEstimator-58"><span class="linenos">58</span></a><span class="sd">        Returns:</span>
+</span><span id="SurvivalEstimator-59"><a href="#SurvivalEstimator-59"><span class="linenos">59</span></a><span class="sd">            a dictionary of parameters compatible with sklearn search methods</span>
+</span><span id="SurvivalEstimator-60"><a href="#SurvivalEstimator-60"><span class="linenos">60</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="SurvivalEstimator-61"><a href="#SurvivalEstimator-61"><span class="linenos">61</span></a>        <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>This is a minimal (empty) estimator that passes the sk-learn check_estimator tests.</p>
+            <div class="docstring"><p>This is a minimal (empty) estimator that passes the sklearn check_estimator tests.</p>
 
-<p>Dataclasses can be useful to avoid long init functions and it appears to work.</p>
-
-<ul>
-<li>BaseEstimator include the get/set_params methods that are required.</li>
-<li>check_X_y and check_array implement checks (required by check_estimator function)
-on the input data.</li>
-</ul>
+<p>SurvivalEstimator is implemented as a dataclass.</p>
 </div>
 
 
@@ -235,7 +240,9 @@ on the input data.</li>
     </div>
     <a class="headerlink" href="#SurvivalEstimator.package"></a>
     
-    
+            <div class="docstring"><p>the package from which the frapped class is coming.</p>
+</div>
+
 
                             </div>
                             <div id="SurvivalEstimator.model" class="classattr">
@@ -259,7 +266,9 @@ on the input data.</li>
     </div>
     <a class="headerlink" href="#SurvivalEstimator.rng_seed"></a>
     
-    
+            <div class="docstring"><p>random-number generator seed</p>
+</div>
+
 
                             </div>
                             <div id="SurvivalEstimator.fit" class="classattr">
@@ -273,10 +282,10 @@ on the input data.</li>
 
     </div>
     <a class="headerlink" href="#SurvivalEstimator.fit"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="SurvivalEstimator.fit-29"><a href="#SurvivalEstimator.fit-29"><span class="linenos">29</span></a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-</span><span id="SurvivalEstimator.fit-30"><a href="#SurvivalEstimator.fit-30"><span class="linenos">30</span></a>        <span class="s2">&quot;fit the model&quot;</span>
-</span><span id="SurvivalEstimator.fit-31"><a href="#SurvivalEstimator.fit-31"><span class="linenos">31</span></a>        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-</span><span id="SurvivalEstimator.fit-32"><a href="#SurvivalEstimator.fit-32"><span class="linenos">32</span></a>        <span class="k">return</span> <span class="bp">self</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SurvivalEstimator.fit-30"><a href="#SurvivalEstimator.fit-30"><span class="linenos">30</span></a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+</span><span id="SurvivalEstimator.fit-31"><a href="#SurvivalEstimator.fit-31"><span class="linenos">31</span></a>        <span class="s2">&quot;fit the model&quot;</span>
+</span><span id="SurvivalEstimator.fit-32"><a href="#SurvivalEstimator.fit-32"><span class="linenos">32</span></a>        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span><span id="SurvivalEstimator.fit-33"><a href="#SurvivalEstimator.fit-33"><span class="linenos">33</span></a>        <span class="k">return</span> <span class="bp">self</span>
 </span></pre></div>
 
 
@@ -296,14 +305,14 @@ on the input data.</li>
 
     </div>
     <a class="headerlink" href="#SurvivalEstimator.predict"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="SurvivalEstimator.predict-34"><a href="#SurvivalEstimator.predict-34"><span class="linenos">34</span></a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-</span><span id="SurvivalEstimator.predict-35"><a href="#SurvivalEstimator.predict-35"><span class="linenos">35</span></a>        <span class="s2">&quot;do a prediction using a fit model&quot;</span>
-</span><span id="SurvivalEstimator.predict-36"><a href="#SurvivalEstimator.predict-36"><span class="linenos">36</span></a>        <span class="n">X</span> <span class="o">=</span> <span class="n">check_array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-</span><span id="SurvivalEstimator.predict-37"><a href="#SurvivalEstimator.predict-37"><span class="linenos">37</span></a>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fill_value</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SurvivalEstimator.predict-35"><a href="#SurvivalEstimator.predict-35"><span class="linenos">35</span></a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+</span><span id="SurvivalEstimator.predict-36"><a href="#SurvivalEstimator.predict-36"><span class="linenos">36</span></a>        <span class="s2">&quot;do a (risk) prediction using a fit model&quot;</span>
+</span><span id="SurvivalEstimator.predict-37"><a href="#SurvivalEstimator.predict-37"><span class="linenos">37</span></a>        <span class="n">X</span> <span class="o">=</span> <span class="n">check_array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span><span id="SurvivalEstimator.predict-38"><a href="#SurvivalEstimator.predict-38"><span class="linenos">38</span></a>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fill_value</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>do a prediction using a fit model</p>
+            <div class="docstring"><p>do a (risk) prediction using a fit model</p>
 </div>
 
 
@@ -319,13 +328,17 @@ on the input data.</li>
 
     </div>
     <a class="headerlink" href="#SurvivalEstimator.predict_survival"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="SurvivalEstimator.predict_survival-39"><a href="#SurvivalEstimator.predict_survival-39"><span class="linenos">39</span></a>    <span class="k">def</span> <span class="nf">predict_survival</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">times</span><span class="p">):</span>
-</span><span id="SurvivalEstimator.predict_survival-40"><a href="#SurvivalEstimator.predict_survival-40"><span class="linenos">40</span></a>        <span class="n">X</span> <span class="o">=</span> <span class="n">check_array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-</span><span id="SurvivalEstimator.predict_survival-41"><a href="#SurvivalEstimator.predict_survival-41"><span class="linenos">41</span></a>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)),</span> <span class="n">fill_value</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SurvivalEstimator.predict_survival-40"><a href="#SurvivalEstimator.predict_survival-40"><span class="linenos">40</span></a>    <span class="k">def</span> <span class="nf">predict_survival</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">times</span><span class="p">):</span>
+</span><span id="SurvivalEstimator.predict_survival-41"><a href="#SurvivalEstimator.predict_survival-41"><span class="linenos">41</span></a>        <span class="s2">&quot;predict survival at given *times* using the fit model&quot;</span>
+</span><span id="SurvivalEstimator.predict_survival-42"><a href="#SurvivalEstimator.predict_survival-42"><span class="linenos">42</span></a>
+</span><span id="SurvivalEstimator.predict_survival-43"><a href="#SurvivalEstimator.predict_survival-43"><span class="linenos">43</span></a>        <span class="n">X</span> <span class="o">=</span> <span class="n">check_array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span><span id="SurvivalEstimator.predict_survival-44"><a href="#SurvivalEstimator.predict_survival-44"><span class="linenos">44</span></a>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)),</span> <span class="n">fill_value</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>predict survival at given <em>times</em> using the fit model</p>
+</div>
+
 
                             </div>
                             <div id="SurvivalEstimator.score" class="classattr">
@@ -339,14 +352,57 @@ on the input data.</li>
 
     </div>
     <a class="headerlink" href="#SurvivalEstimator.score"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="SurvivalEstimator.score-54"><a href="#SurvivalEstimator.score-54"><span class="linenos">54</span></a>    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-</span><span id="SurvivalEstimator.score-55"><a href="#SurvivalEstimator.score-55"><span class="linenos">55</span></a>        <span class="s2">&quot;return the Harrell&#39;s c-index as a sklearn score&quot;</span>
-</span><span id="SurvivalEstimator.score-56"><a href="#SurvivalEstimator.score-56"><span class="linenos">56</span></a>        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-</span><span id="SurvivalEstimator.score-57"><a href="#SurvivalEstimator.score-57"><span class="linenos">57</span></a>        <span class="k">return</span> <span class="n">concordance_index_antolini_scorer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SurvivalEstimator.score-46"><a href="#SurvivalEstimator.score-46"><span class="linenos">46</span></a>    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+</span><span id="SurvivalEstimator.score-47"><a href="#SurvivalEstimator.score-47"><span class="linenos">47</span></a>        <span class="s2">&quot;return the Antolini average c-index as a sklearn score&quot;</span>
+</span><span id="SurvivalEstimator.score-48"><a href="#SurvivalEstimator.score-48"><span class="linenos">48</span></a>        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span><span id="SurvivalEstimator.score-49"><a href="#SurvivalEstimator.score-49"><span class="linenos">49</span></a>        <span class="k">return</span> <span class="n">concordance_index_antolini_scorer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>return the Harrell's c-index as a sklearn score</p>
+            <div class="docstring"><p>return the Antolini average c-index as a sklearn score</p>
+</div>
+
+
+                            </div>
+                            <div id="SurvivalEstimator.get_parameter_grid" class="classattr">
+                                        <input id="SurvivalEstimator.get_parameter_grid-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+                    <div class="decorator">@staticmethod</div>
+
+        <span class="def">def</span>
+        <span class="name">get_parameter_grid</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">max_width</span><span class="p">:</span> <span class="nb">int</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="SurvivalEstimator.get_parameter_grid-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#SurvivalEstimator.get_parameter_grid"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SurvivalEstimator.get_parameter_grid-51"><a href="#SurvivalEstimator.get_parameter_grid-51"><span class="linenos">51</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="SurvivalEstimator.get_parameter_grid-52"><a href="#SurvivalEstimator.get_parameter_grid-52"><span class="linenos">52</span></a>    <span class="k">def</span> <span class="nf">get_parameter_grid</span><span class="p">(</span><span class="n">max_width</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span><span id="SurvivalEstimator.get_parameter_grid-53"><a href="#SurvivalEstimator.get_parameter_grid-53"><span class="linenos">53</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;set-up a default grid for parameter optimization.</span>
+</span><span id="SurvivalEstimator.get_parameter_grid-54"><a href="#SurvivalEstimator.get_parameter_grid-54"><span class="linenos">54</span></a>
+</span><span id="SurvivalEstimator.get_parameter_grid-55"><a href="#SurvivalEstimator.get_parameter_grid-55"><span class="linenos">55</span></a><span class="sd">        Arguments:</span>
+</span><span id="SurvivalEstimator.get_parameter_grid-56"><a href="#SurvivalEstimator.get_parameter_grid-56"><span class="linenos">56</span></a><span class="sd">            max_width: the dimension of a neural-network layer</span>
+</span><span id="SurvivalEstimator.get_parameter_grid-57"><a href="#SurvivalEstimator.get_parameter_grid-57"><span class="linenos">57</span></a>
+</span><span id="SurvivalEstimator.get_parameter_grid-58"><a href="#SurvivalEstimator.get_parameter_grid-58"><span class="linenos">58</span></a><span class="sd">        Returns:</span>
+</span><span id="SurvivalEstimator.get_parameter_grid-59"><a href="#SurvivalEstimator.get_parameter_grid-59"><span class="linenos">59</span></a><span class="sd">            a dictionary of parameters compatible with sklearn search methods</span>
+</span><span id="SurvivalEstimator.get_parameter_grid-60"><a href="#SurvivalEstimator.get_parameter_grid-60"><span class="linenos">60</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="SurvivalEstimator.get_parameter_grid-61"><a href="#SurvivalEstimator.get_parameter_grid-61"><span class="linenos">61</span></a>        <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>set-up a default grid for parameter optimization.</p>
+
+<h6 id="arguments">Arguments:</h6>
+
+<ul>
+<li><strong>max_width:</strong>  the dimension of a neural-network layer</li>
+</ul>
+
+<h6 id="returns">Returns:</h6>
+
+<blockquote>
+  <p>a dictionary of parameters compatible with sklearn search methods</p>
+</blockquote>
 </div>
 
 

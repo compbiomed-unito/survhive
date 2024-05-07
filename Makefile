@@ -12,7 +12,7 @@ black:
 	black survhive/*.py tests/*.py
 
 docs: black 
-	pdoc -o docs survhive
+	pdoc -d google -o docs survhive
 
 lint: ctags
 	ruff survhive/*.py tests/*.py
