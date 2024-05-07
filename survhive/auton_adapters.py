@@ -101,7 +101,15 @@ class DeepSurvivalMachines(SurvivalEstimator):
         return _preds.flatten() if self.single_event else _preds
 
     @staticmethod
-    def get_parameter_grid(max_width):
+    def get_parameter_grid(max_width: int):
+        """set-up a default grid for parameter optimization.
+
+        Arguments:
+            max_width: the dimension of a neural-network layer
+
+        Returns:
+            a dictionary of parameters compatible with sklearn search methods
+        """
         return dict(
             n_distr=[1, 2, 3],
             distr_kind=["Weibull"],

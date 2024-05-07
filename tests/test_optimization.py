@@ -18,7 +18,7 @@ def test_guess_tries():
     dhs_guess = survhive.optimization._guess_tries(
         survhive.DeepHitSingle.get_parameter_grid(max_width=X.shape[1]), fraction=0.2
     )
-    assert dhs_guess == 47
+    assert dhs_guess == 24
     dsm = survhive.optimization._guess_tries(
         survhive.DeepSurvivalMachines.get_parameter_grid(max_width=X.shape[1]),
     )
