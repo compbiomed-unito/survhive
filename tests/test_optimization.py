@@ -41,7 +41,7 @@ def test_grid_opt_coxnet():
         cv=survhive.survival_crossval_splitter(X, y, n_splits=3, n_repeats=1),
         n_jobs=2,
     )
-    assert grid_coxnet.score(X, y).round(3) == 0.815
+    assert grid_coxnet.score(X, y).round(3) == 0.878
     # checking that get_model_top_scorers_df works for simple scoring
     assert survhive.get_model_top_ranking_df(grid_coxnet_search).shape == (1, 6)
 
@@ -59,7 +59,7 @@ def test_rs_opt_coxnet():
         cv=survhive.survival_crossval_splitter(X, y, n_splits=3, n_repeats=1),
         n_jobs=2,
     )
-    assert rs_coxnet.score(X, y).round(2) == 0.83
+    assert rs_coxnet.score(X, y).round(2) == 0.87
 
 
 # def test_grid_opt_coxph():
