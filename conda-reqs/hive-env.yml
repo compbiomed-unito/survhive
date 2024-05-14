@@ -38,4 +38,4 @@ dependencies:
     - "survtrace @ git+https://github.com/IvanUniTO/survTRACE.git@1.0.3+hive"
     - lassonet == 0.0.14
     - pdoc
-    # - "survhive @ git+ssh://git@github.com/compbiomed-unito/survhive.git"
+    - "survhive @ git+ssh://git@github.com/compbiomed-unito/survhive.git"
