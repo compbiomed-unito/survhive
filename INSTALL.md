@@ -44,7 +44,7 @@ conda env create -f conda-reqs/hive-env.yml
 
 This will create an environment named "hive" with all necessary components.
 
-## Installing using pip**
+## Installing using pip
 
 Of course, it's much better to perform the installation inside a [virtual environment](https://docs.python.org/3/library/venv.html).
 It is necessary to have Python >= 3.8. If missing, consider installing [pyenv](https://github.com/pyenv/pyenv).
