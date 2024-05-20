@@ -7,8 +7,8 @@ fastcph_test = basic_test()
 fastcph_test.model = survhive.FastCPH(
     rng_seed=2401,
     layer_sizes=[4, 4, 4],
-    tie_approximation="efron"
-    # device="cpu",
+    tie_approximation="efron",
+    device="cpu",
 )
 fastcph_test.exp_score = 0.99
 fastcph_test.exp_cv_mean = 0.67
