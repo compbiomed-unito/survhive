@@ -1,50 +1,74 @@
-# Installazione
+# Install
 
-L'installazione dell' env richiede conda >= 23.1.0.
+## installing with Conda
 
-## installazione di conda
+
+The installation of the environment requires Conda >= 23.1.0.
+Given the large number of dependencies one should use the libmamba solver.
+
+
+### Install Conda
+
+Download the Miniconda installer using the command:
 
 ```
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh -p path_di_installazione
-source path_di_installazione/bin/activate
-conda config --set solver libmamba 
 ```
 
-## creazione environment
-
-Conda accetta requirements tramite il comando
+Run the installer with the path of installation:
 
 ```
-conda env create -n my_env_name -f environment.yml
+bash Miniconda3-latest-Linux-x86_64.sh -p /path/to/installation
 ```
 
-Ci sono diversi esempi (parziali) sotto conda-reqs/
+Activate the environment by sourcing the activate script:
 
-Per installare i requisiti per l'ultima versione stabile dalla branch main, usare:
+```
+
+source /path/to/installation/bin/activate
+```
+
+Configure Conda to use the libmamba solver:
+
+```
+conda config --set solver libmamba
+```
+
+### Creating an Environment
+
+To install the requirements for the latest stable version from the main branch, use:
 
 ```
 conda env create -f conda-reqs/hive-env.yml
 ```
 
-che andrà a creare un environment chiamato "hive" con tutto quello che serve
+This will create an environment named "hive" with all necessary components.
 
-## installazione con pip 
+## Installing using pip**
 
-Ovviamente è molto meglio fare l'installazione all interno di un [virtual environment](https://docs.python.org/3/library/venv.html)
+Of course, it's much better to perform the installation inside a [virtual environment](https://docs.python.org/3/library/venv.html).
+It is necessary to have Python >= 3.8. If missing, consider installing [pyenv](https://github.com/pyenv/pyenv).
 
-1.  E' necessario avere python > 3.8. Se manca considerare l'installazione di [pyenv](https://github.com/pyenv/pyenv)
-2.  Clonare il repository git
-3.  installazione 
-    * per utilizzo standard: pip install (path-del-repo)/.
-    * per sviluppo: pip install (path-del-repo)/.[dev]
-    a.  installazione direttamente dal repo
+It is possible to install directly from the repo using:
 
-        ~~~ {.bash}
-        python -m pip install "survhive @ git+ssh://git@github.com/compbiomed-unito/survhive.git"
-        ~~~
+```
+python -m pip install "survhive @ git+ssh://git@github.com/compbiomed-unito/survhive.git"
+```
 
-Se non funziona si puo' provare "a calci e pugni":
-1. pip install -r requirements.txt
-2. pip install --no-deps (path-del-repo)
-Per sviluppo si puo' aggiungere anche --editable
+For development: 
+
+```
+python -m pip install "survhive @ git+ssh://git@github.com/compbiomed-unito/survhive.git"[dev]
+```
+
+## Legacy install mode
+
+If conda or virtualenv do not work for you, you can try using the deprecated requirement-file method:
+
+* `pip install -r requirements.txt`
+* `pip install --no-deps (path-to-repo)` For development, you can also add --editableassistant
+
+
+
+
+
