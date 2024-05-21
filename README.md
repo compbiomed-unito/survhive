@@ -53,3 +53,8 @@ See doc/ folder
 
 Submitted for publication
 
+## License
+
+This code is MIT-licensed (see included LICENSE file).
+The wrapped codes are licensed according to their own terms (mostly MIT).
+
