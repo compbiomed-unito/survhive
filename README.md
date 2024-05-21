@@ -1,15 +1,14 @@
 # SurvHive 
 
 SurvHive is a Python package that provides an interface to various
-[survival-analysis](https://en.wikipedia.org/wiki/Survival_analysis) models, from Cox to deep-learning-based ones, making it
-easier to access and compare different methods. It is designed so that all
-method adapters are compliant scikit-learn estimators, allowing
+[survival-analysis](https://en.wikipedia.org/wiki/Survival_analysis) models,
+from Cox to deep-learning-based ones, making it easier to access and compare
+different methods. 
+
+It is designed so that all method adapters are compliant
+[scikit-learn](https://scikit-learn.org/stable/) estimators, allowing
 interoperability with scikit-learn facilities and it offers a range of features
 for model selection, parameter tuning, and performance evaluation.  
-
-## Cite
-
-Submitted for publication
 
 ## Models provided:
 
@@ -42,7 +41,6 @@ SurvHive provides multiple metrics for models evaluation, such as  Harrell
 C-index, Antolini score, Brier score, and AUROC, and allows for the creation of 
 user-defined ones.
 
-
 ## Installation
 
 See [here](INSTALL.md) for instruction.
@@ -50,4 +48,8 @@ See [here](INSTALL.md) for instruction.
 ## API Documentation
 
 See doc/ folder
+
+## Cite
+
+Submitted for publication
 
