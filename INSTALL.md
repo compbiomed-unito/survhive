@@ -34,6 +34,11 @@ Configure Conda to use the libmamba solver:
 conda config --set solver libmamba
 ```
 
+If you get an error saying "conda do not support solver" it means that your
+conda version is rather old. It will work anyway, but it will take a very long
+time to solve dependencies. It is probably better to update to a recent conda
+version. 
+
 ### Creating an Environment
 
 To install the requirements for the latest stable version from the main branch, use:
@@ -60,6 +65,12 @@ For development:
 ```
 python -m pip install "survhive @ git+ssh://git@github.com/compbiomed-unito/survhive.git"[dev]
 ```
+
+A Notebook dependency (jupyter lab) is part of the [dev] dependencies, since it
+is not necessary to run the package and because everyone has her own favorite.
+If you want a notebook environment, "pip install" it after SurvHive
+installation.
+ 
 
 ## Legacy install mode
 
