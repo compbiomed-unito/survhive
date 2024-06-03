@@ -11,7 +11,9 @@ from .util import get_time, get_indicator
 from .optimization import generate_topology_grid
 import auton_survival
 
-# __all__ = ['DeepSurvivalMachines']
+__all__ = [
+    "DeepSurvivalMachines",
+]
 
 
 @dataclass

@@ -17,6 +17,10 @@ from .util import (
 )
 from .optimization import generate_topology_grid
 
+__all__ = [
+    "DeepHitSingle",
+]
+
 
 @dataclass
 class DeepHitSingle(SurvivalEstimator):

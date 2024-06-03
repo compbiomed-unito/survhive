@@ -5,6 +5,10 @@ from sklearn.utils import check_X_y, check_array
 
 from .metrics import concordance_index_antolini_scorer
 
+__all__ = [
+    "SurvivalEstimator",
+]
+
 
 @dataclass
 class SurvivalEstimator(BaseEstimator):

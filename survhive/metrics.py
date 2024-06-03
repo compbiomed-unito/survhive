@@ -5,6 +5,12 @@ import sksurv
 from sklearn.metrics import roc_auc_score, brier_score_loss
 from .util import get_indicator, get_time
 
+__all__ = [
+    "concordance_index_score",
+    "concordance_index_antolini_scorer",
+    "make_survival_scorer",
+]
+
 
 def concordance_index_score(y_true, y_pred, return_all=False):
     # standardized calling signature of scikit-survival concordance_index_censored

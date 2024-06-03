@@ -17,6 +17,10 @@ from .util import (
     survival_train_test_split,
 )
 
+__all__ = [
+    "SurvTraceSingle",
+]
+
 
 @dataclass
 class SurvTraceSingle(SurvivalEstimator):

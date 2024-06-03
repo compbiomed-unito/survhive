@@ -8,6 +8,11 @@ from sys import modules
 from dataclasses import dataclass, field
 from sksurv.datasets import get_x_y
 
+__all__ = [
+    "list_available_datasets",
+    "get_data",
+    "dataset",
+]
 
 _dataset_path = path.dirname(modules[__name__].__file__) + "/datasets/"
 _available_datasets = (

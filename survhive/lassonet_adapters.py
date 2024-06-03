@@ -15,6 +15,10 @@ from .util import (
     get_indicator,
 )
 
+__all__ = [
+    "FastCPH",
+]
+
 _default_lambda_seq = [0.001 * 1.025**_ for _ in range(200)]
 
 
