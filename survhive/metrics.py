@@ -9,10 +9,24 @@ __all__ = [
     "concordance_index_score",
     "concordance_index_antolini_scorer",
     "make_survival_scorer",
+    "get_scorer",
+    "get_scorer_names",
 ]
 
 
 def concordance_index_score(y_true, y_pred, return_all=False):
+    """Compute Harrel's Concordance Index
+
+    Implemented as a thin wrapper of the scikit-survival concordance_index_censored function.
+
+    Parameters:
+    - y_true: survival outcomes
+    - y_pred: risk rankings
+    - return_all:
+
+    Return:
+    - the risk of
+    """
     # standardized calling signature of scikit-survival concordance_index_censored
     r = sksurv.metrics.concordance_index_censored(
         get_indicator(y_true), get_time(y_true), y_pred
@@ -72,7 +86,19 @@ def _estimate_concordance_index_antolini(
 
 
 def concordance_index_antolini_scorer(estimator, X, y, return_all=False):
-    """Antolini's extension of concordance index to time-dependent predictions."""
+    """Antolini's extension of concordance index to time-dependent predictions.
+
+    Implementation based on scikit-survival concordance_index_censored code.
+    
+    Parameters:
+    - estimator: estimator object with a `predict_survival` method,
+    - X: feature matrix for the `predict_survival` method
+    - y: survival outcomes for evaluating the prediction
+    - return_all: bool, set to true to return more information on the score
+
+    Returns:
+    - the concordance score (float) if return_all is false or a tuple (score: float, concordant: int, discordant: int, tied_risk: int, tied_time: int). For more information see scikit-survival concordance_index_censored documentation.
+    """
 
     r = _estimate_concordance_index_antolini(
         event_indicator=get_indicator(y),
@@ -196,16 +222,78 @@ def make_survival_scorer(
     return scorer
 
 
-_qt = dict(time_mode="quantiles", time_values=numpy.linspace(0, 1, 5)[1:-1])
-_SCORERS = {
-    "c-index-antolini": concordance_index_antolini_scorer,
-    "c-index-quartiles": make_survival_scorer(
-        concordance_index_score, classification=False, **_qt
-    ),  # FIXME this is not a good score, maybe remove it from this list
-    "roc-auc-quartiles": make_survival_scorer(
-        roc_auc_score, classification=True, **_qt
-    ),
-    "neg-brier-quartiles": make_survival_scorer(
-        lambda *args: -brier_score_loss(*args), classification=True, **_qt
-    ),
-}
+def _create_default_scorers():
+    """
+    Create scorers for common survival metrics.
+    """
+
+    quantiles = {
+        "quartiles": numpy.linspace(0, 1, 4 + 1)[1:-1],
+        "deciles": numpy.linspace(0, 1, 10 + 1)[1:-1],
+        # "percentiles": numpy.linspace(0, 1, 100 + 1)[1:-1],
+    }
+    classification_metrics = {
+        "roc-auc": roc_auc_score,
+        "neg-brier": lambda *args: -brier_score_loss(*args),
+    }
+
+    scorers = {
+        "c-index-antolini": concordance_index_antolini_scorer,
+    }
+
+    scorers.update(
+        {
+            f"c-index-{quantile_name}": make_survival_scorer(
+                concordance_index_score,
+                classification=False,
+                time_mode="quantiles",
+                time_values=quantile_breaks,
+            )  # FIXME this is not a good score, maybe remove it from this list
+            for quantile_name, quantile_breaks in quantiles.items()
+        }
+    )
+
+    scorers.update(
+        {
+            f"{score_name}-{quantile_name}": make_survival_scorer(
+                score_func,
+                classification=True,
+                time_mode="quantiles",
+                time_values=quantile_breaks,
+            )
+            for score_name, score_func in classification_metrics.items()
+            for quantile_name, quantile_breaks in quantiles.items()
+        }
+    )
+
+    return scorers
+
+
+def get_scorer_names():
+    """Get the names of all available scorers.
+
+    These names can be passed to `get_scorer` to
+    retrieve the scorer object.
+
+    Returns:
+    - list of str, names of all available scorers.
+    """
+    return list(_SCORERS.keys())
+
+
+def get_scorer(name):
+    """Get a scorer from string.
+
+    The function `get_scorer_names` can be used to retrieve the names
+    of all available scorers.
+
+    Parameters:
+    - name: str, name of the scorer
+
+    Returns:
+    - scorer (callable with signature (estimator, X, y))
+    """
+    return _SCORERS[name]
+
+
+_SCORERS = _create_default_scorers()
