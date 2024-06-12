@@ -89,7 +89,7 @@ def concordance_index_antolini_scorer(estimator, X, y, return_all=False):
     """Antolini's extension of concordance index to time-dependent predictions.
 
     Implementation based on scikit-survival concordance_index_censored code.
-    
+
     Parameters:
     - estimator: estimator object with a `predict_survival` method,
     - X: feature matrix for the `predict_survival` method
