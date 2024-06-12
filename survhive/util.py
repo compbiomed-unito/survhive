@@ -57,7 +57,6 @@ def event_quantiles(y, quantiles=[0.25, 0.5, 0.75]):
 
 def survival_train_test_split(X, y, test_size=0.25, rng_seed=None, shuffle=True):
     "Split survival data into train and test set using event-label stratification"
-    X, y = check_X_y(X, y)
     return train_test_split(
         X,
         y,
