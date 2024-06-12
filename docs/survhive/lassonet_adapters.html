@@ -246,7 +246,8 @@
                 <section id="FastCPH">
                             <input id="FastCPH-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
-            
+                    <div class="decorator">@dataclass</div>
+
     <span class="def">class</span>
     <span class="name">FastCPH</span><wbr>(<span class="base"><a href="adapter.html#SurvivalEstimator">survhive.adapter.SurvivalEstimator</a></span>):
 
@@ -254,7 +255,8 @@
 
     </div>
     <a class="headerlink" href="#FastCPH"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="FastCPH-23"><a href="#FastCPH-23"><span class="linenos"> 23</span></a><span class="k">class</span> <span class="nc">FastCPH</span><span class="p">(</span><span class="n">SurvivalEstimator</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="FastCPH-22"><a href="#FastCPH-22"><span class="linenos"> 22</span></a><span class="nd">@dataclass</span>
+</span><span id="FastCPH-23"><a href="#FastCPH-23"><span class="linenos"> 23</span></a><span class="k">class</span> <span class="nc">FastCPH</span><span class="p">(</span><span class="n">SurvivalEstimator</span><span class="p">):</span>
 </span><span id="FastCPH-24"><a href="#FastCPH-24"><span class="linenos"> 24</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="FastCPH-25"><a href="#FastCPH-25"><span class="linenos"> 25</span></a><span class="sd">    Adapter for the FastCPH method from lassonet</span>
 </span><span id="FastCPH-26"><a href="#FastCPH-26"><span class="linenos"> 26</span></a>
@@ -381,7 +383,7 @@
                             <div id="FastCPH.__init__" class="classattr">
                                 <div class="attr function">
             
-        <span class="name">FastCPH</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">rng_seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">layer_sizes</span><span class="p">:</span> <span class="s1">&#39;Sequence[int]&#39;</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">factory</span><span class="o">&gt;</span>,</span><span class="param">	<span class="n">tie_approximation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;efron&#39;</span>,</span><span class="param">	<span class="n">lambda_seq</span><span class="p">:</span> <span class="s1">&#39;Sequence[float]&#39;</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">factory</span><span class="o">&gt;</span>,</span><span class="param">	<span class="n">lambda_start</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.001</span>,</span><span class="param">	<span class="n">path_multiplier</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.025</span>,</span><span class="param">	<span class="n">backtrack</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>,</span><span class="param">	<span class="n">fit_lambda_</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
+        <span class="name">FastCPH</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">rng_seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">layer_sizes</span><span class="p">:</span> <span class="n">collections</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">factory</span><span class="o">&gt;</span>,</span><span class="param">	<span class="n">tie_approximation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;efron&#39;</span>,</span><span class="param">	<span class="n">lambda_seq</span><span class="p">:</span> <span class="n">collections</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">factory</span><span class="o">&gt;</span>,</span><span class="param">	<span class="n">lambda_start</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.001</span>,</span><span class="param">	<span class="n">path_multiplier</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.025</span>,</span><span class="param">	<span class="n">backtrack</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>,</span><span class="param">	<span class="n">fit_lambda_</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
 
         
     </div>
@@ -418,7 +420,7 @@
                             </div>
                             <div id="FastCPH.layer_sizes" class="classattr">
                                 <div class="attr variable">
-            <span class="name">layer_sizes</span><span class="annotation">: &#39;Sequence[int]&#39;</span>
+            <span class="name">layer_sizes</span><span class="annotation">: collections.abc.Sequence[int]</span>
 
         
     </div>
@@ -441,7 +443,7 @@
                             </div>
                             <div id="FastCPH.lambda_seq" class="classattr">
                                 <div class="attr variable">
-            <span class="name">lambda_seq</span><span class="annotation">: &#39;Sequence[float]&#39;</span>
+            <span class="name">lambda_seq</span><span class="annotation">: collections.abc.Sequence[float]</span>
 
         
     </div>

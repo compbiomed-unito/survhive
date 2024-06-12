@@ -696,7 +696,8 @@
                 <section id="CoxNet">
                             <input id="CoxNet-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
-            
+                    <div class="decorator">@dataclass</div>
+
     <span class="def">class</span>
     <span class="name">CoxNet</span><wbr>(<span class="base"><a href="#SkSurvEstimator">SkSurvEstimator</a></span>):
 
@@ -704,7 +705,8 @@
 
     </div>
     <a class="headerlink" href="#CoxNet"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="CoxNet-45"><a href="#CoxNet-45"><span class="linenos"> 45</span></a><span class="k">class</span> <span class="nc">CoxNet</span><span class="p">(</span><span class="n">SkSurvEstimator</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="CoxNet-44"><a href="#CoxNet-44"><span class="linenos"> 44</span></a><span class="nd">@dataclass</span>
+</span><span id="CoxNet-45"><a href="#CoxNet-45"><span class="linenos"> 45</span></a><span class="k">class</span> <span class="nc">CoxNet</span><span class="p">(</span><span class="n">SkSurvEstimator</span><span class="p">):</span>
 </span><span id="CoxNet-46"><a href="#CoxNet-46"><span class="linenos"> 46</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="CoxNet-47"><a href="#CoxNet-47"><span class="linenos"> 47</span></a><span class="sd">    Adapter for the CoxNet method from scikit-survival</span>
 </span><span id="CoxNet-48"><a href="#CoxNet-48"><span class="linenos"> 48</span></a><span class="sd">    &quot;&quot;&quot;</span>
@@ -981,7 +983,8 @@ with the deep-learning-based methods.</p>
                 <section id="RSF">
                             <input id="RSF-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
-            
+                    <div class="decorator">@dataclass</div>
+
     <span class="def">class</span>
     <span class="name">RSF</span><wbr>(<span class="base"><a href="#SkSurvEstimator">SkSurvEstimator</a></span>):
 
@@ -989,7 +992,8 @@ with the deep-learning-based methods.</p>
 
     </div>
     <a class="headerlink" href="#RSF"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="RSF-112"><a href="#RSF-112"><span class="linenos">112</span></a><span class="k">class</span> <span class="nc">RSF</span><span class="p">(</span><span class="n">SkSurvEstimator</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="RSF-111"><a href="#RSF-111"><span class="linenos">111</span></a><span class="nd">@dataclass</span>
+</span><span id="RSF-112"><a href="#RSF-112"><span class="linenos">112</span></a><span class="k">class</span> <span class="nc">RSF</span><span class="p">(</span><span class="n">SkSurvEstimator</span><span class="p">):</span>
 </span><span id="RSF-113"><a href="#RSF-113"><span class="linenos">113</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="RSF-114"><a href="#RSF-114"><span class="linenos">114</span></a><span class="sd">    Adapter for the RandomSurvivalForest method from scikit-survival</span>
 </span><span id="RSF-115"><a href="#RSF-115"><span class="linenos">115</span></a><span class="sd">    &quot;&quot;&quot;</span>
@@ -1201,7 +1205,8 @@ with the deep-learning-based methods.</p>
                 <section id="CoxPH">
                             <input id="CoxPH-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
-            
+                    <div class="decorator">@dataclass</div>
+
     <span class="def">class</span>
     <span class="name">CoxPH</span><wbr>(<span class="base"><a href="#SkSurvEstimator">SkSurvEstimator</a></span>):
 
@@ -1209,7 +1214,8 @@ with the deep-learning-based methods.</p>
 
     </div>
     <a class="headerlink" href="#CoxPH"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="CoxPH-154"><a href="#CoxPH-154"><span class="linenos">154</span></a><span class="k">class</span> <span class="nc">CoxPH</span><span class="p">(</span><span class="n">SkSurvEstimator</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="CoxPH-153"><a href="#CoxPH-153"><span class="linenos">153</span></a><span class="nd">@dataclass</span>
+</span><span id="CoxPH-154"><a href="#CoxPH-154"><span class="linenos">154</span></a><span class="k">class</span> <span class="nc">CoxPH</span><span class="p">(</span><span class="n">SkSurvEstimator</span><span class="p">):</span>
 </span><span id="CoxPH-155"><a href="#CoxPH-155"><span class="linenos">155</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="CoxPH-156"><a href="#CoxPH-156"><span class="linenos">156</span></a><span class="sd">    Adapter for a simulated Cox Proportional Hazard (CoxPH) method from scikit-survival</span>
 </span><span id="CoxPH-157"><a href="#CoxPH-157"><span class="linenos">157</span></a><span class="sd">    Use it only for baseline calculations, otherwise use CoxNet.</span>
@@ -1485,7 +1491,8 @@ with the deep-learning-based methods.</p>
                 <section id="GrBoostSA">
                             <input id="GrBoostSA-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
-            
+                    <div class="decorator">@dataclass</div>
+
     <span class="def">class</span>
     <span class="name">GrBoostSA</span><wbr>(<span class="base"><a href="#SkSurvEstimator">SkSurvEstimator</a></span>):
 
@@ -1493,7 +1500,8 @@ with the deep-learning-based methods.</p>
 
     </div>
     <a class="headerlink" href="#GrBoostSA"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="GrBoostSA-224"><a href="#GrBoostSA-224"><span class="linenos">224</span></a><span class="k">class</span> <span class="nc">GrBoostSA</span><span class="p">(</span><span class="n">SkSurvEstimator</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="GrBoostSA-223"><a href="#GrBoostSA-223"><span class="linenos">223</span></a><span class="nd">@dataclass</span>
+</span><span id="GrBoostSA-224"><a href="#GrBoostSA-224"><span class="linenos">224</span></a><span class="k">class</span> <span class="nc">GrBoostSA</span><span class="p">(</span><span class="n">SkSurvEstimator</span><span class="p">):</span>
 </span><span id="GrBoostSA-225"><a href="#GrBoostSA-225"><span class="linenos">225</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="GrBoostSA-226"><a href="#GrBoostSA-226"><span class="linenos">226</span></a><span class="sd">    Adapter for the GradientBoostingSurvivalAnalysis method from scikit-survival</span>
 </span><span id="GrBoostSA-227"><a href="#GrBoostSA-227"><span class="linenos">227</span></a><span class="sd">    &quot;&quot;&quot;</span>

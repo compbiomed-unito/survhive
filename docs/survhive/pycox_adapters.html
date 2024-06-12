@@ -250,7 +250,8 @@
                 <section id="DeepHitSingle">
                             <input id="DeepHitSingle-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
-            
+                    <div class="decorator">@dataclass</div>
+
     <span class="def">class</span>
     <span class="name">DeepHitSingle</span><wbr>(<span class="base"><a href="adapter.html#SurvivalEstimator">survhive.adapter.SurvivalEstimator</a></span>):
 
@@ -258,7 +259,8 @@
 
     </div>
     <a class="headerlink" href="#DeepHitSingle"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="DeepHitSingle-23"><a href="#DeepHitSingle-23"><span class="linenos"> 23</span></a><span class="k">class</span> <span class="nc">DeepHitSingle</span><span class="p">(</span><span class="n">SurvivalEstimator</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="DeepHitSingle-22"><a href="#DeepHitSingle-22"><span class="linenos"> 22</span></a><span class="nd">@dataclass</span>
+</span><span id="DeepHitSingle-23"><a href="#DeepHitSingle-23"><span class="linenos"> 23</span></a><span class="k">class</span> <span class="nc">DeepHitSingle</span><span class="p">(</span><span class="n">SurvivalEstimator</span><span class="p">):</span>
 </span><span id="DeepHitSingle-24"><a href="#DeepHitSingle-24"><span class="linenos"> 24</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="DeepHitSingle-25"><a href="#DeepHitSingle-25"><span class="linenos"> 25</span></a><span class="sd">    Adapter for the DeepHitSingle method from pycox</span>
 </span><span id="DeepHitSingle-26"><a href="#DeepHitSingle-26"><span class="linenos"> 26</span></a><span class="sd">    &quot;&quot;&quot;</span>
@@ -385,7 +387,7 @@
                             <div id="DeepHitSingle.__init__" class="classattr">
                                 <div class="attr function">
             
-        <span class="name">DeepHitSingle</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">rng_seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">num_durations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>,</span><span class="param">	<span class="n">layer_sizes</span><span class="p">:</span> <span class="s1">&#39;Sequence[int]&#39;</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">factory</span><span class="o">&gt;</span>,</span><span class="param">	<span class="n">epochs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>,</span><span class="param">	<span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span>,</span><span class="param">	<span class="n">validation_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>,</span><span class="param">	<span class="n">learning_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.001</span>,</span><span class="param">	<span class="n">dropout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span>,</span><span class="param">	<span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;cpu&#39;</span>,</span><span class="param">	<span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></span>)</span>
+        <span class="name">DeepHitSingle</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">rng_seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">num_durations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>,</span><span class="param">	<span class="n">layer_sizes</span><span class="p">:</span> <span class="n">collections</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">factory</span><span class="o">&gt;</span>,</span><span class="param">	<span class="n">epochs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>,</span><span class="param">	<span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span>,</span><span class="param">	<span class="n">validation_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>,</span><span class="param">	<span class="n">learning_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.001</span>,</span><span class="param">	<span class="n">dropout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span>,</span><span class="param">	<span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;cpu&#39;</span>,</span><span class="param">	<span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></span>)</span>
 
         
     </div>
@@ -434,7 +436,7 @@
                             </div>
                             <div id="DeepHitSingle.layer_sizes" class="classattr">
                                 <div class="attr variable">
-            <span class="name">layer_sizes</span><span class="annotation">: &#39;Sequence[int]&#39;</span>
+            <span class="name">layer_sizes</span><span class="annotation">: collections.abc.Sequence[int]</span>
 
         
     </div>
