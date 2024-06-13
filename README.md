@@ -47,7 +47,7 @@ See [here](INSTALL.md) for instruction.
 
 ## Getting Started
 
-See our [guide](GETTING_STARTED.md) 
+See our [guide](GETTING_STARTED.md). 
 
 ## API Documentation
 

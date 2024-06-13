@@ -1,9 +1,5 @@
----
-title: Getting started with SurvHive
-author: CompBioMed-Unito, University of Torino, Italy
-date: 2024-06-14
-....
 
+## Getting started with SurvHive
 
 This guide is intended as a simple and basic introductory overview to
 SurvHive usage. It is not comprehensive of all the SurvHive
@@ -14,7 +10,7 @@ For detailed reference documentation of the functions and classes
 contained in the package, see the GitHub page:
 <https://github.com/compbiomed-unito/survhive>.
 
-# Introduction
+## Introduction
 
 Here, we present SurvHive, a wrapper library for Survival Analysis,
 designed to wrap up several of the best methods for survival data.
@@ -26,7 +22,7 @@ The package provides access to eight different models coming from
 different packages, namely:
 
 -   CoxPH, CoxNet, Gradient Boosting Survival Analysis (GRBoostSA) and
-    Random Survival Forest (RSF) from the [scikit-survival][@polsterl2020scikit] package;
+    Random Survival Forest (RSF) from the [Scikit-Survival][@polsterl2020scikit] package;
 
 -   DeepHitSingle from the [PyCox][@geck2012pycox] package;
 
@@ -37,7 +33,7 @@ different packages, namely:
 
 -   SurvTraceSingle from the [SurvTRACE][@wang2022survtrace] package.
 
-# Installing Jupyter Notebook and SurvHive
+## Installing Jupyter Notebook and SurvHive
 
 When evaluating your data, you have to provide a correct .csv/.xlsx
 file. It is necessary to create the correct environment in order to
@@ -63,12 +59,13 @@ following command:
 !pip install survhive
 ```
 
-If you prefer to install the library from a terminal, you need only to
-remove the exclamation mark \"!\". The installation guide can be found
-at this link also for Conda:
-<https://github.com/compbiomed-unito/survhive/blob/main/INSTALL.md>
+If you prefer to install the library from a terminal, you need only to remove
+the exclamation mark \"!\". The [installation guide for Conda](INSTALL.md#installing-with-conda) 
+is provided too.  
 
-# Import Dataset and Prepare Splits
+<!-- <https://github.com/compbiomed-unito/survhive/blob/main/INSTALL.md> -->
+
+## Import Dataset and Prepare Splits
 
 Let's start with your .csv file, that must have two columns,
 'event','event_time'. The first column indicates if the event is true
@@ -125,7 +122,7 @@ scaler = StandardScaler().fit(X_train)
 
 Now, we are ready for the models.
 
-# Models from different Libraries
+## Models from different Libraries
 
 We can call different model in the following way. In order to test the
 different performances we can also initialize some dictionaries and a
@@ -154,7 +151,7 @@ for _ in vanilla_mods.keys():
 At the end, you will have a dictionary **antolini_vanilla_test** with
 all your results.
 
-# Parameter Optimization
+## Parameter Optimization
 
 We can perform a parameter optimization in order to find the best model.
 We can start with a random search on the model parameter space. Each
@@ -190,7 +187,7 @@ optimized_df = pandas.DataFrame(data=antolini_best_test.values(),
                                 columns=['Somewhat optimized'])
 ```
 
-# Other Metrics
+## Other Metrics
 
 The '.score' method evaluate the Antolini Concordance Index. We can
 evaluate other scores and with this command you can see all the scorer
@@ -225,7 +222,7 @@ for _ in vanilla_mods.keys():
 ```
 
 Of course, there are always available the other metrics from
-*scikit-learn*, there is a method in SurvHive that can adapt every
+[scikit-learn][@skl], there is a method in SurvHive that can adapt every
 metric. For example for the Matthews Correlation Coefficient
 ``` {.python linenos="" frame="lines" fontsize="\\small"}
 from sklearn.metrics import matthews_corrcoef
@@ -233,14 +230,15 @@ from sklearn.metrics import matthews_corrcoef
 mcc = sv.make_survival_scorer(matthews_corrcoef)
 ```
 
-# Final remark
+## Final remark
 
 For further details on SurvHive's functionalities, users are encouraged
 to consult the reference documentation available on the SurvHive GitHub
 page <https://github.com/compbiomed-unito/survhive> and the .html files
-in thei **docs/** folder.
+in the **docs/** folder.
 
 We hope that you will find Survhive a useful tool.
+
 
 [@polsterl2020scikit]: https://github.com/sebp/scikit-survival
 [@geck2012pycox]: https://github.com/havakv/pycox

@@ -1,6 +1,34 @@
-# Install
+# Installation how-to
 
-## installing with Conda
+## Installing using pip
+
+The simplest way to install SurvHive is to get it directly from Pypi.
+
+```
+pip install survhive
+```
+
+Of course, it's much better to perform the installation inside a [virtual environment](https://docs.python.org/3/library/venv.html).
+It is necessary to have Python >= 3.8. If missing, consider installing [pyenv](https://github.com/pyenv/pyenv).
+
+It is also possible to install directly from the repo using:
+
+```
+python -m pip install "survhive @ git+ssh://git@github.com/compbiomed-unito/survhive.git"
+```
+
+For development: 
+
+```
+python -m pip install "survhive @ git+ssh://git@github.com/compbiomed-unito/survhive.git"[dev]
+```
+
+A Notebook dependency (jupyter lab) is part of the [dev] dependencies, since it
+is not necessary to run the package and because everyone has her own favorite.
+If you want a notebook environment, "pip install" it after SurvHive
+installation.
+ 
+## Installing with Conda
 
 
 The installation of the environment requires Conda >= 23.1.0.
@@ -49,28 +77,6 @@ conda env create -f conda-reqs/hive-env.yml
 
 This will create an environment named "hive" with all necessary components.
 
-## Installing using pip
-
-Of course, it's much better to perform the installation inside a [virtual environment](https://docs.python.org/3/library/venv.html).
-It is necessary to have Python >= 3.8. If missing, consider installing [pyenv](https://github.com/pyenv/pyenv).
-
-It is possible to install directly from the repo using:
-
-```
-python -m pip install "survhive @ git+ssh://git@github.com/compbiomed-unito/survhive.git"
-```
-
-For development: 
-
-```
-python -m pip install "survhive @ git+ssh://git@github.com/compbiomed-unito/survhive.git"[dev]
-```
-
-A Notebook dependency (jupyter lab) is part of the [dev] dependencies, since it
-is not necessary to run the package and because everyone has her own favorite.
-If you want a notebook environment, "pip install" it after SurvHive
-installation.
- 
 
 ## Legacy install mode
 
