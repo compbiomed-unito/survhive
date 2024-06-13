@@ -45,6 +45,10 @@ user-defined ones.
 
 See [here](INSTALL.md) for instruction.
 
+## Getting Started
+
+See our [guide](GETTING_STARTED.md) 
+
 ## API Documentation
 
 See doc/ folder
