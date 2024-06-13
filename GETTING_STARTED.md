@@ -83,7 +83,7 @@ dataset = pd.read_csv('example_dataset.csv', index_col='id')
 ```
 
 After this step we can get the feature matrix and the label vector. Just
-run the following command from Scikit-Survival [@polsterl2020scikit]:
+run the following command from [Scikit-Survival][@polsterl2020scikit]:
 
 ``` {.python linenos="" frame="lines" fontsize="\\small"}
 from sksurv.datasets import get_x_y
