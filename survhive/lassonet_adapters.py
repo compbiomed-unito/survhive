@@ -44,8 +44,7 @@ class FastCPH(SurvivalEstimator):
     backtrack: bool = False
     device: str = None
     rng_seed: int = None
-    verbose: int = 1
-    fit_lambda_: float = None
+    verbose: int = 0
 
     def _seed_rngs(self):
         "seed the random number generators involved in the model fit"
@@ -56,33 +55,26 @@ class FastCPH(SurvivalEstimator):
         else:
             return False
 
-    def fit(self, X, y):
-        # init
-        X, y = check_X_y(X, y)
-
-        self.model_ = LassoNetCoxRegressor(
+    def _get_new_model(self, lambda_seq):
+        return LassoNetCoxRegressor(
             hidden_dims=tuple(self.layer_sizes),
             tie_approximation=self.tie_approximation,
             backtrack=self.backtrack,
             device=self.device,
+            verbose=self.verbose,
+            lambda_seq=lambda_seq,
+            lambda_start=self.lambda_start, 
+            path_multiplier=self.path_multiplier,
+            random_state=self.rng_seed,
+            torch_seed=self.rng_seed,
         )
-        if self.lambda_seq:
-            self.model_.set_params(lambda_seq=self.lambda_seq)
-        else:
-            self.model_.set_params(
-                lambda_start=self.lambda_start, path_multiplier=self.path_multiplier
-            )
 
-        if self.rng_seed:
+    def fit(self, X, y):
+        # init
+        self.model_ = self._get_new_model(self.lambda_seq)
+        if self.rng_seed is not None:
             self._seed_rngs()
-            self.model_.set_params(
-                random_state=self.rng_seed,
-                torch_seed=self.rng_seed,
-            )
-        if self.verbose:
-            self.model_.set_params(verbose=2)
-        else:
-            self.model_.set_params(verbose=0)
+        X, y = check_X_y(X, y)
 
         # fitting
         _y_times = get_time(y)
@@ -92,8 +84,9 @@ class FastCPH(SurvivalEstimator):
         )
         fastcph = self.model_.fit(X, _y_lasso)
         self.fit_lambda_ = min(fastcph.path_, key=(lambda x: x.objective)).lambda_
+
         # refitting on best lambda
-        self.model_.set_params(lambda_seq=[self.fit_lambda_])
+        self.model_ = self._get_new_model(lambda_seq=[self.fit_lambda_])
         _refit = self.model_.fit(X, _y_lasso)
         assert self.model_ == _refit
 
