@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from collections.abc import Sequence
+from typing import Tuple, Union
 from sklearn.utils import check_X_y, check_array
 from sksurv.linear_model.coxph import BreslowEstimator
 from lassonet import LassoNetCoxRegressor
@@ -42,6 +43,7 @@ class FastCPH(SurvivalEstimator):
     lambda_start: float = 0.001
     path_multiplier: float = 1.025
     backtrack: bool = False
+    n_iters: Union[int, Tuple[int, int]] = (1000, 100)
     device: str = None
     rng_seed: int = None
     verbose: int = 0
@@ -65,6 +67,7 @@ class FastCPH(SurvivalEstimator):
             lambda_seq=lambda_seq,
             lambda_start=self.lambda_start, 
             path_multiplier=self.path_multiplier,
+            n_iters=self.n_iters,
             random_state=self.rng_seed,
             torch_seed=self.rng_seed,
         )
