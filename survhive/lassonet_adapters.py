@@ -65,7 +65,7 @@ class FastCPH(SurvivalEstimator):
             device=self.device,
             verbose=self.verbose,
             lambda_seq=lambda_seq,
-            lambda_start=self.lambda_start, 
+            lambda_start=self.lambda_start,
             path_multiplier=self.path_multiplier,
             n_iters=self.n_iters,
             random_state=self.rng_seed,
