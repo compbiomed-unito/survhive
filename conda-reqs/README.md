@@ -1,19 +1,63 @@
 # Conda Requirements
 
-Una serie di ambienti parziali creati con @conda list --export@ usati per
-creare environments intermedi con il solver libmamba un layer alla volta.
 
-Per creare ambienti da questi files usare:
+The installation of the environment requires Conda >= 23.1.0.
+Given the large number of dependencies one should use the libmamba solver.
+
+
+### Install Conda
+
+Download the Miniconda installer using the command:
 
 ```
-conda create -n ilmioenv -c sebp -c conda-forge --file (nomefile.yml)
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 ```
 
-NB non essendo un export *i canali vanno specificate in command line in ordine di priorità*
+Run the installer with the path of installation:
 
-## inventario
+```
+bash Miniconda3-latest-Linux-x86_64.sh -p /path/to/installation
+```
 
-* base-env.yml : mamba git pip  
-* sksurv-env.yml: la precedente + jupyterlab, scikit-survival
-* survhive-pycox-env.yml: la precedente + pycox (pytorch come dipendenza)
+Activate the environment by sourcing the activate script:
+
+```
+
+source /path/to/installation/bin/activate
+```
+
+Configure Conda to use the libmamba solver:
+
+```
+conda config --set solver libmamba
+```
+
+If you get an error saying "conda do not support solver" it means that your
+conda version is rather old. It will work anyway, but it will take a very long
+time to solve dependencies. It is probably better to update to a recent conda
+version. 
+
+### get conda environment specs 
+
+Download the [conda spec file](https://raw.githubusercontent.com/compbiomed-unito/survhive/main/conda-reqs/hive-env.yml) from the repository and save it.
+
+For example, using curl:
+
+```
+curl -o hive-env.yml https://raw.githubusercontent.com/compbiomed-unito/survhive/main/conda-reqs/hive-env.yml
+```
+
+
+### Creating an Environment
+
+To install the requirements for the latest stable version from the main branch, use:
+
+```
+conda env create -f (path_to_the downloaded_file)/hive-env.yml
+```
+
+This will create an environment named "hive" with all necessary components.
+
+Not tested with mamba or micromamba.
+
 
