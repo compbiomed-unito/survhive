@@ -2,31 +2,25 @@
 
 ## Installing using pip
 
-The simplest way to install SurvHive is to get it directly from Pypi.
-
-```
-pip install survhive
-```
-
-Of course, it's much better to perform the installation inside a [virtual environment](https://docs.python.org/3/library/venv.html).
-It is necessary to have Python >= 3.8. If missing, consider installing [pyenv](https://github.com/pyenv/pyenv).
-
-It is also possible to install directly from the repo using:
+The simplest way to install SurvHive is directly from the Github repository, using the following command:
 
 ```
 python -m pip install "survhive @ git+ssh://git@github.com/compbiomed-unito/survhive.git"
 ```
 
-For development: 
+Of course, it's much better to perform the installation inside a [virtual environment](https://docs.python.org/3/library/venv.html).
+It is necessary to have Python >= 3.8. If missing, consider installing [pyenv](https://github.com/pyenv/pyenv).
+
+To install the development requirements, use: 
 
 ```
-python -m pip install "survhive @ git+ssh://git@github.com/compbiomed-unito/survhive.git"[dev]
+python -m pip install "survhive[dev] @ git+https://git@github.com/compbiomed-unito/survhive.git"
 ```
 
-A Notebook dependency (jupyter lab) is part of the [dev] dependencies, since it
-is not necessary to run the package and because everyone has her own favorite.
-If you want a notebook environment, "pip install" it after SurvHive
-installation.
+A Notebook dependency (jupyter lab) is part of the [dev] dependencies only, since it
+is not necessary to run the package and because everybody have their own favorite notebook platform.
+
+If you want a notebook environment for execution, "pip install" it after SurvHive installation.
  
 ## Installing with Conda
 
@@ -67,12 +61,23 @@ conda version is rather old. It will work anyway, but it will take a very long
 time to solve dependencies. It is probably better to update to a recent conda
 version. 
 
+### get conda environment specs 
+
+Download the [conda spec file](https://raw.githubusercontent.com/compbiomed-unito/survhive/main/conda-reqs/hive-env.yml) from the repository and save it.
+
+For example, using curl:
+
+```
+curl -o hive-env.yml https://raw.githubusercontent.com/compbiomed-unito/survhive/main/conda-reqs/hive-env.yml
+```
+
+
 ### Creating an Environment
 
 To install the requirements for the latest stable version from the main branch, use:
 
 ```
-conda env create -f conda-reqs/hive-env.yml
+conda env create -f (path_to_the downloaded_file)/hive-env.yml
 ```
 
 This will create an environment named "hive" with all necessary components.
