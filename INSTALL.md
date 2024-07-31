@@ -5,7 +5,7 @@
 The simplest way to install SurvHive is directly from the Github repository, using the following command:
 
 ```
-python -m pip install "survhive @ git+ssh://git@github.com/compbiomed-unito/survhive.git"
+python -m pip install "survhive @ git+https://git@github.com/compbiomed-unito/survhive.git"
 ```
 
 Of course, it's much better to perform the installation inside a [virtual environment](https://docs.python.org/3/library/venv.html).
