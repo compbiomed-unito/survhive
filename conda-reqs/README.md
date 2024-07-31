@@ -58,6 +58,12 @@ conda env create -f (path_to_the downloaded_file)/hive-env.yml
 
 This will create an environment named "hive" with all necessary components.
 
-Not tested with mamba or micromamba.
+### If you use mamba
 
+Just get the conda spec file as explained above and execute:
+
+
+```
+mamba env create -f (path_to_the downloaded_file)/hive-env.yml
+```
 
